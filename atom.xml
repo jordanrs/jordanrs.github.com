@@ -4,7 +4,7 @@
   <title><![CDATA[Jordan Rogers-Smith]]></title>
   <link href="http://jordanrs.github.io/atom.xml" rel="self"/>
   <link href="http://jordanrs.github.io/"/>
-  <updated>2013-05-28T13:53:12+01:00</updated>
+  <updated>2013-05-28T14:11:27+01:00</updated>
   <id>http://jordanrs.github.io/</id>
   <author>
     <name><![CDATA[Jordan Rogers-Smith]]></name>
@@ -322,32 +322,6 @@ that should put a gem file in the root directory with the name <code>PROJECT_NAM
 
 
 <p>which is just <em>USERNAME/PROJECT_NAME</em></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to build an app]]></title>
-    <link href="http://jordanrs.github.io/blog/2013/02/15/how-to-build-an-app/"/>
-    <updated>2013-02-15T00:00:00+00:00</updated>
-    <id>http://jordanrs.github.io/blog/2013/02/15/how-to-build-an-app</id>
-    <content type="html"><![CDATA[<p>How to build an app with no build procedure documentation</p>
-
-<pre><code>Me: whats the build procedure ?
-JS: first you need a virgin and a unicorn
-JS: an old priest and a young priest
-CG: and a bucket
-JS: mix together, pop in the oven for 35-40 mins @220 degrees, 200 for fan assisted oven.
-JS: and then you are done
-CG: you need to slap l******n in the face after 15 mins though
-CG: or else it will compile wrong
-JS: we used bebo over here as we dont have a l******n
-CG: yeah
-CG: once i forgot and I ended up in india
-JS: giving out water filters
-JS: with a nokia handset
-</code></pre>
-
-<p>Priceless</p>
 ]]></content>
   </entry>
   
