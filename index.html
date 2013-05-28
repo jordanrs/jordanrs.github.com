@@ -7,7 +7,7 @@
 	<meta name="author" content="Jordan Rogers-Smith">
 
 	
-	<meta name="description" content="May 26th, 2013 Comments Chef get a bootstrap cehf-repository from http://github.com/opscode/chef-repo/tarball/master and in a .chef folder which has &hellip;">
+	<meta name="description" content="Apr 25th, 2013 Comments Installing Guard and Spork for Auto Running of Specs&#8217; Gemfile Install the following gems with bundle install group : &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -85,290 +85,6 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-05-26T00:00:00+01:00" data-updated="true" itemprop="datePublished">May 26<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-</div>
-		
-			<span class="comments"><a href="/blog/2013/05/26/chef/#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/05/26/chef/" itemprop="url">Chef</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>get a bootstrap cehf-repository from</p>
-
-<p><a href="http://github.com/opscode/chef-repo/tarball/master">http://github.com/opscode/chef-repo/tarball/master</a></p>
-
-<p>and in a .chef folder which has your shared keys, your user keys and your organistion validator key and your knife.rb</p>
-
-<p>Hosted chef server</p>
-
-<p><a href="http://www.agileweboperations.com/amazon-ec2-instances-with-opscode-chef-using-knife">http://www.agileweboperations.com/amazon-ec2-instances-with-opscode-chef-using-knife</a></p>
-
-<p><a href="http://wiki.opscode.com/display/chef/EC2+Bootstrap+Fast+Start+Guide">http://wiki.opscode.com/display/chef/EC2+Bootstrap+Fast+Start+Guide</a></p>
-
-<p>assusme defaults -G &lsquo;default&rsquo; no roles or recipes and will boostrap chef client and ruby on teh server make sure port 22 80 and 443 are open on the server</p>
-
-<p>knife ec2 server create -I ami-7962730d -f t1.micro -S knife -i ~/.ssh/knife.pem &mdash;ssh-user ubuntu &mdash;region eu-west-1 -Z eu-west-1a</p>
-
-<p>add the knife.pem to your ssh agent
-ssh-add ~/.ssh/knife.pem</p>
-
-<p>means you can remove the -i ~/.ssh/knife.pem from the command</p>
-
-<p>knife ec2 server create -I ami-7962730d -f t1.micro -S knife &mdash;ssh-user ubuntu &mdash;region eu-west-1 -Z eu-west-1a</p>
-
-<p>knife[:aws_ssh_key_id] = &ldquo;knife&rdquo;</p>
-
-<p>knife ec2 server create -I ami-7962730d -f t1.micro &mdash;ssh-user ubuntu &mdash;region eu-west-1 -Z eu-west-1a</p>
-
-<p>knife[:availability_zone]     = &lsquo;eu-west-1a&rsquo;
-knife[:region]                = &lsquo;eu-west-1&rsquo;</p>
-
-<p>knife ec2 server create -I ami-7962730d -f t1.micro &mdash;ssh-user ubuntu</p>
-
-<p>this will create our instance, install chek-client on the server and assocatie the client with the hosted chef server. and will run any recipes or roles we defined. but since we didnt define anything we will have to do this late</p>
-
-<p>so now we have a node / client from out chef server we can begin building up out cookbooks to install our software.</p>
-
-<p>to manage out cookbooks and first gem install berkshelf which is to cookbooks as bundler is to gems</p>
-
-<p>Figure out what software you want on your in this case it is ruby, bundler, nodejs, postgres and nginx</p>
-
-<p>berks upload moves our files to our chef server</p>
-
-<p>rake install &ndash; updates the cookbooks and roles</p>
-
-<p>knife ssh name:i-e41aa4a9 -x ubuntu &ldquo;sudo chef-client&rdquo; this tells our chef client (the server we are configuring) to update its self from the server</p>
-
-<p><a href="http://docs.opscode.com/chef_client.html">http://docs.opscode.com/chef_client.html</a> how to set chef-client up to run as a deamon that by default gets called every</p>
-
-<p>So some cook books wont have a recipe, so how do we get to use them in cookbook</p>
-
-<p>like applciation and application_ruby both have no recipes so we create a new cook book and recipe that dpends on these cook books</p>
-
-<p>depends &ldquo;application&rdquo;
-depends &ldquo;application_ruby&rdquo;</p>
-
-<p>when create a server with knife we define it a role such as webserver, we than create a role and define a run list which is the order things will be installed in by chef</p>
-
-<p>name &ldquo;webserver&rdquo;
-description &ldquo;basic example&rdquo;
-run_list(
-  &ldquo;recipe[apt]&rdquo;,
-  &ldquo;recipe[build-essential]&rdquo;,
-  &ldquo;recipe[nginx]&rdquo;,
-  &ldquo;recipe[ruby_build]&rdquo;,
-  &ldquo;recipe[example]&rdquo;
-)</p>
-
-<p>at the bottom we have our</p>
-
-<p>since we didnt spcify a role when the server was created we can chage this by doing knife node list &ndash; get the identifier and then knife node edit <identifer>  at the bottom</p>
-
-<p>&ldquo;run_list&rdquo;: [
-  &ldquo;role[webserver]&rdquo;
-]</p>
-
-<p>now when ever we run sudo chef-client configures this as the webserver role</p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-05-16T00:00:00+01:00" data-updated="true" itemprop="datePublished">May 16<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-</div>
-		
-			<span class="comments"><a href="/blog/2013/05/16/rspec-caveats/#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/05/16/rspec-caveats/" itemprop="url">Rspec Caveats</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>never been able to add to session before a request</p>
-
-<p>stubbing an application controller method</p>
-
-<p>@user = create(:user, :market => Market.find_by_locale(&lsquo;en_GB&rsquo;))
-ApplicationController.any_instance.stub(:current_user).and_return(@user)</p>
-
-<p>dealing with a json response</p>
-
-<p>parsed_body = JSON.parse(response.body)
-expect(parsed_body[&lsquo;success&rsquo;]).to eq true</p>
-
-<p>setting user agent</p>
-
-<p>before(:each) do
-  request.env[&lsquo;HTTP_USER_AGENT&rsquo;] = &lsquo;facebookexternalhit/1.1&rsquo;
-end</p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-05-13T00:00:00+01:00" data-updated="true" itemprop="datePublished">May 13<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-</div>
-		
-			<span class="comments"><a href="/blog/2013/05/13/facebook-app-specs/#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/05/13/facebook-app-specs/" itemprop="url">Facebook App Specs</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>spec_helper</p>
-
-<p>Capybara.default_wait_time = 10
-Capybara.app_host = &lsquo;<a href="http://">http://</a>&rsquo; + Settings.host</p>
-
-<p>increase timeout time due to hit external apis
-change app host so as its got the same URL so we can use facebok JS sdk</p>
-
-<p>====
-js true very important</p>
-
-<p> scenario &lsquo;Uploads new personal Memory Upload&rsquo;, :js => true do</p>
-
-<p>visit root_path<br/>
-page.find(&lsquo;#auth_me&rsquo;).click  #click element that triggers fb login /auth</p>
-
-<p>within_window(&lsquo;Facebook&rsquo;) do
-  fill_in(&lsquo;email&rsquo;, :with => &lsquo;oyncoeh_<a href="&#109;&#x61;&#105;&#108;&#116;&#x6f;&#58;&#108;&#105;&#97;&#x6e;&#103;&#109;&#x61;&#x6e;&#95;&#x31;&#x33;&#x36;&#56;&#x34;&#x33;&#x39;&#x33;&#48;&#x31;&#64;&#x74;&#102;&#x62;&#x6e;&#119;&#46;&#110;&#101;&#116;">&#x6c;&#105;&#x61;&#x6e;&#103;&#109;&#x61;&#110;&#x5f;&#49;&#51;&#x36;&#56;&#52;&#x33;&#x39;&#x33;&#48;&#49;&#x40;&#116;&#x66;&#98;&#110;&#119;&#46;&#110;&#101;&#116;</a>&rsquo;)
-  fill_in(&lsquo;pass&rsquo;, :with => &lsquo;1234&rsquo;)
-  find(&lsquo;#loginbutton&rsquo;).click</p>
-
-<p>  # these checks are required as the flow cna change depending on if the user has authed before
-  # read permissions dialogue
-  click_on(&lsquo;OK&rsquo;) if page.driver.browser.window_handles.length == 2</p>
-
-<p>  # write permision dialogue
-  click_on(&lsquo;OK&rsquo;) if page.driver.browser.window_handles.length == 2
-end</p>
-
-<p>continue on as usual</p>
-
-<p>to remove perms at the end of a test</p>
-
-<h1>page.execute_script %Q{</h1>
-
-<h1>FB.api(&ldquo;/me/permissions&rdquo;,&ldquo;DELETE&rdquo;, function(response){</h1>
-
-<h1>console.log(response)</h1>
-
-<h1>});</h1>
-
-<h1>}</h1>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-05-12T00:00:00+01:00" data-updated="true" itemprop="datePublished">May 12<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-</div>
-		
-			<span class="comments"><a href="/blog/2013/05/12/capybara-webkit-and-requests-specs/#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/05/12/capybara-webkit-and-requests-specs/" itemprop="url">Capybara, Webkit and Requests Specs&#8217;</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p><a href="https://github.com/thoughtbot/capybara-webkit/">https://github.com/thoughtbot/capybara-webkit/</a></p>
-
-<p>install QT brew update, brew install qt</p>
-
-<p>install x11 for mac
-<a href="http://xquartz.macosforge.org/landing/">http://xquartz.macosforge.org/landing/</a></p>
-
-<p>add   gem &ldquo;capybara-webkit&rdquo; to gem file</p>
-
-<p>bundle</p>
-
-<p>i added   Capybara.javascript_driver = :webkit to my spork.prefork and removed</p>
-
-<pre><code># config.use\_transactional\_fixtures = true
-</code></pre>
-
-<p>Transactions and errors <a href="https://github.com/jnicklas/capybara#transactions-and-database-setup">https://github.com/jnicklas/capybara#transactions-and-database-setup</a>
-important so remove this line from spec_helper</p>
-
-<p>output when using webkit can have some unwanted output
-<a href="https://github.com/thoughtbot/capybara-webkit/issues/157">https://github.com/thoughtbot/capybara-webkit/issues/157</a></p>
-
-		
-		
-	</div>
-
-</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -888,11 +604,263 @@ build_download_format_links([:csv, :json])
 
 </article>
 
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-10T00:00:00+00:00" data-updated="true" itemprop="datePublished">Feb 10<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/reminders/'>reminders</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2013/02/10/s3-static-assets-group-policy/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/02/10/s3-static-assets-group-policy/" itemprop="url">S3 Static Assets Group Policy</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>I always struggle to remember / find the group security policy for an S3 bucket to make all files available to the public.</p>
+
+<pre><code>{
+    "Version": "2008-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowPublicRead",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::BUCKET-NAME/*"
+        }
+    ]
+}
+</code></pre>
+
+<p>The only thing that can be changed is the BUCKET-NAME, leave all other aspects of the policy the same.</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-10T00:00:00+00:00" data-updated="true" itemprop="datePublished">Feb 10<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories//'></a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2013/02/10/heroku-optimisations---unicorn-s3-and-cloudfront/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/02/10/heroku-optimisations---unicorn-s3-and-cloudfront/" itemprop="url">Heroku Optimisations - Unicorn, S3 and Cloudfront</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>As part of my continued learnings as a rails developer I had some free time during the week and looked into optimising heroku to make my rails apps far more efficient and effective. When i tested unicorn it showed itself to be a awesomely efficient application server giving you far more bang for your buck on heroku. Heres a quick guide of how I set up unicorn and some additional optimisations using s3 and cloudfront to serve my files that will now become my default set up to get the most out of my dynos.</p>
+
+<p><strong>Setting up Unicorn</strong></p>
+
+<p><a href="https://github.com/defunkt/unicorn">Unicorn</a> is a HTTP server available for rails and other ruby frameworks that increase concurrency and the performance of your apps without having to increase the number of dynos (for a better explanation on the fundamentals of concurrency see this <a href="http://merbist.com/2011/02/22/concurrency-in-ruby-explained/">excellent post</a>). It does this by spawning extra processes to deal with incoming requests. It rocks, and showed itself to out perform the other popular ruby HTTP servers by a significant margin.</p>
+
+<p>1) Install the Unicorn gem into your gem file</p>
+
+<pre><code>gem 'unicorn'
+</code></pre>
+
+<p>2) replace the current <code>web:</code> line in your procfile with</p>
+
+<pre><code>web: bundle exec unicorn_rails -p $PORT -c ./config/unicorn.rb
+</code></pre>
+
+<p>3) create a unicorn.rb file in the config directory with the following contents</p>
+
+<pre><code># If you have a very small app you may be able to
+# increase this, but in general 3 workers seems to
+# work best
+
+worker_processes 3
+
+# Load your app into the master before forking
+# workers for super-fast worker spawn times
+
+preload_app true
+
+# Immediately restart any workers that
+# haven't responded within 30 seconds
+
+timeout 30
+
+before_fork do |server, worker|
+
+  # Replace with MongoDB or whatever
+
+  if defined?(ActiveRecord::Base)
+    ActiveRecord::Base.connection.disconnect!
+    Rails.logger.info('Disconnected from ActiveRecord')
+  end
+
+  # If you are using Redis but not Resque, change this
+
+  if defined?(Resque)
+    Resque.redis.quit
+    Rails.logger.info('Disconnected from Redis')
+  end
+
+  sleep 1
+end
+
+after_fork do |server, worker|
+
+  # Replace with MongoDB or whatever
+
+  if defined?(ActiveRecord::Base)
+    ActiveRecord::Base.establish_connection
+    Rails.logger.info('Connected to ActiveRecord')
+  end
+
+  # If you are using Redis but not Resque, change this
+
+  if defined?(Resque)
+    Resque.redis = ENV['REDIS_URI']
+    Rails.logger.info('Connected to Redis')
+  end
+end
+</code></pre>
+
+<p>4) finally set up logging so it use STDOUT in the application class of config/application.rb</p>
+
+<pre><code>config.logger = Logger.new(STDOUT)
+</code></pre>
+
+<p>The additions of the config file and logger changes fix a few issues that can happen when workers are being spawned/terminated, when adding certain gems like new relic or redis and making sure we get logging information reported correctly.</p>
+
+<p>Thats all there is to setting up unicorn on heroku. On the next deployment to heroku it should start the application running on unicorn with however many workers you specified. To check its working you can see it launch the unicorn server and spawn workers by doing <code>heroku logs --tail</code> whilst deploying.</p>
+
+<p>Iv found that 3 workers works best as any higher you risk breaching heroku&rsquo;s 512mb memory limit per dyno, but you can experiment depending on your application size.</p>
+
+<p><strong>Setting up s3 assets</strong></p>
+
+<p>The easiest way to serve your assets from the cloud is to use the [asset sync gem] (<a href="https://github.com/rumblelabs/asset_sync">https://github.com/rumblelabs/asset_sync</a>). It simplifies dumping your assets to the cloud, when you run <code>rake assets:precompile</code> (done by default when pushing to heroku) your compiled assets will automatically sent over to the cloud, whether thats Amazon S3, Google Storage or Rackspace. The good news is its also very easy to set up. For this setup I am using S3 and assume you have already set up a bucket and added the correct group policy</p>
+
+<p>1) Add the asset sync gem to your gem file</p>
+
+<pre><code>group :assets do
+
+.....
+  gem 'asset_sync'
+.....
+
+end
+</code></pre>
+
+<p>2) in <code>production.rb</code> add our asset host</p>
+
+<pre><code>config.action_controller.asset_host = "//#{ENV['FOG_DIRECTORY']}.s3.amazonaws.com"
+</code></pre>
+
+<p>We chose this url over the other style <code>//s3.amazonaws.com/#{ENV['FOG_DIRECTORY']}</code> as we can then have our bucket in any region &ndash; using the second style results in a 301 moved permanently due to reasons explained <a href="https://forums.aws.amazon.com/thread.jspa?threadID=17989">here</a>. There is one caveat however and that is that the bucket name cannot contain any periods (.&rsquo;s) as this will break the ssl certificates over https.</p>
+
+<p>3) make sure the following are set in <code>production.rb</code></p>
+
+<pre><code>config.assets.digest is set to true.
+config.assets.enabled is set to true.
+</code></pre>
+
+<p>4) One thing that we do is serve out staging assets and production assets from the same bucket. To do this we can add a asset prefix to our environments config file that declares the place the files should be stored within the bucket.</p>
+
+<pre><code>config.assets.prefix = "/production/assets"
+</code></pre>
+
+<p>5) add in the following environment variables on heroku</p>
+
+<pre><code>heroku config:add AWS_ACCESS_KEY_ID=xxxx
+heroku config:add AWS_SECRET_ACCESS_KEY=xxxx
+heroku config:add FOG_DIRECTORY=xxxx  # ( this is the bucket name )
+heroku config:add FOG_PROVIDER=AWS
+
+# and optionally:
+
+heroku config:add FOG_REGION=eu-west-1
+heroku config:add ASSET_SYNC_GZIP_COMPRESSION=true
+heroku config:add ASSET_SYNC_MANIFEST=true
+heroku config:add ASSET_SYNC_EXISTING_REMOTE_FILES=keep
+</code></pre>
+
+<p>6) finally we need to make sure these variables are available to heroku at asset compilation time so run this from the console in your app root directory</p>
+
+<pre><code>heroku labs:enable user-env-compile -a myapp
+</code></pre>
+
+<p><strong>Setting up CloudFront to serve our files even faster</strong></p>
+
+<p>Using a CDN to serve our assets instead of S3 or even the app itself will help improve load times and decrease requests to our app as assets get delivered from a data centre closer to the end users location. Setting up a CloudFront distribution for use with our rails app requires no special configuration options so selecting our bucket and using all the default options will be fine. If you&rsquo;ve used a CDN before you may have had problems expiring files once you&rsquo;ve made changes to them. Thanks to the asset pipeline that comes with rails we don&rsquo;t need to worry about this due to the unique identifier hash that gets appended onto the end of the file name before its extension.</p>
+
+<p>So after our distribution has completed downloading the assets from the bucket we will be given a CloudFront url. All we need to do once we have this url is change our asset host to point to this url</p>
+
+<pre><code>config.action_controller.asset_host = "d1aa907b1q1s7qd.cloudfront.net"
+</code></pre>
+
+<p>Now when you make any changes to files and push them to heroku these new files with there unique hashes will get pushed to over to S3 and be different than the previous version. When the first user requests this new file from the CDN it wont be present so amazon is clever enough to attempt to fetch it from the bucket and save it to the CDN ready for the next person</p>
+
+<p><strong>Setting up paperclip to use CloudFront</strong></p>
+
+<p><a href="https://github.com/thoughtbot/paperclip">Paperclip</a> is great for dealing with file attachments and automatically saving things onto S3, but we could optimise this to use CloudFront instead. Its very easy to implement. Once your bucket is set up and files are being saved by paperclip to it, all thats needed is to change the following settings</p>
+
+<p>1) Add in an :s3_host_alias</p>
+
+<pre><code>:s3_host_alias =&gt; 'd1aa907b1q1s7qd.cloudfront.net',
+</code></pre>
+
+<p>2) Change :url property to use &ldquo;:s3_alias_url&rdquo;</p>
+
+<pre><code>:url =&gt; ":s3_alias_url"
+</code></pre>
+
+<p>notice the symbol is wrapped in a string</p>
+
+<p>And thats it, your uploaded content will now be served over CloudFront and not directly from s3</p>
+
+		
+		
+	</div>
+
+</article>
+
 </div>
 <nav id="pagenavi">
     
-    
-        <a href="/blog/page/2/" class="next">Next</a>
     
     <div class="center"><a href="/blog/archives">Blog Archives</a></div>
 </nav></div>
