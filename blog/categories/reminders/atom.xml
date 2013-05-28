@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: reminders | My Octopress Blog]]></title>
+  <link href="http://jordanrs.github.io/blog/categories/reminders/atom.xml" rel="self"/>
+  <link href="http://jordanrs.github.io/"/>
+  <updated>2013-05-28T09:26:18+01:00</updated>
+  <id>http://jordanrs.github.io/</id>
+  <author>
+    <name><![CDATA[Your Name]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[ActiveAdmin - Customising export links]]></title>
+    <link href="http://jordanrs.github.io/blog/2013/02/12/activeadmin---customising-export-links/"/>
+    <updated>2013-02-12T00:00:00+00:00</updated>
+    <id>http://jordanrs.github.io/blog/2013/02/12/activeadmin---customising-export-links</id>
+    <content type="html"><![CDATA[<p>Included file 'JB/setup' not found in _includes directory</p>
+
+<p>When using active admin there doesn&rsquo;t seem to be an easy way to format the output of the JSON and XML export options like you can with the CSV option.</p>
+
+<p>A nice patch by <a href="https://coderwall.com/p/qzlssg">David Collom</a> allows us to customise what is displayed rather then just hiding it in CSS. The patch is as follows and i just placed it at the top of one of my <code>admin/###.rb</code> files</p>
+
+<pre><code>module ActiveAdmin
+  module Views
+    class PaginatedCollection
+      def build_pagination_with_formats(options)
+        div :id =&gt; "index_footer" do
+          build_pagination
+          div(page_entries_info(options).html_safe, :class =&gt; "pagination_information")
+          build_download_format_links([:csv]) unless @download_links == false
+        end
+      end
+    end
+  end
+end
+</code></pre>
+
+<p>To customise what is displayed simplay change the array passing into <code>build_download_format_links()</code></p>
+
+<pre><code>build_download_format_links([:csv]) 
+build_download_format_links([:csv, :json])
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[S3 Static Assets Group Policy]]></title>
+    <link href="http://jordanrs.github.io/blog/2013/02/10/s3-static-assets-group-policy/"/>
+    <updated>2013-02-10T00:00:00+00:00</updated>
+    <id>http://jordanrs.github.io/blog/2013/02/10/s3-static-assets-group-policy</id>
+    <content type="html"><![CDATA[<p>Included file 'JB/setup' not found in _includes directory</p>
+
+<p>I always struggle to remember / find the group security policy for an S3 bucket to make all files available to the public.</p>
+
+<pre><code>{
+    "Version": "2008-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowPublicRead",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::BUCKET-NAME/*"
+        }
+    ]
+}
+</code></pre>
+
+<p>The only thing that can be changed is the BUCKET-NAME, leave all other aspects of the policy the same.</p>
+]]></content>
+  </entry>
+  
+</feed>

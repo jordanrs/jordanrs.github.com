@@ -1,0 +1,418 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Installing Guard and Spork for auto running of specs' - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jordanrs.github.io/blog/2013/04/25/installing-guard-and-spork-for-auto-running-of-tests">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jordanrs.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Installing Guard and Spork for Auto Running of Specs'</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-25T00:00:00+01:00" pubdate data-updated="true">Apr 25<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Included file &lsquo;JB/setup&rsquo; not found in _includes directory</p>
+
+<h2>Gemfile</h2>
+
+<p>Install the following gems with <code>bundle install</code></p>
+
+<pre><code>group :test do
+  .......... 
+  # file system event triggers for ruby. See note at end about RVM 
+  gem 'rb-fsevent', '0.9.3'
+
+  # Notifications of test states, Requires Growl and growlnotify to be installed
+  gem 'growl', '1.0.3'
+
+  # Automated test running and speed imporvements
+  gem 'guard-rspec'
+  gem 'guard-spork', '1.2.0' 
+  gem 'childprocess', '0.3.6'  # this was due to errors appearing in 0.3.7 and higher
+  gem 'spork', '0.9.2'
+end
+</code></pre>
+
+<h2>spec/spec_helper</h2>
+
+<p>Edit spec/spec_helper to look below.</p>
+
+<pre><code>require 'rubygems'
+require 'spork'
+
+ENV["RAILS_ENV"] = ENV["RAILS_ENV"] == 'jordan' ? 'jordan_test' : 'test' 
+require File.expand_path("../../config/environment", __FILE__)
+
+require 'rspec/rails'
+require 'rspec/autorun'
+require "capybara/rspec"
+#uncomment the following line to use spork with the debugger
+# require 'spork/ext/ruby-debug'
+
+Spork.prefork do
+
+
+  # Requires supporting ruby files with custom matchers and macros, etc,
+  # in spec/support/ and its subdirectories.
+  Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+
+  RSpec.configure do |config|
+    # ## Mock Framework
+    #
+    # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
+    #
+    # config.mock_with :mocha
+    # config.mock_with :flexmock
+    # config.mock_with :rr
+
+    # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
+    config.fixture_path = "#{::Rails.root}/spec/fixtures"
+
+    # If you're not using ActiveRecord, or you'd prefer not to run each of your
+    # examples within a transaction, remove the following line or assign false
+    # instead of true.
+    config.use_transactional_fixtures = true
+
+    # If true, the base class of anonymous controllers will be inferred
+    # automatically. This will be the default behavior in future versions of
+    # rspec-rails.
+    config.infer_base_class_for_anonymous_controllers = false
+
+    # Run specs in random order to surface order dependencies. If you find an
+    # order dependency and want to debug it, you can fix the order by providing
+    # the seed, which is printed after each run.
+    #     --seed 1234
+    config.order = "random"
+  end
+end
+
+Spork.each_run do
+  # This code will be run each time you run your specs.
+
+end
+</code></pre>
+
+<h2>.rspec</h2>
+
+<p>add <code>--format documentation --color --drb to .rspec</code></p>
+
+<h2>Guardfile</h2>
+
+<p>Running run <code>guard init rspec</code> and <code>guard init spork</code> will produce a Guardfile similar to the one below. Not the additions of <code>cucumber: false,  test_unit: false, :wait =&gt; 45</code> to the spork call as leaving them out without test unit or cucumber configured can result in errors.</p>
+
+<p>We also make an addition to the rspec guard call <code>:cli =&gt; '--drb'</code> so that it runs through spoke using distributed ruby</p>
+
+<pre><code># A sample Guardfile
+# More info at https://github.com/guard/guard#readme
+
+require 'active_support/core_ext'
+
+guard 'spork', :rspec_env =&gt; { 'RAILS_ENV' =&gt; 'sexyjordan_test' }, cucumber: false,  test_unit: false, :wait =&gt; 45 do
+  watch('config/application.rb')
+  watch('config/environment.rb')
+  watch(%r{^config/environments/.+\.rb$})
+  watch(%r{^config/initializers/.+\.rb$})
+  watch('Gemfile')
+  watch('Gemfile.lock')
+  watch('spec/spec_helper.rb')
+  # watch('test/test_helper.rb')
+  watch('spec/support/')
+end
+
+guard 'rspec', :all_after_pass =&gt; false, :cli =&gt; '--drb' do
+  watch(%r{^spec/.+_spec\.rb$})
+  watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
+  watch('spec/spec_helper.rb')  { "spec" }
+
+  # Rails example
+  watch(%r{^app/(.+)\.rb$})                           { |m| "spec/#{m[1]}_spec.rb" }
+  watch(%r{^app/(.*)(\.erb|\.haml)$})                 { |m| "spec/#{m[1]}#{m[2]}_spec.rb" }
+  watch(%r{^app/controllers/(.+)_(controller)\.rb$})  { |m| ["spec/routing/#{m[1]}_routing_spec.rb", "spec/#{m[2]}s/#{m[1]}_#{m[2]}_spec.rb", "spec/acceptance/#{m[1]}_spec.rb"] }
+  watch(%r{^spec/support/(.+)\.rb$})                  { "spec" }
+  watch('config/routes.rb')                           { "spec/routing" }
+  watch('app/controllers/application_controller.rb')  { "spec/controllers" }
+
+  watch(%r{^app/models/(.+)\.rb$}) {|m| "spec/models/#{m[1]}_spec.rb" }
+  watch(%r{^app/services/(.+)\.rb$}) {|m| "spec/services/#{m[1]}_spec.rb" }
+
+  # Capybara features specs
+  watch(%r{^app/views/(.+)/.*\.(erb|haml)$})          { |m| "spec/features/#{m[1]}_spec.rb" }
+
+
+end
+</code></pre>
+
+<h1>Clearing down the data base</h1>
+
+<p>to make sure that each time the test suite is run it is done so against a new database i use the database_cleaner gem. so add that to your test group in the gem file</p>
+
+<pre><code>  gem 'database_cleaner', "~&gt; 0.9.1"
+</code></pre>
+
+<p>And then add the following code to the each and pre_fork blocks for spork in the .spec_helper file</p>
+
+<pre><code>Spork.prefork do
+  require 'database_cleaner'
+  DatabaseCleaner.strategy = :truncation
+  ........
+end
+
+
+Spork.each_run do
+  .....
+  # This code will be run each time you run your specs.
+  DatabaseCleaner.clean
+  .....
+end
+</code></pre>
+
+<h1>Testing with queue classic</h1>
+
+<p>Using queue classic, spork and rspec. If the QC setup shares the rails connection to the database we need to add this to the each run command in spork</p>
+
+<pre><code>Spork.each_run do
+  if defined? QC
+    QC::Conn.connection = ActiveRecord::Base.connection.raw_connection
+  end
+end
+</code></pre>
+
+<h1>FactoryGirl Cleaner Syntax</h1>
+
+<p>Adding</p>
+
+<pre><code>RSpec.configure do |config|
+  config.include FactoryGirl::Syntax::Methods
+end
+</code></pre>
+
+<p>Means we can now call build, create, createlist, withouth FactoryGirl infront</p>
+
+<h1>Paperclip and factory girl together</h1>
+
+<pre><code>FactoryGirl.define do
+  factory :timeline_memory do |f|
+     image { Rack::Test::UploadedFile.new(Rails.root.join('spec', 'assets', 'test_memory.jpg'), 'image/jpg') }
+  end
+end
+</code></pre>
+
+<h1>Notes</h1>
+
+<p>Auto detection didnt work with rvm and 1.9.2 straight away. Ruby had to be recompiled with an additional flag to deal with file system events the way we want. The fix is taken from <a href="https://github.com/guard/guard/wiki/Add-proper-Readline-support-to-Ruby-on-Mac-OS-X">here</a></p>
+
+<h2>Using RVM</h2>
+
+<p>You can use RVM to build your Ruby with GNU readline support. First install the readline package with RVM:</p>
+
+<pre><code>$ rvm pkg install readline --verify-downloads 1
+</code></pre>
+
+<p>Then configure RVM to use the readline package by adding</p>
+
+<pre><code>ruby_configure_flags=--with-readline-dir="$rvm_path/usr"
+</code></pre>
+
+<p>to <code>~/.rvm/user/db</code>. Finally you need to reinstall your Ruby of choice:</p>
+
+<pre><code>$ rvm reinstall 1.9.3
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-25T00:00:00+01:00" pubdate data-updated="true">Apr 25<span>th</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://jordanrs.github.io/blog/2013/04/25/installing-guard-and-spork-for-auto-running-of-tests/" data-via="" data-counturl="http://jordanrs.github.io/blog/2013/04/25/installing-guard-and-spork-for-auto-running-of-tests/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/04/23/multiple-test-enviroments/" title="Previous Post: Multiple Test Environments in Rails">&laquo; Multiple Test Environments in Rails</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/05/12/capybara-webkit-and-requests-specs/" title="Next Post: Capybara, webkit and requests specs' ">Capybara, webkit and requests specs'  &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/05/26/chef/">Chef</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/16/rspec-caveats/">Rspec Caveats</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/13/facebook-app-specs/">Facebook App Specs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/12/capybara-webkit-and-requests-specs/">Capybara, Webkit and Requests Specs'</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/04/25/installing-guard-and-spork-for-auto-running-of-tests/">Installing Guard and Spork for Auto Running of Specs'</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

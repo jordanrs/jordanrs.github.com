@@ -4,7 +4,7 @@
   <title><![CDATA[My Octopress Blog]]></title>
   <link href="http://jordanrs.github.io/atom.xml" rel="self"/>
   <link href="http://jordanrs.github.io/"/>
-  <updated>2013-05-28T09:19:04+01:00</updated>
+  <updated>2013-05-28T09:26:18+01:00</updated>
   <id>http://jordanrs.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -12,5 +12,785 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[chef]]></title>
+    <link href="http://jordanrs.github.io/blog/2013/05/26/chef/"/>
+    <updated>2013-05-26T00:00:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2013/05/26/chef</id>
+    <content type="html"><![CDATA[<p>Included file &lsquo;JB/setup&rsquo; not found in _includes directory</p>
+
+<p>get a bootstrap cehf-repository from</p>
+
+<p><a href="http://github.com/opscode/chef-repo/tarball/master">http://github.com/opscode/chef-repo/tarball/master</a></p>
+
+<p>and in a .chef folder which has your shared keys, your user keys and your organistion validator key and your knife.rb</p>
+
+<p>Hosted chef server</p>
+
+<p><a href="http://www.agileweboperations.com/amazon-ec2-instances-with-opscode-chef-using-knife">http://www.agileweboperations.com/amazon-ec2-instances-with-opscode-chef-using-knife</a></p>
+
+<p><a href="http://wiki.opscode.com/display/chef/EC2+Bootstrap+Fast+Start+Guide">http://wiki.opscode.com/display/chef/EC2+Bootstrap+Fast+Start+Guide</a></p>
+
+<p>assusme defaults -G &lsquo;default&rsquo; no roles or recipes and will boostrap chef client and ruby on teh server make sure port 22 80 and 443 are open on the server</p>
+
+<p>knife ec2 server create -I ami-7962730d -f t1.micro -S knife -i ~/.ssh/knife.pem &mdash;ssh-user ubuntu &mdash;region eu-west-1 -Z eu-west-1a</p>
+
+<p>add the knife.pem to your ssh agent
+ssh-add ~/.ssh/knife.pem</p>
+
+<p>means you can remove the -i ~/.ssh/knife.pem from the command</p>
+
+<p>knife ec2 server create -I ami-7962730d -f t1.micro -S knife &mdash;ssh-user ubuntu &mdash;region eu-west-1 -Z eu-west-1a</p>
+
+<p>knife[:aws_ssh_key_id] = &ldquo;knife&rdquo;</p>
+
+<p>knife ec2 server create -I ami-7962730d -f t1.micro &mdash;ssh-user ubuntu &mdash;region eu-west-1 -Z eu-west-1a</p>
+
+<p>knife[:availability_zone]     = &lsquo;eu-west-1a&rsquo;
+knife[:region]                = &lsquo;eu-west-1&rsquo;</p>
+
+<p>knife ec2 server create -I ami-7962730d -f t1.micro &mdash;ssh-user ubuntu</p>
+
+<p>this will create our instance, install chek-client on the server and assocatie the client with the hosted chef server. and will run any recipes or roles we defined. but since we didnt define anything we will have to do this late</p>
+
+<p>so now we have a node / client from out chef server we can begin building up out cookbooks to install our software.</p>
+
+<p>to manage out cookbooks and first gem install berkshelf which is to cookbooks as bundler is to gems</p>
+
+<p>Figure out what software you want on your in this case it is ruby, bundler, nodejs, postgres and nginx</p>
+
+<p>berks upload moves our files to our chef server</p>
+
+<p>rake install &ndash; updates the cookbooks and roles</p>
+
+<p>knife ssh name:i-e41aa4a9 -x ubuntu &ldquo;sudo chef-client&rdquo; this tells our chef client (the server we are configuring) to update its self from the server</p>
+
+<p><a href="http://docs.opscode.com/chef_client.html">http://docs.opscode.com/chef_client.html</a> how to set chef-client up to run as a deamon that by default gets called every</p>
+
+<p>So some cook books wont have a recipe, so how do we get to use them in cookbook</p>
+
+<p>like applciation and application_ruby both have no recipes so we create a new cook book and recipe that dpends on these cook books</p>
+
+<p>depends &ldquo;application&rdquo;
+depends &ldquo;application_ruby&rdquo;</p>
+
+<p>when create a server with knife we define it a role such as webserver, we than create a role and define a run list which is the order things will be installed in by chef</p>
+
+<p>name &ldquo;webserver&rdquo;
+description &ldquo;basic example&rdquo;
+run_list(
+  &ldquo;recipe[apt]&rdquo;,
+  &ldquo;recipe[build-essential]&rdquo;,
+  &ldquo;recipe[nginx]&rdquo;,
+  &ldquo;recipe[ruby_build]&rdquo;,
+  &ldquo;recipe[example]&rdquo;
+)</p>
+
+<p>at the bottom we have our</p>
+
+<p>since we didnt spcify a role when the server was created we can chage this by doing knife node list &ndash; get the identifier and then knife node edit <identifer>  at the bottom</p>
+
+<p>&ldquo;run_list&rdquo;: [
+  &ldquo;role[webserver]&rdquo;
+]</p>
+
+<p>now when ever we run sudo chef-client configures this as the webserver role</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[rspec caveats]]></title>
+    <link href="http://jordanrs.github.io/blog/2013/05/16/rspec-caveats/"/>
+    <updated>2013-05-16T00:00:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2013/05/16/rspec-caveats</id>
+    <content type="html"><![CDATA[<p>Included file &lsquo;JB/setup&rsquo; not found in _includes directory</p>
+
+<p>never been able to add to session before a request</p>
+
+<p>stubbing an application controller method</p>
+
+<p>@user = create(:user, :market => Market.find_by_locale(&lsquo;en_GB&rsquo;))
+ApplicationController.any_instance.stub(:current_user).and_return(@user)</p>
+
+<p>dealing with a json response</p>
+
+<p>parsed_body = JSON.parse(response.body)
+expect(parsed_body[&lsquo;success&rsquo;]).to eq true</p>
+
+<p>setting user agent</p>
+
+<p>before(:each) do
+  request.env[&lsquo;HTTP_USER_AGENT&rsquo;] = &lsquo;facebookexternalhit/1.1&rsquo;
+end</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[facebook app specs]]></title>
+    <link href="http://jordanrs.github.io/blog/2013/05/13/facebook-app-specs/"/>
+    <updated>2013-05-13T00:00:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2013/05/13/facebook-app-specs</id>
+    <content type="html"><![CDATA[<p>Included file &lsquo;JB/setup&rsquo; not found in _includes directory</p>
+
+<p>spec_helper</p>
+
+<p>Capybara.default_wait_time = 10
+Capybara.app_host = &lsquo;<a href="http://">http://</a>&rsquo; + Settings.host</p>
+
+<p>increase timeout time due to hit external apis
+change app host so as its got the same URL so we can use facebok JS sdk</p>
+
+<p>====
+js true very important</p>
+
+<p> scenario &lsquo;Uploads new personal Memory Upload&rsquo;, :js => true do</p>
+
+<p>visit root_path<br/>
+page.find(&lsquo;#auth_me&rsquo;).click  #click element that triggers fb login /auth</p>
+
+<p>within_window(&lsquo;Facebook&rsquo;) do
+  fill_in(&lsquo;email&rsquo;, :with => &lsquo;oyncoeh_<a href="&#109;&#97;&#x69;&#x6c;&#x74;&#111;&#x3a;&#x6c;&#x69;&#x61;&#x6e;&#x67;&#x6d;&#97;&#x6e;&#95;&#49;&#51;&#x36;&#x38;&#52;&#51;&#57;&#x33;&#48;&#x31;&#x40;&#116;&#102;&#98;&#110;&#x77;&#x2e;&#x6e;&#101;&#116;">&#x6c;&#x69;&#x61;&#x6e;&#103;&#109;&#97;&#110;&#95;&#x31;&#51;&#x36;&#56;&#x34;&#51;&#57;&#51;&#48;&#x31;&#64;&#x74;&#102;&#x62;&#110;&#x77;&#x2e;&#x6e;&#101;&#116;</a>&rsquo;)
+  fill_in(&lsquo;pass&rsquo;, :with => &lsquo;1234&rsquo;)
+  find(&lsquo;#loginbutton&rsquo;).click</p>
+
+<p>  # these checks are required as the flow cna change depending on if the user has authed before
+  # read permissions dialogue
+  click_on(&lsquo;OK&rsquo;) if page.driver.browser.window_handles.length == 2</p>
+
+<p>  # write permision dialogue
+  click_on(&lsquo;OK&rsquo;) if page.driver.browser.window_handles.length == 2
+end</p>
+
+<p>continue on as usual</p>
+
+<p>to remove perms at the end of a test</p>
+
+<h1>page.execute_script %Q{</h1>
+
+<h1>FB.api(&ldquo;/me/permissions&rdquo;,&ldquo;DELETE&rdquo;, function(response){</h1>
+
+<h1>console.log(response)</h1>
+
+<h1>});</h1>
+
+<h1>}</h1>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Capybara, webkit and requests specs' ]]></title>
+    <link href="http://jordanrs.github.io/blog/2013/05/12/capybara-webkit-and-requests-specs/"/>
+    <updated>2013-05-12T00:00:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2013/05/12/capybara-webkit-and-requests-specs</id>
+    <content type="html"><![CDATA[<p>Included file &lsquo;JB/setup&rsquo; not found in _includes directory</p>
+
+<p><a href="https://github.com/thoughtbot/capybara-webkit/">https://github.com/thoughtbot/capybara-webkit/</a></p>
+
+<p>install QT brew update, brew install qt</p>
+
+<p>install x11 for mac
+<a href="http://xquartz.macosforge.org/landing/">http://xquartz.macosforge.org/landing/</a></p>
+
+<p>add   gem &ldquo;capybara-webkit&rdquo; to gem file</p>
+
+<p>bundle</p>
+
+<p>i added   Capybara.javascript_driver = :webkit to my spork.prefork and removed</p>
+
+<pre><code># config.use\_transactional\_fixtures = true
+</code></pre>
+
+<p>Transactions and errors <a href="https://github.com/jnicklas/capybara#transactions-and-database-setup">https://github.com/jnicklas/capybara#transactions-and-database-setup</a>
+important so remove this line from spec_helper</p>
+
+<p>output when using webkit can have some unwanted output
+<a href="https://github.com/thoughtbot/capybara-webkit/issues/157">https://github.com/thoughtbot/capybara-webkit/issues/157</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Installing Guard and Spork for auto running of specs']]></title>
+    <link href="http://jordanrs.github.io/blog/2013/04/25/installing-guard-and-spork-for-auto-running-of-tests/"/>
+    <updated>2013-04-25T00:00:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2013/04/25/installing-guard-and-spork-for-auto-running-of-tests</id>
+    <content type="html"><![CDATA[<p>Included file &lsquo;JB/setup&rsquo; not found in _includes directory</p>
+
+<h2>Gemfile</h2>
+
+<p>Install the following gems with <code>bundle install</code></p>
+
+<pre><code>group :test do
+  .......... 
+  # file system event triggers for ruby. See note at end about RVM 
+  gem 'rb-fsevent', '0.9.3'
+
+  # Notifications of test states, Requires Growl and growlnotify to be installed
+  gem 'growl', '1.0.3'
+
+  # Automated test running and speed imporvements
+  gem 'guard-rspec'
+  gem 'guard-spork', '1.2.0' 
+  gem 'childprocess', '0.3.6'  # this was due to errors appearing in 0.3.7 and higher
+  gem 'spork', '0.9.2'
+end
+</code></pre>
+
+<h2>spec/spec_helper</h2>
+
+<p>Edit spec/spec_helper to look below.</p>
+
+<pre><code>require 'rubygems'
+require 'spork'
+
+ENV["RAILS_ENV"] = ENV["RAILS_ENV"] == 'jordan' ? 'jordan_test' : 'test' 
+require File.expand_path("../../config/environment", __FILE__)
+
+require 'rspec/rails'
+require 'rspec/autorun'
+require "capybara/rspec"
+#uncomment the following line to use spork with the debugger
+# require 'spork/ext/ruby-debug'
+
+Spork.prefork do
+
+
+  # Requires supporting ruby files with custom matchers and macros, etc,
+  # in spec/support/ and its subdirectories.
+  Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+
+  RSpec.configure do |config|
+    # ## Mock Framework
+    #
+    # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
+    #
+    # config.mock_with :mocha
+    # config.mock_with :flexmock
+    # config.mock_with :rr
+
+    # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
+    config.fixture_path = "#{::Rails.root}/spec/fixtures"
+
+    # If you're not using ActiveRecord, or you'd prefer not to run each of your
+    # examples within a transaction, remove the following line or assign false
+    # instead of true.
+    config.use_transactional_fixtures = true
+
+    # If true, the base class of anonymous controllers will be inferred
+    # automatically. This will be the default behavior in future versions of
+    # rspec-rails.
+    config.infer_base_class_for_anonymous_controllers = false
+
+    # Run specs in random order to surface order dependencies. If you find an
+    # order dependency and want to debug it, you can fix the order by providing
+    # the seed, which is printed after each run.
+    #     --seed 1234
+    config.order = "random"
+  end
+end
+
+Spork.each_run do
+  # This code will be run each time you run your specs.
+
+end
+</code></pre>
+
+<h2>.rspec</h2>
+
+<p>add <code>--format documentation --color --drb to .rspec</code></p>
+
+<h2>Guardfile</h2>
+
+<p>Running run <code>guard init rspec</code> and <code>guard init spork</code> will produce a Guardfile similar to the one below. Not the additions of <code>cucumber: false,  test_unit: false, :wait =&gt; 45</code> to the spork call as leaving them out without test unit or cucumber configured can result in errors.</p>
+
+<p>We also make an addition to the rspec guard call <code>:cli =&gt; '--drb'</code> so that it runs through spoke using distributed ruby</p>
+
+<pre><code># A sample Guardfile
+# More info at https://github.com/guard/guard#readme
+
+require 'active_support/core_ext'
+
+guard 'spork', :rspec_env =&gt; { 'RAILS_ENV' =&gt; 'sexyjordan_test' }, cucumber: false,  test_unit: false, :wait =&gt; 45 do
+  watch('config/application.rb')
+  watch('config/environment.rb')
+  watch(%r{^config/environments/.+\.rb$})
+  watch(%r{^config/initializers/.+\.rb$})
+  watch('Gemfile')
+  watch('Gemfile.lock')
+  watch('spec/spec_helper.rb')
+  # watch('test/test_helper.rb')
+  watch('spec/support/')
+end
+
+guard 'rspec', :all_after_pass =&gt; false, :cli =&gt; '--drb' do
+  watch(%r{^spec/.+_spec\.rb$})
+  watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
+  watch('spec/spec_helper.rb')  { "spec" }
+
+  # Rails example
+  watch(%r{^app/(.+)\.rb$})                           { |m| "spec/#{m[1]}_spec.rb" }
+  watch(%r{^app/(.*)(\.erb|\.haml)$})                 { |m| "spec/#{m[1]}#{m[2]}_spec.rb" }
+  watch(%r{^app/controllers/(.+)_(controller)\.rb$})  { |m| ["spec/routing/#{m[1]}_routing_spec.rb", "spec/#{m[2]}s/#{m[1]}_#{m[2]}_spec.rb", "spec/acceptance/#{m[1]}_spec.rb"] }
+  watch(%r{^spec/support/(.+)\.rb$})                  { "spec" }
+  watch('config/routes.rb')                           { "spec/routing" }
+  watch('app/controllers/application_controller.rb')  { "spec/controllers" }
+
+  watch(%r{^app/models/(.+)\.rb$}) {|m| "spec/models/#{m[1]}_spec.rb" }
+  watch(%r{^app/services/(.+)\.rb$}) {|m| "spec/services/#{m[1]}_spec.rb" }
+
+  # Capybara features specs
+  watch(%r{^app/views/(.+)/.*\.(erb|haml)$})          { |m| "spec/features/#{m[1]}_spec.rb" }
+
+
+end
+</code></pre>
+
+<h1>Clearing down the data base</h1>
+
+<p>to make sure that each time the test suite is run it is done so against a new database i use the database_cleaner gem. so add that to your test group in the gem file</p>
+
+<pre><code>  gem 'database_cleaner', "~&gt; 0.9.1"
+</code></pre>
+
+<p>And then add the following code to the each and pre_fork blocks for spork in the .spec_helper file</p>
+
+<pre><code>Spork.prefork do
+  require 'database_cleaner'
+  DatabaseCleaner.strategy = :truncation
+  ........
+end
+
+
+Spork.each_run do
+  .....
+  # This code will be run each time you run your specs.
+  DatabaseCleaner.clean
+  .....
+end
+</code></pre>
+
+<h1>Testing with queue classic</h1>
+
+<p>Using queue classic, spork and rspec. If the QC setup shares the rails connection to the database we need to add this to the each run command in spork</p>
+
+<pre><code>Spork.each_run do
+  if defined? QC
+    QC::Conn.connection = ActiveRecord::Base.connection.raw_connection
+  end
+end
+</code></pre>
+
+<h1>FactoryGirl Cleaner Syntax</h1>
+
+<p>Adding</p>
+
+<pre><code>RSpec.configure do |config|
+  config.include FactoryGirl::Syntax::Methods
+end
+</code></pre>
+
+<p>Means we can now call build, create, createlist, withouth FactoryGirl infront</p>
+
+<h1>Paperclip and factory girl together</h1>
+
+<pre><code>FactoryGirl.define do
+  factory :timeline_memory do |f|
+     image { Rack::Test::UploadedFile.new(Rails.root.join('spec', 'assets', 'test_memory.jpg'), 'image/jpg') }
+  end
+end
+</code></pre>
+
+<h1>Notes</h1>
+
+<p>Auto detection didnt work with rvm and 1.9.2 straight away. Ruby had to be recompiled with an additional flag to deal with file system events the way we want. The fix is taken from <a href="https://github.com/guard/guard/wiki/Add-proper-Readline-support-to-Ruby-on-Mac-OS-X">here</a></p>
+
+<h2>Using RVM</h2>
+
+<p>You can use RVM to build your Ruby with GNU readline support. First install the readline package with RVM:</p>
+
+<pre><code>$ rvm pkg install readline --verify-downloads 1
+</code></pre>
+
+<p>Then configure RVM to use the readline package by adding</p>
+
+<pre><code>ruby_configure_flags=--with-readline-dir="$rvm_path/usr"
+</code></pre>
+
+<p>to <code>~/.rvm/user/db</code>. Finally you need to reinstall your Ruby of choice:</p>
+
+<pre><code>$ rvm reinstall 1.9.3
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Multiple Test Environments in Rails]]></title>
+    <link href="http://jordanrs.github.io/blog/2013/04/23/multiple-test-enviroments/"/>
+    <updated>2013-04-23T00:00:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2013/04/23/multiple-test-enviroments</id>
+    <content type="html"><![CDATA[<p>Included file &lsquo;JB/setup&rsquo; not found in _includes directory</p>
+
+<p>Create the file <code>config/enviroments/jordan_test.rd</code> and copy into it the contents of <code>config/enviroments/test.rb</code>
+Via command line from application root:  <code>cp config/environments/test.rb config/environments/jordan_test.rb</code></p>
+
+<p>in config/database.yml add your DB settings (assumes using Postgres)</p>
+
+<pre><code>jordan_test:
+  adapter: postgresql
+  encoding: utf8
+  host: localhost
+  database: [project_name]_jordan_test
+  username: 
+  password: 
+</code></pre>
+
+<p>rake db:create:all</p>
+
+<p>add environment to any :test specific gems or gem groups in your gem file</p>
+
+<pre><code>group :test, :jordan_test do
+    #blaaaaa........
+end
+</code></pre>
+
+<p>Usual run rake db:test:prepare or db:test:clone instead possible to run `rake db:migrate RAILS_ENV=jordan_test&#8220; perhaps make an alias for this in your .bash_profile</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Strong Parameters and Tolk Gem]]></title>
+    <link href="http://jordanrs.github.io/blog/2013/04/05/strong-parameters-and-tolk-gem/"/>
+    <updated>2013-04-05T00:00:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2013/04/05/strong-parameters-and-tolk-gem</id>
+    <content type="html"><![CDATA[<p>Included file &lsquo;JB/setup&rsquo; not found in _includes directory</p>
+
+<p>To get the tolk gem to work along side the Strong Parameters gem we need to apply a monkey patch to tolk</p>
+
+<pre><code>in config/initalizers/tolk.rb
+
+Tolk::LocalesController.class_eval do  
+    def create
+      Tolk::Locale.create!(params[:tolk_locale].try(:permit!))
+      redirect_to :action =&gt; :index
+    end
+end
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Making a gem]]></title>
+    <link href="http://jordanrs.github.io/blog/2013/02/21/making-a-gem/"/>
+    <updated>2013-02-21T00:00:00+00:00</updated>
+    <id>http://jordanrs.github.io/blog/2013/02/21/making-a-gem</id>
+    <content type="html"><![CDATA[<p>Included file &lsquo;JB/setup&rsquo; not found in _includes directory</p>
+
+<p>As to not forget the process of packaging up a gem and putting it on my own hosting just follow these simple tests :&ndash;</p>
+
+<p>1) Firstly make sure the <code>PROJECT_NAME.gemspec</code> file is up to date and you have updated the <code>version.rb</code> file to the correct version.</p>
+
+<p>2) run the command <code>gem build mention-tagger.gemspec</code> or <code>rake build</code>
+that should put a gem file in the root directory with the name <code>PROJECT_NAME-VERSION.gem</code> or in <code>pkg/PROJECT_NAME-VERSION.gem</code></p>
+
+<p>To publish to your own gem host</p>
+
+<p>1) First set up geminabox as per these <a href="https://github.com/cwninja/geminabox">instructions</a></p>
+
+<ul>
+<li>gem install geminabox</li>
+</ul>
+
+
+<p>2) then gem inabox <code>PROJECT_NAME-VERSION.gem</code></p>
+
+<p>it&rsquo;ll ask for url</p>
+
+<p>3) put in your gem host</p>
+
+<p>and away she goes</p>
+
+<h2>Get it straight from git</h2>
+
+<p>Two ways</p>
+
+<ol>
+<li>gem &lsquo;rails&rsquo;, :git => &lsquo;git://github.com/rails/rails.git&rsquo;</li>
+</ol>
+
+
+<p>or equivalently</p>
+
+<ol>
+<li>gem &lsquo;rails&rsquo;, :githib => &lsquo;rails/rails&rsquo;</li>
+</ol>
+
+
+<p>which is just <em>USERNAME/PROJECT_NAME</em></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[How to build an app]]></title>
+    <link href="http://jordanrs.github.io/blog/2013/02/15/how-to-build-an-app/"/>
+    <updated>2013-02-15T00:00:00+00:00</updated>
+    <id>http://jordanrs.github.io/blog/2013/02/15/how-to-build-an-app</id>
+    <content type="html"><![CDATA[<p>Included file &lsquo;JB/setup&rsquo; not found in _includes directory</p>
+
+<p>How to build an app with no build procedure documentation</p>
+
+<pre><code>Me: whats the build procedure ?
+JS: first you need a virgin and a unicorn
+JS: an old priest and a young priest
+CG: and a bucket
+JS: mix together, pop in the oven for 35-40 mins @220 degrees, 200 for fan assisted oven.
+JS: and then you are done
+CG: you need to slap l******n in the face after 15 mins though
+CG: or else it will compile wrong
+JS: we used bebo over here as we dont have a l******n
+CG: yeah
+CG: once i forgot and I ended up in india
+JS: giving out water filters
+JS: with a nokia handset
+</code></pre>
+
+<p>Priceless</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ActiveAdmin - Customising export links]]></title>
+    <link href="http://jordanrs.github.io/blog/2013/02/12/activeadmin---customising-export-links/"/>
+    <updated>2013-02-12T00:00:00+00:00</updated>
+    <id>http://jordanrs.github.io/blog/2013/02/12/activeadmin&#8212;customising-export-links</id>
+    <content type="html"><![CDATA[<p>Included file &lsquo;JB/setup&rsquo; not found in _includes directory</p>
+
+<p>When using active admin there doesn&rsquo;t seem to be an easy way to format the output of the JSON and XML export options like you can with the CSV option.</p>
+
+<p>A nice patch by <a href="https://coderwall.com/p/qzlssg">David Collom</a> allows us to customise what is displayed rather then just hiding it in CSS. The patch is as follows and i just placed it at the top of one of my <code>admin/###.rb</code> files</p>
+
+<pre><code>module ActiveAdmin
+  module Views
+    class PaginatedCollection
+      def build_pagination_with_formats(options)
+        div :id =&gt; "index_footer" do
+          build_pagination
+          div(page_entries_info(options).html_safe, :class =&gt; "pagination_information")
+          build_download_format_links([:csv]) unless @download_links == false
+        end
+      end
+    end
+  end
+end
+</code></pre>
+
+<p>To customise what is displayed simplay change the array passing into <code>build_download_format_links()</code></p>
+
+<pre><code>build_download_format_links([:csv]) 
+build_download_format_links([:csv, :json])
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[S3 Static Assets Group Policy]]></title>
+    <link href="http://jordanrs.github.io/blog/2013/02/10/s3-static-assets-group-policy/"/>
+    <updated>2013-02-10T00:00:00+00:00</updated>
+    <id>http://jordanrs.github.io/blog/2013/02/10/s3-static-assets-group-policy</id>
+    <content type="html"><![CDATA[<p>Included file &lsquo;JB/setup&rsquo; not found in _includes directory</p>
+
+<p>I always struggle to remember / find the group security policy for an S3 bucket to make all files available to the public.</p>
+
+<pre><code>{
+    "Version": "2008-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowPublicRead",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::BUCKET-NAME/*"
+        }
+    ]
+}
+</code></pre>
+
+<p>The only thing that can be changed is the BUCKET-NAME, leave all other aspects of the policy the same.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Heroku Optimisations - Unicorn, S3 and Cloudfront]]></title>
+    <link href="http://jordanrs.github.io/blog/2013/02/10/heroku-optimisations---unicorn-s3-and-cloudfront/"/>
+    <updated>2013-02-10T00:00:00+00:00</updated>
+    <id>http://jordanrs.github.io/blog/2013/02/10/heroku-optimisations&#8212;unicorn-s3-and-cloudfront</id>
+    <content type="html"><![CDATA[<p>Included file &lsquo;JB/setup&rsquo; not found in _includes directory</p>
+
+<p>As part of my continued learnings as a rails developer I had some free time during the week and looked into optimising heroku to make my rails apps far more efficient and effective. When i tested unicorn it showed itself to be a awesomely efficient application server giving you far more bang for your buck on heroku. Heres a quick guide of how I set up unicorn and some additional optimisations using s3 and cloudfront to serve my files that will now become my default set up to get the most out of my dynos.</p>
+
+<p><strong>Setting up Unicorn</strong></p>
+
+<p><a href="https://github.com/defunkt/unicorn">Unicorn</a> is a HTTP server available for rails and other ruby frameworks that increase concurrency and the performance of your apps without having to increase the number of dynos (for a better explanation on the fundamentals of concurrency see this <a href="http://merbist.com/2011/02/22/concurrency-in-ruby-explained/">excellent post</a>). It does this by spawning extra processes to deal with incoming requests. It rocks, and showed itself to out perform the other popular ruby HTTP servers by a significant margin.</p>
+
+<p>1) Install the Unicorn gem into your gem file</p>
+
+<pre><code>gem 'unicorn'
+</code></pre>
+
+<p>2) replace the current <code>web:</code> line in your procfile with</p>
+
+<pre><code>web: bundle exec unicorn_rails -p $PORT -c ./config/unicorn.rb
+</code></pre>
+
+<p>3) create a unicorn.rb file in the config directory with the following contents</p>
+
+<pre><code># If you have a very small app you may be able to
+# increase this, but in general 3 workers seems to
+# work best
+
+worker_processes 3
+
+# Load your app into the master before forking
+# workers for super-fast worker spawn times
+
+preload_app true
+
+# Immediately restart any workers that
+# haven't responded within 30 seconds
+
+timeout 30
+
+before_fork do |server, worker|
+
+  # Replace with MongoDB or whatever
+
+  if defined?(ActiveRecord::Base)
+    ActiveRecord::Base.connection.disconnect!
+    Rails.logger.info('Disconnected from ActiveRecord')
+  end
+
+  # If you are using Redis but not Resque, change this
+
+  if defined?(Resque)
+    Resque.redis.quit
+    Rails.logger.info('Disconnected from Redis')
+  end
+
+  sleep 1
+end
+
+after_fork do |server, worker|
+
+  # Replace with MongoDB or whatever
+
+  if defined?(ActiveRecord::Base)
+    ActiveRecord::Base.establish_connection
+    Rails.logger.info('Connected to ActiveRecord')
+  end
+
+  # If you are using Redis but not Resque, change this
+
+  if defined?(Resque)
+    Resque.redis = ENV['REDIS_URI']
+    Rails.logger.info('Connected to Redis')
+  end
+end
+</code></pre>
+
+<p>4) finally set up logging so it use STDOUT in the application class of config/application.rb</p>
+
+<pre><code>config.logger = Logger.new(STDOUT)
+</code></pre>
+
+<p>The additions of the config file and logger changes fix a few issues that can happen when workers are being spawned/terminated, when adding certain gems like new relic or redis and making sure we get logging information reported correctly.</p>
+
+<p>Thats all there is to setting up unicorn on heroku. On the next deployment to heroku it should start the application running on unicorn with however many workers you specified. To check its working you can see it launch the unicorn server and spawn workers by doing <code>heroku logs --tail</code> whilst deploying.</p>
+
+<p>Iv found that 3 workers works best as any higher you risk breaching heroku&rsquo;s 512mb memory limit per dyno, but you can experiment depending on your application size.</p>
+
+<p><strong>Setting up s3 assets</strong></p>
+
+<p>The easiest way to serve your assets from the cloud is to use the [asset sync gem] (<a href="https://github.com/rumblelabs/asset_sync">https://github.com/rumblelabs/asset_sync</a>). It simplifies dumping your assets to the cloud, when you run <code>rake assets:precompile</code> (done by default when pushing to heroku) your compiled assets will automatically sent over to the cloud, whether thats Amazon S3, Google Storage or Rackspace. The good news is its also very easy to set up. For this setup I am using S3 and assume you have already set up a bucket and added the correct group policy</p>
+
+<p>1) Add the asset sync gem to your gem file</p>
+
+<pre><code>group :assets do
+
+.....
+  gem 'asset_sync'
+.....
+
+end
+</code></pre>
+
+<p>2) in <code>production.rb</code> add our asset host</p>
+
+<pre><code>config.action_controller.asset_host = "//#{ENV['FOG_DIRECTORY']}.s3.amazonaws.com"
+</code></pre>
+
+<p>We chose this url over the other style <code>//s3.amazonaws.com/#{ENV['FOG_DIRECTORY']}</code> as we can then have our bucket in any region &ndash; using the second style results in a 301 moved permanently due to reasons explained <a href="https://forums.aws.amazon.com/thread.jspa?threadID=17989">here</a>. There is one caveat however and that is that the bucket name cannot contain any periods (.&rsquo;s) as this will break the ssl certificates over https.</p>
+
+<p>3) make sure the following are set in <code>production.rb</code></p>
+
+<pre><code>config.assets.digest is set to true.
+config.assets.enabled is set to true.
+</code></pre>
+
+<p>4) One thing that we do is serve out staging assets and production assets from the same bucket. To do this we can add a asset prefix to our environments config file that declares the place the files should be stored within the bucket.</p>
+
+<pre><code>config.assets.prefix = "/production/assets"
+</code></pre>
+
+<p>5) add in the following environment variables on heroku</p>
+
+<pre><code>heroku config:add AWS_ACCESS_KEY_ID=xxxx
+heroku config:add AWS_SECRET_ACCESS_KEY=xxxx
+heroku config:add FOG_DIRECTORY=xxxx  # ( this is the bucket name )
+heroku config:add FOG_PROVIDER=AWS
+
+# and optionally:
+
+heroku config:add FOG_REGION=eu-west-1
+heroku config:add ASSET_SYNC_GZIP_COMPRESSION=true
+heroku config:add ASSET_SYNC_MANIFEST=true
+heroku config:add ASSET_SYNC_EXISTING_REMOTE_FILES=keep
+</code></pre>
+
+<p>6) finally we need to make sure these variables are available to heroku at asset compilation time so run this from the console in your app root directory</p>
+
+<pre><code>heroku labs:enable user-env-compile -a myapp
+</code></pre>
+
+<p><strong>Setting up CloudFront to serve our files even faster</strong></p>
+
+<p>Using a CDN to serve our assets instead of S3 or even the app itself will help improve load times and decrease requests to our app as assets get delivered from a data centre closer to the end users location. Setting up a CloudFront distribution for use with our rails app requires no special configuration options so selecting our bucket and using all the default options will be fine. If you&rsquo;ve used a CDN before you may have had problems expiring files once you&rsquo;ve made changes to them. Thanks to the asset pipeline that comes with rails we don&rsquo;t need to worry about this due to the unique identifier hash that gets appended onto the end of the file name before its extension.</p>
+
+<p>So after our distribution has completed downloading the assets from the bucket we will be given a CloudFront url. All we need to do once we have this url is change our asset host to point to this url</p>
+
+<pre><code>config.action_controller.asset_host = "d1aa907b1q1s7qd.cloudfront.net"
+</code></pre>
+
+<p>Now when you make any changes to files and push them to heroku these new files with there unique hashes will get pushed to over to S3 and be different than the previous version. When the first user requests this new file from the CDN it wont be present so amazon is clever enough to attempt to fetch it from the bucket and save it to the CDN ready for the next person</p>
+
+<p><strong>Setting up paperclip to use CloudFront</strong></p>
+
+<p><a href="https://github.com/thoughtbot/paperclip">Paperclip</a> is great for dealing with file attachments and automatically saving things onto S3, but we could optimise this to use CloudFront instead. Its very easy to implement. Once your bucket is set up and files are being saved by paperclip to it, all thats needed is to change the following settings</p>
+
+<p>1) Add in an :s3_host_alias</p>
+
+<pre><code>:s3_host_alias =&gt; 'd1aa907b1q1s7qd.cloudfront.net',
+</code></pre>
+
+<p>2) Change :url property to use &ldquo;:s3_alias_url&rdquo;</p>
+
+<pre><code>:url =&gt; ":s3_alias_url"
+</code></pre>
+
+<p>notice the symbol is wrapped in a string</p>
+
+<p>And thats it, your uploaded content will now be served over CloudFront and not directly from s3</p>
+]]></content>
+  </entry>
   
 </feed>
