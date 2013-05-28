@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: reminders | My Octopress Blog]]></title>
+  <title><![CDATA[Category: reminders | Jordan Rogers-Smith]]></title>
   <link href="http://jordanrs.github.io/blog/categories/reminders/atom.xml" rel="self"/>
   <link href="http://jordanrs.github.io/"/>
-  <updated>2013-05-28T09:31:19+01:00</updated>
+  <updated>2013-05-28T09:42:05+01:00</updated>
   <id>http://jordanrs.github.io/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[Jordan Rogers-Smith]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
