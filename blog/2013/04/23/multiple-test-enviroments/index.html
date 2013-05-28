@@ -101,7 +101,10 @@ Via command line from application root:  <code>cp config/environments/test.rb co
   password: 
 </code></pre>
 
-<p>rake db:create:all</p>
+<p>Create the new database</p>
+
+<pre><code>rake db:create:all
+</code></pre>
 
 <p>add environment to any :test specific gems or gem groups in your gem file</p>
 
@@ -110,7 +113,17 @@ Via command line from application root:  <code>cp config/environments/test.rb co
 end
 </code></pre>
 
-<p>Usual run rake db:test:prepare or db:test:clone instead possible to run `rake db:migrate RAILS_ENV=jordan_test&#8220; perhaps make an alias for this in your .bash_profile</p>
+<p>or make a bundler group in application.rb so others envs can be added easier.</p>
+
+<pre><code>if defined?(Bundler)
+  # If you precompile assets before deploying to production, use this line
+  Bundler.require(*Rails.groups(:assets =&gt; %w(development test steve cronin sexyjordan_test), :test_envs =&gt; %w(test sexyjordan_test)))
+  # If you want your assets lazily compiled in production, use this line
+  # Bundler.require(:default, :assets, Rails.env)
+end   
+</code></pre>
+
+<p>Usual run rake <code>db:test:prepare</code> or <code>db:test:clone</code> instead possible to run <code>rake db:migrate RAILS_ENV=jordan_test</code> perhaps make an alias for this in your .bash_profile</p>
 </div>
 
 </article>
