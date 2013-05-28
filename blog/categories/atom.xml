@@ -4,7 +4,7 @@
   <title><![CDATA[Category:  | Jordan Rogers-Smith]]></title>
   <link href="http://jordanrs.github.io/blog/categories//atom.xml" rel="self"/>
   <link href="http://jordanrs.github.io/"/>
-  <updated>2013-05-28T10:34:34+01:00</updated>
+  <updated>2013-05-28T10:37:10+01:00</updated>
   <id>http://jordanrs.github.io/</id>
   <author>
     <name><![CDATA[Jordan Rogers-Smith]]></name>
@@ -18,9 +18,7 @@
     <link href="http://jordanrs.github.io/blog/2013/02/10/heroku-optimisations---unicorn-s3-and-cloudfront/"/>
     <updated>2013-02-10T00:00:00+00:00</updated>
     <id>http://jordanrs.github.io/blog/2013/02/10/heroku-optimisations---unicorn-s3-and-cloudfront</id>
-    <content type="html"><![CDATA[<p>Included file 'JB/setup' not found in _includes directory</p>
-
-<p>As part of my continued learnings as a rails developer I had some free time during the week and looked into optimising heroku to make my rails apps far more efficient and effective. When i tested unicorn it showed itself to be a awesomely efficient application server giving you far more bang for your buck on heroku. Heres a quick guide of how I set up unicorn and some additional optimisations using s3 and cloudfront to serve my files that will now become my default set up to get the most out of my dynos.</p>
+    <content type="html"><![CDATA[<p>As part of my continued learnings as a rails developer I had some free time during the week and looked into optimising heroku to make my rails apps far more efficient and effective. When i tested unicorn it showed itself to be a awesomely efficient application server giving you far more bang for your buck on heroku. Heres a quick guide of how I set up unicorn and some additional optimisations using s3 and cloudfront to serve my files that will now become my default set up to get the most out of my dynos.</p>
 
 <p><strong>Setting up Unicorn</strong></p>
 

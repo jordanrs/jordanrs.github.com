@@ -4,7 +4,7 @@
   <title><![CDATA[Category: reminders | Jordan Rogers-Smith]]></title>
   <link href="http://jordanrs.github.io/blog/categories/reminders/atom.xml" rel="self"/>
   <link href="http://jordanrs.github.io/"/>
-  <updated>2013-05-28T10:34:34+01:00</updated>
+  <updated>2013-05-28T10:37:10+01:00</updated>
   <id>http://jordanrs.github.io/</id>
   <author>
     <name><![CDATA[Jordan Rogers-Smith]]></name>
@@ -50,9 +50,7 @@ build_download_format_links([:csv, :json])
     <link href="http://jordanrs.github.io/blog/2013/02/10/s3-static-assets-group-policy/"/>
     <updated>2013-02-10T00:00:00+00:00</updated>
     <id>http://jordanrs.github.io/blog/2013/02/10/s3-static-assets-group-policy</id>
-    <content type="html"><![CDATA[<p>Included file 'JB/setup' not found in _includes directory</p>
-
-<p>I always struggle to remember / find the group security policy for an S3 bucket to make all files available to the public.</p>
+    <content type="html"><![CDATA[<p>I always struggle to remember / find the group security policy for an S3 bucket to make all files available to the public.</p>
 
 <pre><code>{
     "Version": "2008-10-17",
