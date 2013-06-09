@@ -1,0 +1,316 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Testing Facebook login and permissions with Capybara - Jordan Rogers-Smith</title>
+	<meta name="author" content="Jordan Rogers-Smith">
+
+	
+	<meta name="description" content="Testing Facebook Login and Permissions With Capybara Having begun to use Capybara and Rspec quiet heavily there have been a few challenges that need &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Jordan Rogers-Smith" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://jordanrs.github.io/blog/2013/06/01/testing-facebook-login-and-permissions-with-capybara/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("jordanrs2k1@gmail.com") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+</div>
+<hgroup>
+  <h1><a href="/">Jordan Rogers-Smith</a></h1>
+  
+    <h2>Coding away day to day.</h2>
+  
+</hgroup>
+
+
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		
+		<a class="twitter" href="http://twitter.com/JRogersSmith" title="Twitter">Twitter</a>
+		
+		
+		<a class="github" href="https://github.com/jordanrs" title="GitHub">GitHub</a>
+		
+		
+		
+		<a class="linkedin" href="http://www.linkedin.com/in/jordanrogerssmith">LinkedIn</a>
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Testing Facebook Login and Permissions With Capybara</h1>
+	<div class="entry-content" itemprop="articleBody"><p>Having begun to use Capybara and Rspec quiet heavily there have been a few challenges that need to be overcome. One of these is that the applications I develop day to day are heavily intertwined with Facebook and user flow relies heavily on Facebook login and accepting permissions at various points throughout the application.</p>
+
+<p>Outside of the Facebook chrome (the non iframed version of the application) its quite easy interact with these events as if we were a normal user.</p>
+
+<p><strong>Use Facebook Test Users</strong></p>
+
+<p>First go to your Facebook applications roles dashboard at <a href="https://developers.facebook.com/apps/">https://developers.facebook.com/apps/</a>[APPID]/roles and create some test users and if needed make them friends with one another. Take a note of there email, fbid and create a password for them.</p>
+
+<p><strong>Capybara Settings</strong></p>
+
+<p>Since Facebook is an external service we need to extend Capybaras default wait time incase its being slow and also change the host that the specs run under so that it matches the settings for our Facebook app.</p>
+
+<pre><code>Capybara.default\_wait\_time = 10
+Capybara.app_host = 'http://' + Settings.host
+</code></pre>
+
+<p><strong>Test User Factory</strong></p>
+
+<p>The FactoryGirl gem provides a great way to create and manage test data based on rails models. FactoryGirl can even be used with things other than models so to keep my actual user model separate from my test users data I created a special TestUser class. By placing it in a subfolder of the support folder the default installation will load all files and sub folders at initialisations allowing us access to this special class in our tests.</p>
+
+<pre><code># spec/support/models/test_user.rb
+class TestUser
+   attr_accessor  :email, :password, :fbid, :name
+end
+</code></pre>
+
+<p>With this class its then easily to make a test_user factory as you would a rails model factory. In this instance iv used a nested factory for additional test users with different states.</p>
+
+<p> FactoryGirl.define do
+   factory :test_user do |f|</p>
+
+<pre><code> name 'Bob Ameibdcaahgd Liangman'
+ fbid '100005892102238'
+ email 'oyncoeh_liangman_1368123301@tfbnw.net'
+ password 'XXXX'
+
+ factory :test_user_mark do
+   name 'Mark Ameiehbaakf Wisemanstein'
+   fbid '100005958231006'
+   email 'dqfaoxm_wisemanstein_13684123@tfbnw.net'
+   password 'XXXX'
+ end
+
+ factory :test_user_arabic do
+   name 'Richard Amehgghdihei Changescu'
+   fbid '100005877823859'
+   email 'lifczou_changescu_1368123920@tfbnw.net'
+   password 'XXXX'
+ end
+</code></pre>
+
+<p>   end
+ end</p>
+
+<p>Using these tests users in a capybara spec only has one caveat. They must be created in memory using build since there isn&rsquo;t a database table for them to be saved to</p>
+
+<pre><code>let(:test_user_mark) do
+  FactoryGirl.build(:test_user_mark)
+end
+</code></pre>
+
+<p><strong>Automating Facebook</strong></p>
+
+<p>The following module is a collection of macros that take care of the Facebook login and permissions dialogues. It attempts to deal with the various possible flows that can happen when using login with Facebook depending on wether the user has logging in and is being asked for permissions in the same sequence or if the permission are taken at a different point. There is also some javascript macros for login the user out of Facebook and removing the app permissions</p>
+
+<pre><code># spec/support/facebook_macros
+module FacebookMacros
+
+  def complete_facebook_dialogues_on_click(selector, test_user)
+    # until bookface version bumped to latest we have no way to know its ready so delay, not ideal
+    sleep 1
+    find("#{selector}").click
+    return if page.driver.browser.window_handles.length == 1
+    within_window('Facebook') do
+      fill_in_facebook_form(test_user) if page.has_css?('#loginbutton')
+      accept_permissions_outside_facebook
+    end
+  end
+
+  def fill_in_facebook_form(test_user)
+    fill_in('email', :with =&gt; "#{test_user.email}") 
+    fill_in('pass', :with =&gt; "#{test_user.password}")
+    find('#loginbutton').click
+  end
+
+  def accept_additional_permissions
+    return if page.driver.browser.window_handles.length == 1
+    within_window('Facebook') do
+      accept_permissions_outside_facebook
+    end
+  end
+
+  def accept_permissions_outside_facebook
+    find(:xpath, "//button[@name='__CONFIRM__']").click if page.driver.browser.window_handles.length == 2
+    find(:xpath, "//button[@name='__CONFIRM__']").click if page.driver.browser.window_handles.length == 2
+  end
+
+  def deauth_app
+    sleep 1
+    page.execute_script %Q{
+       FB.api("/me/permissions","DELETE", function(response){
+         console.log(response)
+       });
+     }
+    sleep 1
+  end
+
+  def logout
+    sleep 1
+    page.execute_script %Q{
+      FB.logout(function(response) {
+        // user is now logged out
+      });
+     }
+    sleep 1
+  end
+
+end
+</code></pre>
+
+<p>The above module can be easily included in Rspec&rsquo;s configure block with the config.includes command</p>
+
+<pre><code>RSpec.configure do |config|
+
+  ....
+  config.include FacebookMacros
+  ....
+
+end
+</code></pre>
+
+<p>An example scenario using these macros. Its important that they are run with javascript enabled.</p>
+
+<pre><code>scenario 'user import friends', :js =&gt; true do
+  visit root_path  
+  complete_facebook_dialogues_on_click('#auth_me', test_user)
+  page.should have_css('#entry_step_1') 
+  visit home_dashboard_path
+
+
+  expect{
+
+    sleep 2
+    find('#add_events').click
+
+    accept_additional_permissions
+    sleep 2
+
+    page.should_not have_css('#add_events')
+    page.should have_css('.events_item')
+    # deal with additional perms
+  }.to change(Event, :count)
+
+
+  logout
+  Capybara.reset_session!
+end
+</code></pre>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2013 - Jordan Rogers-Smith -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+			<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'jordanrs-blog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://jordanrs.github.io/blog/2013/06/01/testing-facebook-login-and-permissions-with-capybara/';
+        var disqus_url = 'http://jordanrs.github.io/blog/2013/06/01/testing-facebook-login-and-permissions-with-capybara/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

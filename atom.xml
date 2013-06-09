@@ -4,7 +4,7 @@
   <title><![CDATA[Jordan Rogers-Smith]]></title>
   <link href="http://jordanrs.github.io/atom.xml" rel="self"/>
   <link href="http://jordanrs.github.io/"/>
-  <updated>2013-05-28T18:22:45+01:00</updated>
+  <updated>2013-06-09T11:18:40+01:00</updated>
   <id>http://jordanrs.github.io/</id>
   <author>
     <name><![CDATA[Jordan Rogers-Smith]]></name>
@@ -12,6 +12,172 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Testing Facebook login and permissions with Capybara]]></title>
+    <link href="http://jordanrs.github.io/blog/2013/06/01/testing-facebook-login-and-permissions-with-capybara/"/>
+    <updated>2013-06-01T10:27:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2013/06/01/testing-facebook-login-and-permissions-with-capybara</id>
+    <content type="html"><![CDATA[<p>Having begun to use Capybara and Rspec quiet heavily there have been a few challenges that need to be overcome. One of these is that the applications I develop day to day are heavily intertwined with Facebook and user flow relies heavily on Facebook login and accepting permissions at various points throughout the application.</p>
+
+<p>Outside of the Facebook chrome (the non iframed version of the application) its quite easy interact with these events as if we were a normal user.</p>
+
+<p><strong>Use Facebook Test Users</strong></p>
+
+<p>First go to your Facebook applications roles dashboard at <a href="https://developers.facebook.com/apps/">https://developers.facebook.com/apps/</a>[APPID]/roles and create some test users and if needed make them friends with one another. Take a note of there email, fbid and create a password for them.</p>
+
+<p><strong>Capybara Settings</strong></p>
+
+<p>Since Facebook is an external service we need to extend Capybaras default wait time incase its being slow and also change the host that the specs run under so that it matches the settings for our Facebook app.</p>
+
+<pre><code>Capybara.default\_wait\_time = 10
+Capybara.app_host = 'http://' + Settings.host
+</code></pre>
+
+<p><strong>Test User Factory</strong></p>
+
+<p>The FactoryGirl gem provides a great way to create and manage test data based on rails models. FactoryGirl can even be used with things other than models so to keep my actual user model separate from my test users data I created a special TestUser class. By placing it in a subfolder of the support folder the default installation will load all files and sub folders at initialisations allowing us access to this special class in our tests.</p>
+
+<pre><code># spec/support/models/test_user.rb
+class TestUser
+   attr_accessor  :email, :password, :fbid, :name
+end
+</code></pre>
+
+<p>With this class its then easily to make a test_user factory as you would a rails model factory. In this instance iv used a nested factory for additional test users with different states.</p>
+
+<p> FactoryGirl.define do
+   factory :test_user do |f|</p>
+
+<pre><code> name 'Bob Ameibdcaahgd Liangman'
+ fbid '100005892102238'
+ email 'oyncoeh_liangman_1368123301@tfbnw.net'
+ password 'XXXX'
+
+ factory :test_user_mark do
+   name 'Mark Ameiehbaakf Wisemanstein'
+   fbid '100005958231006'
+   email 'dqfaoxm_wisemanstein_13684123@tfbnw.net'
+   password 'XXXX'
+ end
+
+ factory :test_user_arabic do
+   name 'Richard Amehgghdihei Changescu'
+   fbid '100005877823859'
+   email 'lifczou_changescu_1368123920@tfbnw.net'
+   password 'XXXX'
+ end
+</code></pre>
+
+<p>   end
+ end</p>
+
+<p>Using these tests users in a capybara spec only has one caveat. They must be created in memory using build since there isn&rsquo;t a database table for them to be saved to</p>
+
+<pre><code>let(:test_user_mark) do
+  FactoryGirl.build(:test_user_mark)
+end
+</code></pre>
+
+<p><strong>Automating Facebook</strong></p>
+
+<p>The following module is a collection of macros that take care of the Facebook login and permissions dialogues. It attempts to deal with the various possible flows that can happen when using login with Facebook depending on wether the user has logging in and is being asked for permissions in the same sequence or if the permission are taken at a different point. There is also some javascript macros for login the user out of Facebook and removing the app permissions</p>
+
+<pre><code># spec/support/facebook_macros
+module FacebookMacros
+
+  def complete_facebook_dialogues_on_click(selector, test_user)
+    # until bookface version bumped to latest we have no way to know its ready so delay, not ideal
+    sleep 1
+    find("#{selector}").click
+    return if page.driver.browser.window_handles.length == 1
+    within_window('Facebook') do
+      fill_in_facebook_form(test_user) if page.has_css?('#loginbutton')
+      accept_permissions_outside_facebook
+    end
+  end
+
+  def fill_in_facebook_form(test_user)
+    fill_in('email', :with =&gt; "#{test_user.email}") 
+    fill_in('pass', :with =&gt; "#{test_user.password}")
+    find('#loginbutton').click
+  end
+
+  def accept_additional_permissions
+    return if page.driver.browser.window_handles.length == 1
+    within_window('Facebook') do
+      accept_permissions_outside_facebook
+    end
+  end
+
+  def accept_permissions_outside_facebook
+    find(:xpath, "//button[@name='__CONFIRM__']").click if page.driver.browser.window_handles.length == 2
+    find(:xpath, "//button[@name='__CONFIRM__']").click if page.driver.browser.window_handles.length == 2
+  end
+
+  def deauth_app
+    sleep 1
+    page.execute_script %Q{
+       FB.api("/me/permissions","DELETE", function(response){
+         console.log(response)
+       });
+     }
+    sleep 1
+  end
+
+  def logout
+    sleep 1
+    page.execute_script %Q{
+      FB.logout(function(response) {
+        // user is now logged out
+      });
+     }
+    sleep 1
+  end
+
+end
+</code></pre>
+
+<p>The above module can be easily included in Rspec&rsquo;s configure block with the config.includes command</p>
+
+<pre><code>RSpec.configure do |config|
+
+  ....
+  config.include FacebookMacros
+  ....
+
+end
+</code></pre>
+
+<p>An example scenario using these macros. Its important that they are run with javascript enabled.</p>
+
+<pre><code>scenario 'user import friends', :js =&gt; true do
+  visit root_path  
+  complete_facebook_dialogues_on_click('#auth_me', test_user)
+  page.should have_css('#entry_step_1') 
+  visit home_dashboard_path
+
+
+  expect{
+
+    sleep 2
+    find('#add_events').click
+
+    accept_additional_permissions
+    sleep 2
+
+    page.should_not have_css('#add_events')
+    page.should have_css('.events_item')
+    # deal with additional perms
+  }.to change(Event, :count)
+
+
+  logout
+  Capybara.reset_session!
+end
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Installing Guard and Spork for auto running of specs']]></title>
@@ -46,6 +212,9 @@ end
 </code></pre>
 
 <h2>spec/spec_helper</h2>
+
+<!-- more -->
+
 
 <p>Edit spec/spec_helper to look below.</p>
 
@@ -585,6 +754,410 @@ heroku config:add ASSET_SYNC_EXISTING_REMOTE_FILES=keep
 <p>notice the symbol is wrapped in a string</p>
 
 <p>And thats it, your uploaded content will now be served over CloudFront and not directly from s3</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Final Year Project Video Demonstration]]></title>
+    <link href="http://jordanrs.github.io/blog/2012/04/09/final-year-project-video-demonstration/"/>
+    <updated>2012-04-09T00:00:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2012/04/09/final-year-project-video-demonstration</id>
+    <content type="html"><![CDATA[<p>For any one who wishes to know what Music Technology at Edinburgh actually means? well this is what i created for my final year project, a literal creative fusion of music and technology! Enjoy!</p>
+
+<iframe width="560" height="315" src="http://www.youtube.com/embed/DMitUrW-OXI" frameborder="0" > </iframe>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[3D Kinect - Kinect SDK, XNA, Max/Msp and Voice Control]]></title>
+    <link href="http://jordanrs.github.io/blog/2011/11/21/3D-kinect---kinect-SDK-XNA-maxmsp-and-voice-control/"/>
+    <updated>2011-11-21T00:00:00+00:00</updated>
+    <id>http://jordanrs.github.io/blog/2011/11/21/3D-kinect&#8212;kinect-SDK-XNA-maxmsp-and-voice-control</id>
+    <content type="html"><![CDATA[<p>Its been a little quiet on the blog front, but many things have been programmed and I just haven&rsquo;t had the time to update this.</p>
+
+<p>I just wanted to post a recent Kinect based development which is using the Kinect in a 3D environment</p>
+
+<p>Check out the video below. Any questions or if you want the source just let me know</p>
+
+<iframe width="420" height="315" src="http://www.youtube.com/embed/KS_6sXLS788" frameborder="0"> </iframe>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Max/Msp to Kinect Via OSC for Offical Microsoft SDK]]></title>
+    <link href="http://jordanrs.github.io/blog/2011/08/25/MaxMsp-to-Kinect-Via-OSC-for-Offical-Microsoft-SDK/"/>
+    <updated>2011-08-25T00:00:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2011/08/25/MaxMsp-to-Kinect-Via-OSC-for-Offical-Microsoft-SDK</id>
+    <content type="html"><![CDATA[<p><img style="display: block; margin: 0px auto 10px; text-align: center; cursor: pointer; width: 400px; height: 160px;" src="http://4.bp.blogspot.com/-N6x0K1PfpZ4/TlZYCw94AKI/AAAAAAAABYg/UZbQXeWYNKk/s400/screenshot.jpg" alt="" id="BLOGGER_PHOTO_ID_5644795987482902690" border="0" /></p>
+
+<p>Today I finished the very first stages of my 4th year research project which was finding a way to take data from the Xbox Kinect and send it to Max/Msp. By using the <a href="http://opensoundcontrol.org/implementation/osc-net-v1-2">Ventuz OSC</a> C# wrapper i was able to pack all the X, Y, Z data for all the skeletal points into an OSC bundle and send that to Max where it was unpacked in the patch.</p>
+
+<p>The data sent from the Kinect is the unchanged co-ordinate system of values in metres rangeing from -1 to 1.</p>
+
+<p>That being said the data sent from Kinect to Max can be used by any device that is capable of reading OSC packets .The format of the OSC message is</p>
+
+<p><code>/joint/skeleton_[1/2]/[joint] x, y, z</code></p>
+
+<p>This is a simple implementation allows quick and easy access to the full power of the kinects skeletal tracking in windows for users of the offical SDK over OSC. I hope it can be of some use.</p>
+
+<p><a href="https://sites.google.com/site/jordanrsblog/KinecttoMax.zip?attredirects=0&amp;d=1">Download Location 1</a></p>
+
+<p><a href="http://www.mediafire.com/?ljoxdh01fdorgmd">MediaFire Mirror</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Chaos Music - The Final Piece]]></title>
+    <link href="http://jordanrs.github.io/blog/2011/04/30/Chaos-Music---The-Final-Piece/"/>
+    <updated>2011-04-30T00:00:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2011/04/30/Chaos-Music&#8212;The-Final-Piece</id>
+    <content type="html"><![CDATA[<p>Chaos music is a composition based on my research and programming of the functions documented in <a href="http://jordanrs.blogspot.com/2011/04/algorithmic-comp-piece-2-research-choas.html">my previous post.</a>  The piece uses the output data from the chaotic functions to drive musical synthesis with the built in functions of CLM, more explanation about methodology can be found in the attached report.</p>
+
+<p><strong>Final Piece</strong></p>
+
+<p><audio controls>
+  <source src="http://sites.google.com/site/jordanrsblog/algorithmiccomp/ChaosMusic.mp3" type="audio/mpeg">
+  Your browser does not support the audio tag.
+</audio></p>
+
+<p><strong>Download Source and Report</strong></p>
+
+<p><img style="display: block; margin: 0px auto 10px; text-align: center; cursor: pointer; width: 287px; height: 400px;" src="http://2.bp.blogspot.com/-PqHESAb3dX0/TbxzzLXTW6I/AAAAAAAABXI/ZIrSRy9qfPU/s400/algocomp.jpg" alt="" id="BLOGGER_PHOTO_ID_5601479359603104674" border="0" /></p>
+
+<p><a href="https://sites.google.com/site/jordanrsblog/algorithmiccomp/Project2.zip"><br />Download</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Algorithmic Comp. Piece 2 Research - Chaos Functions]]></title>
+    <link href="http://jordanrs.github.io/blog/2011/04/30/Algorithmic-Composition-Piece-2-Research---Choas-Functions/"/>
+    <updated>2011-04-30T00:00:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2011/04/30/Algorithmic-Composition-Piece-2-Research&#8212;Choas-Functions</id>
+    <content type="html"><![CDATA[<p><strong>For my final year piece iv been researching chaotic functions and non-linear maps. Below is a selection of function iv ported into Lisp. Each function outputs a text file that can be imported into most graphing software (the corresponding pictures were all produced with MATLAB). I intend to implement these functions and use there output to drive a piece of music.</strong></p>
+
+<p><strong>The Logistic Equation</strong></p>
+
+<p><img style="display: block; margin: 0px auto 10px; text-align: center; cursor: pointer; width: 302px; height: 298px;" src="http://4.bp.blogspot.com/-E1OToaCO-yg/TbxIpC3F1fI/AAAAAAAABU4/8soPQ8FU69Y/s320/logistic.jpg" alt="" id="BLOGGER_PHOTO_ID_5601431906521830898" border="0" /></p>
+
+<pre><code>(with-open-file (*standard-output* "logistic.txt" :direction :output
+                                  :if-exists :supersede)
+(let*  ((x 0.5)
+ (r-env '(0 1 1000 4.0))
+ (r 0.0))
+
+
+   (loop for i below 1000 do
+  (setf r (envelope-interp i r-env)
+     x (* r (* x (- 1 x))))
+  (format t "~D ~D~%" r x)
+  )))
+</code></pre>
+
+<p><strong>The Henon Map</strong></p>
+
+<!--more-->
+
+
+<p><img style="display: block; margin: 0px auto 10px; text-align: center; cursor: pointer; width: 320px; height: 256px;" src="http://3.bp.blogspot.com/-6WhbHPFz2VU/TbxYE4-VJCI/AAAAAAAABVA/uQxuuX5kwGg/s320/henon.jpg" alt="" id="BLOGGER_PHOTO_ID_5601448877578593314" border="0" /></p>
+
+<pre><code>(with-open-file (*standard-output* "henon.txt" :direction :output
+                                  :if-exists :supersede)
+(let* ((x 0.1)
+    (y 0.1)
+ (a 1.4)
+ (b 0.3)
+ (z 0.0))
+
+ (loop for i below 500 do
+ (setf z x
+    x (-(+ y 1) (* a (* x x)))
+    y (* b z))
+
+ (format t "~D ~D~%" x y))))
+</code></pre>
+
+<p><strong>The Lorenz Attractor</strong>
+<img style="display: block; margin: 0px auto 10px; text-align: center; cursor: pointer; width: 300px; height: 320px;" src="http://4.bp.blogspot.com/-GlNo5diFAZo/TbxZqaGYVlI/AAAAAAAABVI/zXK9B45Av9Y/s320/lorenz.jpg" alt="" id="BLOGGER_PHOTO_ID_5601450621637514834" border="0" /></p>
+
+<pre><code>(with-open-file (*standard-output* "lorenz.txt" :direction :output
+                             :if-exists :supersede)
+(let* ((x1 0.0)
+ (y1 1.0)
+ (z1 0.0)
+ (dt 0.001)
+ (x 0.0)
+ (y 0.0)
+ (z 0.0)
+ (a 10)
+ (b (/ 8 3))
+ (p 28))
+
+ (loop for i below 1000 do
+  (setf x (+ x1 (* (* a (- y1 x1)) dt))
+     y (+ y1 (* (- y1 (* x1 (- p z1))) dt))
+     z (+ z1 (* (- (* x1 y1) (* b z1)) dt))
+     x1 x
+     y1 y
+     z1 z)
+
+ (format t "~D ~D ~D~%" (* 1000 x) (* 1000 y) (* 1000 z)))))
+</code></pre>
+
+<p><strong>The Ikeda Map</strong>
+<img style="display: block; margin: 0px auto 10px; text-align: center; cursor: pointer; width: 276px; height: 320px;" src="http://4.bp.blogspot.com/-GWcUIpsnOOc/TbxamvvnwOI/AAAAAAAABVQ/95bnAwy3KA8/s320/ikeda.jpg" alt="" id="BLOGGER_PHOTO_ID_5601451658239787234" border="0" /></p>
+
+<pre><code>(with-open-file (*standard-output* "ikeda.txt" :direction :output
+                               :if-exists :supersede)
+(let* ((x 1.0)
+ (y 1.0)
+ (u 0.95)
+ (z 0.0)
+ (b 0.0))
+ (loop for i below 1000 do
+  (setf z x
+     b (- 0.4 (/ 6 (+ 1 (+ (* x x) (* y y)))))
+     x (+ 1 (* u (- (* x (cos b)) (* y (sin b)))))
+     y (* u (+ (* z (sin b)) (+ y (cos b)))))
+
+ (format t "~D ~D~%" x y))))
+</code></pre>
+
+<p><strong>The Tent Map</strong>
+<img style="display: block; margin: 0px auto 10px; text-align: center; cursor: pointer; width: 320px; height: 320px;" src="http://1.bp.blogspot.com/-9Lpgb5RcTPY/TbxbjFJq4kI/AAAAAAAABVY/oh7uzLHqos8/s320/tent.jpg" alt="" id="BLOGGER_PHOTO_ID_5601452694778339906" border="0" /></p>
+
+<pre><code>(with-open-file (*standard-output* "tent.txt" :direction :output
+                                :if-exists :supersede)
+(let* ((x 0.5)
+   (u 0.0)
+   (u-env '(0 1 1000 2.0)))
+
+ (loop for i below 1000 do
+  (if (&amp;lt; x 0.5)
+   (progn
+   (setf u (envelope-interp i u-env)
+      x (* u x))
+   (format t "~D ~D~%" x u))
+   (progn
+   (setf u (envelope-interp i u-env)
+      x (* u (- 1 x)))
+
+   (format t "~D ~D~%" u x))))))
+</code></pre>
+
+<p><strong>The Gauss Iterated Map</strong>
+<img style="display: block; margin: 0px auto 10px; text-align: center; cursor: pointer; width: 320px; height: 258px;" src="http://1.bp.blogspot.com/-SmYtPew_6nY/TbxciohI0TI/AAAAAAAABVg/UbPoMLPtdrQ/s320/gauss.jpg" alt="" id="BLOGGER_PHOTO_ID_5601453786603770162" border="0" /></p>
+
+<pre><code>(with-open-file (*standard-output* "gauss.txt" :direction :output
+                                :if-exists :supersede)
+(let*  ((x 0.0)
+ (a 6.2)
+ (b-env '(0 -1 500 1))
+ (b 0.0))
+
+   (loop for i below 500 do
+  (setf b (envelope-interp i b-env)
+     x (+ b (exp(* (* -1 a) (* x x)))))
+  (format t "~D ~D~%" i x))))
+</code></pre>
+
+<p><strong>The Tinkerbell Map</strong>
+<img style="display: block; margin: 0px auto 10px; text-align: center; cursor: pointer; width: 320px; height: 284px;" src="http://1.bp.blogspot.com/-I37WgDY5-Yg/TbxdO8MjqEI/AAAAAAAABVo/POBxhfgV6ng/s320/tinkerbelle.jpg" alt="" id="BLOGGER_PHOTO_ID_5601454547800401986" border="0" /></p>
+
+<pre><code>(with-open-file (*standard-output* "tinkbell.txt" :direction :output
+                                :if-exists :supersede)
+(let* ((x -0.72)
+    (y -0.64)
+ (a 0.9)
+ (b -0.6013)
+ (c 2)
+ (d 0.5)
+ (z 0.0))
+
+ (loop for i below 2500 do
+ (setf z x
+    x (+ (* b y) (+ (* a x) (- (* x x) (* y y))))
+    y (+ (* d y) (+ (* c z) (* 2 (* z y)))))
+
+ (format t "~D ~D~%" x y))))
+</code></pre>
+
+<p><strong>The Rabinovich-Fabrikant Equation</strong>
+<img style="display: block; margin: 0px auto 10px; text-align: center; cursor: pointer; width: 320px; height: 271px;" src="http://4.bp.blogspot.com/-gIz3Lb1N7ag/TbxeMisXZLI/AAAAAAAABVw/uH4KW7rAB_8/s320/rf.jpg" alt="" id="BLOGGER_PHOTO_ID_5601455606106383538" border="0" /></p>
+
+<p>The graph may not look like those from other resources but that&rsquo;s because it was not ran over enough iterations, changing the loop value to over 1000 produces the main graph shape.</p>
+
+<pre><code>(with-open-file (*standard-output* "rabfab.txt" :direction :output
+                                  :if-exists :supersede)
+(let* ((x1 -1.0)
+ (y1 0.0)
+ (z1 0.5)
+ (dt 0.01)
+ (x 0.0)
+ (y 0.0)
+ (z 0.0)
+ (a 0.14)
+ (g 0.1))
+
+ (loop for i below 1000 do
+  (setf x (+ x1 (* (+ (* g x1) (* y1 (+ (* x1 x1) (- z1 1)))) dt))
+     y (+ y1 (* (+ (* g y1) (* x1 (- (+ (* 3 z1) 1) (* x1 x1)))) dt))
+     z (+ z1 (* (* (* 2 -1) z1) (+ a (* x1 y1)) dt))
+     x1 x
+     y1 y
+     z1 z)
+
+ (format t "~D ~D ~D~%" (* 1000 x) (* 1000 y) (* 1000 z)))))
+</code></pre>
+
+<p><strong>The Torus Knot</strong>
+<img style="display: block; margin: 0px auto 10px; text-align: center; cursor: pointer; width: 320px; height: 266px;" src="http://3.bp.blogspot.com/-0BfnejP-UEE/TbxftjkCQsI/AAAAAAAABWI/eOcIeBdxdtU/s320/torustd.jpg" alt="" id="BLOGGER_PHOTO_ID_5601457272787190466" border="0" />
+<img style="display: block; margin: 0px auto 10px; text-align: center; cursor: pointer; width: 311px; height: 320px;" src="http://4.bp.blogspot.com/-R1iTUBrYO3Q/TbxfbAiVvyI/AAAAAAAABWA/BTBqMf8H5eA/s320/torus.jpg" alt="" id="BLOGGER_PHOTO_ID_5601456954147192610" border="0" /></p>
+
+<pre><code>(with-open-file (*standard-output* "torus.txt" :direction :output
+                                  :if-exists :supersede)
+(let* ((x 0.0)
+   (y 0.0)
+   (z 0.0)
+   (r 0.0)
+   (q 5)
+   (p 2)
+   (phi 0.0)
+   (phi-env '(0 0 1000 6.283)))
+
+ (loop for i below 1000 do
+    (setf phi (envelope-interp i phi-env)
+    r (+ (cos (* q phi)) 2)
+    x (* r (cos (* p phi)))
+    y (* r (sin (* p phi)))
+    z (sin (* q phi)))
+
+  (format t "~D ~D ~D~%" x y z))))
+</code></pre>
+
+<p><strong>The Van Der-Pol Oscillator</strong></p>
+
+<pre><code>(with-open-file (*standard-output* "vdp.txt" :direction :output
+                                  :if-exists :supersede)
+(let* ((x1 0.5)
+   (y1 1.0)
+   (x 0.0)
+   (y 0.0)
+   (u 6.0)
+   (dt 0.1))
+
+   (loop for i below 10000 do
+  (setf x (+ x1 (* (* u (- (- x1 (* (/ 1 3) (* x1 (* x1 x1)))) y1)) dt))
+     y (+ y1 (* (* (/ 1 u) x1) dt))
+     x1 x
+     y1 y)
+
+ (format t "~D ~D~%" y x))))
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Computer Programming for Music Technology - Quadraphonic Delay In C and Max/Msp]]></title>
+    <link href="http://jordanrs.github.io/blog/2010/12/19/Computer-Programming-for-Music-Technology---Quadraphonic-Delay-In-C-and-MaxMsp/"/>
+    <updated>2010-12-19T00:00:00+00:00</updated>
+    <id>http://jordanrs.github.io/blog/2010/12/19/Computer-Programming-for-Music-Technology&#8212;Quadraphonic-Delay-In-C-and-MaxMsp</id>
+    <content type="html"><![CDATA[<p>The final piece of a course in C and its uses in building Max/Msp objects was to design and code a quadraphonic (four tap) delay in C for use as a Max/Msp object. The delay takes an incoming mono signal and allows the user to set four delay times which correspond to the the four outputs.</p>
+
+<p><strong>Source code and Object</strong>
+<a href="https://sites.google.com/site/jordanrsblog/cpmt/quaddelaysrc.zip">
+Download</a></p>
+
+<p>Built using Max/Msp SDK 5.1.6, tested on Windows 7 with Max/Msp 5.0.7</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Real Time Systems Piece 2 - PS3 Dualshock 3 as a Performance Controller]]></title>
+    <link href="http://jordanrs.github.io/blog/2010/12/18/Real-Time-Systems-Piece-2---PS3-Dualshock-3-as-a-Performance-Controller/"/>
+    <updated>2010-12-18T00:00:00+00:00</updated>
+    <id>http://jordanrs.github.io/blog/2010/12/18/Real-Time-Systems-Piece-2&#8212;PS3-Dualshock-3-as-a-Performance-Controller</id>
+    <content type="html"><![CDATA[<p>Building on Submission 1 this performance piece use the PS3 Dualshock 3 controller as its interface. It takes full advantage of the built in tilt sensors as well as pressure triggers, analogue sticks D-pad and buttons. Functionality is best achieved through the <a href="http://www.motioninjoy.com/download">Motion In Joy driver</a> and getting the data through Max&rsquo;s <a href="http://cycling74.com/docs/max5/refpages/max-ref/hi.html">hi</a> object</p>
+
+<p><img style="display:block; margin:0px auto 10px; text-align:center;cursor:pointer; cursor:hand;width: 400px; height: 349px;" src="http://2.bp.blogspot.com/-2QQ78lprmF8/TbxmDp8h58I/AAAAAAAABWg/FzAVj6ei9GY/s400/ps3pres.jpg" border="0" alt=""id="BLOGGER_PHOTO_ID_5601464249527429058" />
+<img style="display:block; margin:0px auto 10px; text-align:center;cursor:pointer; cursor:hand;width: 400px; height: 302px;" src="http://1.bp.blogspot.com/-oPwJwKwr0PY/TbxmhIpmoeI/AAAAAAAABWo/pdf64l1zxhU/s400/ps3dev.jpg" border="0" alt=""id="BLOGGER_PHOTO_ID_5601464755985752546" /></p>
+
+<p><strong>The Final Performance</strong></p>
+
+<object type="application/x-shockwave-flash" data="http://sites.google.com/site/jordanrsblog/mp3player/player.swf" id="audioplayer3" height="24" width="290">
+<param name="movie" value="http://sites.google.com/site/jordanrsblog/mp3player/player.swf">
+<param name="FlashVars" value="playerID=3&amp;soundFile=http://sites.google.com/site/jordanrsblog/realtimesystems/piece2/rtspiece2.mp3">
+</object>
+
+
+<p><strong>Raw Max Files and Report</strong>
+<a href="https://sites.google.com/site/jordanrsblog/realtimesystems/piece2/PS3_Performance_patch.zip">
+Download</a></p>
+
+<p>Built using Max 5.0.7 and MotioninJoy 6</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Algorithmic Composition with Common Lisp Music - Piece-1]]></title>
+    <link href="http://jordanrs.github.io/blog/2010/11/15/Algorithmic-Composition-with-Common-Lisp-Music---Piece-1/"/>
+    <updated>2010-11-15T00:00:00+00:00</updated>
+    <id>http://jordanrs.github.io/blog/2010/11/15/Algorithmic-Composition-with-Common-Lisp-Music&#8212;Piece-1</id>
+    <content type="html"><![CDATA[<p>This composition was used as an inital exploration into the world of Lisp and Common Lisp Music 4 (CLM). It experiemtned with using the builtin instruments as well as instruments provided by the course lecturer. It takes loose inspiration from a piece by John Chowning with more explanation in the report. All samples used are referenced from within the source file and can be downloaded from <a href="" title="http://www.freesound.org/">www.freesound.org</a></p>
+
+<p><strong>Final Composition</strong></p>
+
+<object type="application/x-shockwave-flash" data="http://sites.google.com/site/jordanrsblog/mp3player/player.swf" id="audioplayer3" height="24" width="290">
+<param name="movie" value="http://sites.google.com/site/jordanrsblog/mp3player/player.swf">
+<param name="FlashVars" value="playerID=3&amp;soundFile=https://sites.google.com/site/jordanrsblog/algorithmiccomp/Thing1.mp3">
+<param name="quality" value="high">
+<param name="menu" value="false">
+<param name="wmode" value="transparent">
+</object>
+
+
+<p><a href="" title="https://sites.google.com/site/jordanrsblog/clmpiece1.zip">Download Source and Report</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Real Time Systems Piece 1 - Hercules DJ Steel in Max/Msp]]></title>
+    <link href="http://jordanrs.github.io/blog/2010/10/30/Real-Time-Systems-Piece-1---Hercules-DJ-Steel-in-MaxMsp/"/>
+    <updated>2010-10-30T00:00:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2010/10/30/Real-Time-Systems-Piece-1&#8212;Hercules-DJ-Steel-in-MaxMsp</id>
+    <content type="html"><![CDATA[<p><img style="display:block; margin:0px auto 10px; text-align:center;cursor:pointer; cursor:hand;width: 400px; height: 243px;" src="http://4.bp.blogspot.com/-xCsgkRVPjRk/TbxlSG3B5TI/AAAAAAAABWY/Q-m7uKspN_c/s400/hercules.jpg" border="0" alt=""id="BLOGGER_PHOTO_ID_5601463398295528754" />
+A real time performance piece built using Max/Msp. It is designed to be controlled by the <a href="http://www.hercules.com/uk/DJ-Music/bdd/p/83/dj-control-steel/">Hercules DJ Steel Controller</a> and was my first look at making real time compositions with different controllers</p>
+
+<p><strong>The final performance:</strong></p>
+
+<object type="application/x-shockwave-flash" data="http://sites.google.com/site/jordanrsblog/mp3player/player.swf" id="audioplayer2" height="24" width="290">
+
+<param name="movie" value="http://sites.google.com/site/jordanrsblog/mp3player/player.swf">
+<param name="FlashVars" value="playerID=2&amp;soundFile=http://sites.google.com/site/jordanrsblog/realtimesystems/piece1/rtsassesment1.mp3">
+<param name="quality" value="high">
+<param name="menu" value="false">
+<param name="wmode" value="transparent">
+</object>
+
+
+<p><strong>The raw Max files and report</strong></p>
+
+<p><a href="https://sites.google.com/site/jordanrsblog/realtimesystems/piece1/RTSP_Assessment_1.zip">Download</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Fourier Analysis and MATLAB - Phase Vocoder]]></title>
+    <link href="http://jordanrs.github.io/blog/2010/10/20/Fourier-Analysis-and-MATLAB---Phase-Vocoder/"/>
+    <updated>2010-10-20T00:00:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2010/10/20/Fourier-Analysis-and-MATLAB&#8212;Phase-Vocoder</id>
+    <content type="html"><![CDATA[<p>My first go at using MATLAB as a language was to build a phase vocoder with variable Q (below 1.5 works best) and create a GUI for easier use. It contains two methods of stretching  Both versions of the source code are attached (GUI and non-GUI). Isn&rsquo;t the fastest implementation so I would advise against trying to stretch large files. There are two algorithms included for stretching, the first use Overlap add of windows to create the stretch where as the other takes into account phase modifications</p>
+
+<p>Non-GUI implementation <a href="https://sites.google.com/site/jordanrsblog/musicalfourier/phase_vocoder_src.zip">
+Download</a></p>
+
+<p>GUI Implementation <a href="https://sites.google.com/site/jordanrsblog/musicalfourier/GUI_phase_vocoder_src.zip">Download</a></p>
 ]]></content>
   </entry>
   
