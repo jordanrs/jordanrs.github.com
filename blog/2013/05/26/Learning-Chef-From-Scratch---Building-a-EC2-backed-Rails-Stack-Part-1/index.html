@@ -1,0 +1,260 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Learning Chef From Scratch - Building a EC2 backed Rails Stack Part 1 - Jordan Rogers-Smith</title>
+	<meta name="author" content="Jordan Rogers-Smith">
+
+	
+	<meta name="description" content="Setup Chef and Creating a EC2 instance">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Jordan Rogers-Smith" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://jordanrs.github.io/blog/2013/05/26/Learning-Chef-From-Scratch---Building-a-EC2-backed-Rails-Stack-Part-1/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("jordanrs2k1@gmail.com") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+</div>
+<hgroup>
+  <h1><a href="/">Jordan Rogers-Smith</a></h1>
+  
+    <h2>Coding away day to day.</h2>
+  
+</hgroup>
+
+
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		
+		<a class="twitter" href="http://twitter.com/JRogersSmith" title="Twitter">Twitter</a>
+		
+		
+		<a class="github" href="https://github.com/jordanrs" title="GitHub">GitHub</a>
+		
+		
+		
+		<a class="linkedin" href="http://www.linkedin.com/in/jordanrogerssmith">LinkedIn</a>
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Learning Chef From Scratch - Building a EC2 Backed Rails Stack Part 1</h1>
+	<h2 class="sub_heading" itemprop="name">Setup Chef and Creating a EC2 instance</h2>
+	<div class="entry-content" itemprop="articleBody"><p>Chef is a fantastic tool for automating the process bootstrapping a fresh server so that once you have got it running how you want, replicating that configuration and setup requires very little effort what so ever.</p>
+
+<p>Chef has two different use cases, Chef server (wether that be hosted or private) or Chef Solo. Chef solo allows you to interact directly with the machine your wanting to administrate and is very useful for bootstrapping a vagrant image for instance. Chef Server offers a centralised place for you to push your configurations and recipes so that when working with multiple servers (known as nodes or chef clients) you don&rsquo;t have to update each one individually as each client can be set to poll to server for any updates.</p>
+
+<p>For my first time using chef i through myself straight in at the deep end in that i wanted to put together a full working EC2 instance that would run my usual heroku stack (nginx, unicorn, ruby, rails and postgres). I opted for using Opscodes free Chef hosted plan for my Chef server and got straight to it.</p>
+
+<h1>Getting Set Up</h1>
+
+<p>First of head over to <a href="http://www.opscode.com">www.opscode.com</a> and sign up for a free account. There will be three files to download. Your user key, your organisation key and your preconfigured knife.rb file. Download these files and keep them safe for now, we will use them in just a second.</p>
+
+<p>Next we need to get our bootstrapped Chef Repository, this is our blank slate to begin building up our server and its configuration. Grab a empty <a href="http://github.com/opscode/chef-repo/">Chef Repo</a> from opscodes git hub and clone it to where ever you desire.</p>
+
+<pre><code>git clone git@github.com:opscode/chef-repo.git
+</code></pre>
+
+<p>Next we need to move our .pem and knife.rb files into a .chef folder in this repository. You will most likely have to make the .chef folder.</p>
+
+<p><img src="/images/post_images/23-05-26-chef/folder_layout.png" alt="Folder Layout" /></p>
+
+<h1>Gem Time</h1>
+
+<p>Now we have our directory structure in place we should install the gems we need to make the magic happen. A complete guide to setting up chef can be found here <a href="LINK%20TO%20CHEG"></a> as i wont go into the details of installing ruby, rvm, bundler etc to enable the installation of gems.</p>
+
+<p>The main gems needed are the chef and knife-ec2 gems</p>
+
+<p><a href="http://github.com/opscode/chef-repo/tarball/master">http://github.com/opscode/chef-repo/tarball/master</a></p>
+
+<p>and in a .chef folder which has your shared keys, your user keys and your organisation validator key and your knife.rb</p>
+
+<p>Hosted chef server</p>
+
+<p><a href="http://www.agileweboperations.com/amazon-ec2-instances-with-opscode-chef-using-knife">http://www.agileweboperations.com/amazon-ec2-instances-with-opscode-chef-using-knife</a></p>
+
+<p><a href="http://wiki.opscode.com/display/chef/EC2+Bootstrap+Fast+Start+Guide">http://wiki.opscode.com/display/chef/EC2+Bootstrap+Fast+Start+Guide</a></p>
+
+<h1>Creating a EC2 instance with knife</h1>
+
+<p>A few prerequisites are needed before we can create instances with knife. First you will need a AWS account which is free and comes with a <a href="http://aws.amazon.com/free/">free usage tier for the first year</a>. Once setup you will need to include your amazon API key and secret into your knife.rb file</p>
+
+<pre><code>knife[:aws_access_key_id] = "AAAAAAAAAAAAAAAAAAA"
+knife[:aws_secret_access_key] = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+</code></pre>
+
+<p>Next set up your default security policy or an alternative one which we can specify when creating the instance, to allow access to port 22, 80 and 443. This is so HTTP, HTTPS and SSH can all be accessed on the created instance.</p>
+
+<p>In the same dashboard go to key pairs panel and create a new security key. The file will automatically download and should be moved into your ~/.ssh folder and the permissions changed to 600 (chmod 600 ~/.ssh/AWS-KEY.pem)</p>
+
+<p>Finally decided what operating system, location, storage and instance size you want. All of these factor into which AMI will be installed on our instance. For instance <a href="http://cloud-images.ubuntu.com/locator/ec2/">this site</a> put together by ubuntu gives you a list of all the different AMIs for the numerous combination of these factors with ubuntu as your base OS.</p>
+
+<p>In my case i went for ami-7962730d which is a eu-west 32bit version of Ubuntu 12.04 for a micro instance.</p>
+
+<p>We are now ready to create our instance using knife, the command to do that is quite large but I shall show you a few things you can move into the knife folder as defaults to make it more manageable</p>
+
+<pre><code># run this command to begin boot strapping our server.
+
+knife ec2 server create -I ami-7962730d -f t1.micro -S knife -i ~/.ssh/AWS-KEY.pem --ssh-user ubuntu --region eu-west-1 -Z eu-west-1a
+</code></pre>
+
+<p>If you chose a different security group other than the default you can specify it here with the -G &lsquo;group&rsquo; argument and the &mdash;ssh-user argument is ubuntu as that is the default user that comes with the AMI and is needed for us to be able to ssh in with.</p>
+
+<p>All that happens now is a new instance is created and the OS is installed once complete chef automatically SSHs in to the new machine and install chef-client on the server, registers it on on chef server and checks to see if we have specified any roles or recipes, in this instance we haven&rsquo;t.</p>
+
+<h2>Shortening the creation command</h2>
+
+<p>Add the <strong>AWS-KEY.pem</strong> to your ssh agent means you can remove the <code>-i ~/.ssh/AWS-KEY.pem</code> from the command</p>
+
+<pre><code>ssh-add ~/.ssh/AWS-KEY.pem
+
+# Command now becomes
+knife ec2 server create -I ami-7962730d -f t1.micro -S knife --ssh-user ubuntu --region eu-west-1 -Z eu-west-1a
+</code></pre>
+
+<p>Add <code>knife[:aws_ssh_key_id] = "AWS-KEY"</code> to knife.rb and we can remove -S knife</p>
+
+<pre><code>knife ec2 server create -I ami-7962730d -f t1.micro --ssh-user ubuntu --region eu-west-1 -Z eu-west-1a
+</code></pre>
+
+<p>And finally add availability_zone and region to knife.rb</p>
+
+<pre><code>knife[:availability_zone]     = 'eu-west-1a'
+knife[:region]                = 'eu-west-1'
+</code></pre>
+
+<p>to produce the final command</p>
+
+<pre><code>knife ec2 server create -I ami-7962730d -f t1.micro --ssh-user ubuntu
+</code></pre>
+
+<p>After all its installation is done you should see a read out like so, make a note of the <strong>Instance ID</strong> as this is what chef uses to identify this node.</p>
+
+<pre><code>Instance ID: i-XXXXXXXX
+Flavor: t1.micro
+Image: ami-7962730d
+Region: eu-west-1
+Availability Zone: eu-west-1a
+Security Groups: default
+Tags: {"Name"=&gt;"i-XXXXXXXX"}
+SSH Key: chef-test
+
+Waiting for instance..............................................
+Public DNS Name: ecX-XX-XXX-XXX-X.eu-west-1.compute.amazonaws.com
+Public IP Address: XX.XXX.XXX.X
+Private DNS Name: ip-XX-XX-XXX-XXX.eu-west-1.compute.internal
+Private IP Address: XX.XX.XXX.XXX
+
+Waiting for sshd....done
+Bootstrapping Chef on ec2-XX-XXX-XXX-X.eu-west-1.compute.amazonaws.com
+</code></pre>
+
+<p>So now we have a node/client associated with our chef server we can begin building up our cookbooks to install our stack which i shall cover in <a href="/blog/2013/06/18/learning-chef-from-scratch-building-a-ec2-backed-rails-stack-part-2/">Part 2</a>.</p>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2013 - Jordan Rogers-Smith -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+			<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'jordanrs-blog';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>
