@@ -4,7 +4,7 @@
   <title><![CDATA[Jordan Rogers-Smith]]></title>
   <link href="http://jordanrs.github.io/atom.xml" rel="self"/>
   <link href="http://jordanrs.github.io/"/>
-  <updated>2013-06-22T19:33:41+01:00</updated>
+  <updated>2013-07-03T09:17:12+01:00</updated>
   <id>http://jordanrs.github.io/</id>
   <author>
     <name><![CDATA[Jordan Rogers-Smith]]></name>
@@ -14,75 +14,14 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Learning Chef From Scratch - Building a EC2 backed Rails Stack Part 2]]></title>
-    <link href="http://jordanrs.github.io/blog/2013/06/18/learning-chef-from-scratch-building-a-ec2-backed-rails-stack-part-2/"/>
-    <updated>2013-06-18T08:29:00+01:00</updated>
-    <id>http://jordanrs.github.io/blog/2013/06/18/learning-chef-from-scratch-building-a-ec2-backed-rails-stack-part-2</id>
-    <content type="html"><![CDATA[<p>To manage our cookbooks and first gem install berkshelf <a href="berkshelf">!! LINK BERKSHELF!!</a> this is to cookbooks what bundler is to gems. So do <code>gem install bershelf</code> then run berks init in our chef-repo route to create a Berkshelf file. Once you know what software you wish to install, find the relevant cookbooks on <a href="">OPSCODE SITE LINK</a> and add the them to your Berks file. Berkshelf docs are very through in what you can do with it so its worth reading.</p>
-
-<p>Once you have the cook books you want in your Berksfile run <code>berks install</code> to install them. Like gems they are stored away from the project so dont eb surpriesd that our cookboks fodler is still empty.</p>
-
-<p>and finally do <code>berks upload</code> to have our cookbooks uploaded to our chef server so they are available to any of the clients later on.</p>
-
-<h1>Setting up a role</h1>
-
-<h1>Creating our first Cookbook</h1>
-
-<h1>Writing a recipe</h1>
-
-<h1>Turning our instance into its role</h1>
-
-<p>The most important thing i think to understand about chef is that it is IDEPOATENST. That is, if a command has been run once and was successfull, it should not be run again. Its worth bearing this in mind while writing recipies and why its useful to get familiar with Chefs or another Cookbooks DSL</p>
-
-<p>rake install &ndash; updates the cookbooks and roles</p>
-
-<p>knife ssh name:i-2853dd65 -x ubuntu &ldquo;sudo chef-client&rdquo; this tells our chef client (the server we are configuring) to update its self from the server</p>
-
-<p><a href="http://docs.opscode.com/chef_client.html">http://docs.opscode.com/chef_client.html</a> how to set chef-client up to run as a deamon that by default gets called every</p>
-
-<p>So some cook books wont have a recipe, so how do we get to use them in cookbook</p>
-
-<p>like applciation and application_ruby both have no recipes so we create a new cook book and recipe that dpends on these cook books</p>
-
-<pre><code>depends "application"
-depends "application_ruby"
-</code></pre>
-
-<p>INCLUDE FILES FROM REPO AND HEAVILY COMMENT THEM</p>
-
-<p>when create a server with knife we define it a role such as webserver, we than create a role and define a run list which is the order things will be installed in by chef</p>
-
-<pre><code>name "webserver"
-description "basic example"
-run_list(
-  "recipe[apt]",
-  "recipe[build-essential]",
-  "recipe[nginx]",
-  "recipe[ruby_build]",
-  "recipe[example]"
-)
-</code></pre>
-
-<p>we can also override the default attributes of any of these cook books</p>
-
-<p>at the bottom we have our</p>
-
-<p>since we didnt spcify a role when the server was created we can chage this by doing knife node list &ndash; get the identifier and then knife node edit <identifer>  at the bottom</p>
-
-<p>&ldquo;run_list&rdquo;: [
-  &ldquo;role[webserver]&rdquo;
-]</p>
-
-<p>now when ever we run sudo chef-client configures this as the webserver role</p>
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[Testing Facebook login and permissions with Capybara]]></title>
     <link href="http://jordanrs.github.io/blog/2013/06/01/testing-facebook-login-and-permissions-with-capybara/"/>
     <updated>2013-06-01T10:27:00+01:00</updated>
     <id>http://jordanrs.github.io/blog/2013/06/01/testing-facebook-login-and-permissions-with-capybara</id>
     <content type="html"><![CDATA[<p>Having begun to use Capybara and Rspec quiet heavily there have been a few challenges that need to be overcome. One of these is that the applications I develop day to day are heavily intertwined with Facebook and user flow relies heavily on Facebook login and accepting permissions at various points throughout the application.</p>
+
+<!-- more -->
+
 
 <p>Outside of the Facebook chrome (the non iframed version of the application) its quite easy interact with these events as if we were a normal user.</p>
 
@@ -253,6 +192,9 @@ end
 <p>Chef has two different use cases, Chef server (wether that be hosted or private) or Chef Solo. Chef solo allows you to interact directly with the machine your wanting to administrate and is very useful for bootstrapping a vagrant image for instance. Chef Server offers a centralised place for you to push your configurations and recipes so that when working with multiple servers (known as nodes or chef clients) you don&rsquo;t have to update each one individually as each client can be set to poll to server for any updates.</p>
 
 <p>For my first time using chef i through myself straight in at the deep end in that i wanted to put together a full working EC2 instance that would run my usual heroku stack (nginx, unicorn, ruby, rails and postgres). I opted for using Opscodes free Chef hosted plan for my Chef server and got straight to it.</p>
+
+<!-- more -->
+
 
 <h1>Getting Set Up</h1>
 
