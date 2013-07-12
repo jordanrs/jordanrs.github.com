@@ -112,19 +112,13 @@
 
 <h1>Gem Time</h1>
 
-<p>Now we have our directory structure in place we should install the gems we need to make the magic happen. A complete guide to setting up chef can be found here <a href="LINK%20TO%20CHEG"></a> as i wont go into the details of installing ruby, rvm, bundler etc to enable the installation of gems.</p>
+<p>Now we have our directory structure in place we should install the gems we need to make the magic happen. A complete guide to setting up chef can be found <a href="http://docs.opscode.com/install_workstation.html">here</a> as I wont go into the details of installing ruby, rvm, bundler etc to enable the installation of gems.</p>
 
-<p>The main gems needed are the chef and knife-ec2 gems</p>
+<p>The main gems needed are the <code>chef</code> and <code>knife-ec2</code> gems.</p>
 
-<p><a href="http://github.com/opscode/chef-repo/tarball/master">http://github.com/opscode/chef-repo/tarball/master</a></p>
-
-<p>and in a .chef folder which has your shared keys, your user keys and your organisation validator key and your knife.rb</p>
-
-<p>Hosted chef server</p>
-
-<p><a href="http://www.agileweboperations.com/amazon-ec2-instances-with-opscode-chef-using-knife">http://www.agileweboperations.com/amazon-ec2-instances-with-opscode-chef-using-knife</a></p>
-
-<p><a href="http://wiki.opscode.com/display/chef/EC2+Bootstrap+Fast+Start+Guide">http://wiki.opscode.com/display/chef/EC2+Bootstrap+Fast+Start+Guide</a></p>
+<pre><code>gem install chef
+gem install kinfe-ec2
+</code></pre>
 
 <h1>Creating a EC2 instance with knife</h1>
 

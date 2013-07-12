@@ -4,7 +4,7 @@
   <title><![CDATA[Jordan Rogers-Smith]]></title>
   <link href="http://jordanrs.github.io/atom.xml" rel="self"/>
   <link href="http://jordanrs.github.io/"/>
-  <updated>2013-07-03T09:17:12+01:00</updated>
+  <updated>2013-07-12T16:38:00+01:00</updated>
   <id>http://jordanrs.github.io/</id>
   <author>
     <name><![CDATA[Jordan Rogers-Smith]]></name>
@@ -12,6 +12,76 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ActiveAdmin Form Preview with Javascript FormData]]></title>
+    <link href="http://jordanrs.github.io/blog/2013/07/10/activeadmin-form-preview-with-javascript-formdata/"/>
+    <updated>2013-07-10T20:46:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2013/07/10/activeadmin-form-preview-with-javascript-formdata</id>
+    <content type="html"><![CDATA[<p>One of my recent tasks has been to build a preview of a form submission into an existing application. Having done something similar in the past involving changing the forms action with javascript, ajax posting the form (including images), generating a preview, changing the form back blaa blaa blaa blaa blaaaaa. I wanted to find a cleaner way to a) deal with the preview and b) ajaxing blob data (image/files) and thanks to not having to support IE implemented the following procedure using FormData and XMLHttpRequest 2.</p>
+
+<p>FormData is awesome, give it a form including blob data and it&rsquo;ll return an object that can be attached to $.ajax or standard XMLHttpRequest.send and all the caveats and nuiances of ajax forms disappear in the blink of an eye.</p>
+
+<pre><code>// something like
+var fd = FormData.new( $('form')[0] );
+
+$.ajax({
+  ...
+  url: '/iwantdata',
+  data: fd, 
+  ...
+})
+
+// or
+
+var ajax = new XMLHttpRequest();
+ajax.open("POST", "/iwantdata");
+ajax.send(fd));
+</code></pre>
+
+<p>My stratergy then was simple, take more fieldset, clone it, wrap it in a formtag (all in memory), create the formdata object and away we go images and all. So my first attempt looked as follows.</p>
+
+<pre><code>var buildFormData = function($fieldset){
+  var $clone = $('#fieldset').clone({ deepWithDataAndEvents: true});
+  var $form = $('&lt;form /&gt;).append($clone);
+  var fd = new FormData($form[0])
+  return fd
+};
+
+var sendPreview = function(formData){
+  $.ajax({
+   url: "/iwantdata",
+   type: "POST",
+   data: formData,
+   processData: false,
+   contentType: false,
+  }).done(weDidIt);
+};
+</code></pre>
+
+<p>This worked great at first all the data was being submitted correctly excpet file fields. These werent being copied over at all due to the caveats of browser security and cloning file fields it seems. So instead of doing it all in memory, which would have been the ideal, I had to use the file fields in the DOM but didnt want to have to pull the form apart and put it back together. Even though the html specification has a big NO NO when it comes to nested form tags it is possible to create them with javascript and this is what i did to build my in place subsection FormData.</p>
+
+<pre><code>var buildFormData = function($fieldset){
+  var $form = $fieldset.wrap('&lt;form /&gt;').closest('form');
+  var fd = new FormData($form[0])
+  $fieldset.unwrap();
+  return fd
+};
+
+var sendPreview = function(formData){
+  $.ajax({
+   url: "/iwantdata",
+   type: "POST",
+   data: formData,
+   processData: false,
+   contentType: false,
+  }).done(weDidIt);
+};
+</code></pre>
+
+<p>Not ideal but this solution was a simple way to create a FormData from a subset of fields on the fly which includes all the file field information also.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Testing Facebook login and permissions with Capybara]]></title>
@@ -211,19 +281,13 @@ end
 
 <h1>Gem Time</h1>
 
-<p>Now we have our directory structure in place we should install the gems we need to make the magic happen. A complete guide to setting up chef can be found here <a href="LINK%20TO%20CHEG"></a> as i wont go into the details of installing ruby, rvm, bundler etc to enable the installation of gems.</p>
+<p>Now we have our directory structure in place we should install the gems we need to make the magic happen. A complete guide to setting up chef can be found <a href="http://docs.opscode.com/install_workstation.html">here</a> as I wont go into the details of installing ruby, rvm, bundler etc to enable the installation of gems.</p>
 
-<p>The main gems needed are the chef and knife-ec2 gems</p>
+<p>The main gems needed are the <code>chef</code> and <code>knife-ec2</code> gems.</p>
 
-<p><a href="http://github.com/opscode/chef-repo/tarball/master">http://github.com/opscode/chef-repo/tarball/master</a></p>
-
-<p>and in a .chef folder which has your shared keys, your user keys and your organisation validator key and your knife.rb</p>
-
-<p>Hosted chef server</p>
-
-<p><a href="http://www.agileweboperations.com/amazon-ec2-instances-with-opscode-chef-using-knife">http://www.agileweboperations.com/amazon-ec2-instances-with-opscode-chef-using-knife</a></p>
-
-<p><a href="http://wiki.opscode.com/display/chef/EC2+Bootstrap+Fast+Start+Guide">http://wiki.opscode.com/display/chef/EC2+Bootstrap+Fast+Start+Guide</a></p>
+<pre><code>gem install chef
+gem install kinfe-ec2
+</code></pre>
 
 <h1>Creating a EC2 instance with knife</h1>
 

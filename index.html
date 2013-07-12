@@ -7,7 +7,7 @@
 	<meta name="author" content="Jordan Rogers-Smith">
 
 	
-	<meta name="description" content="Jun 1st, 2013 Testing Facebook Login and Permissions With Capybara Having begun to use Capybara and Rspec quiet heavily there have been a few &hellip;">
+	<meta name="description" content="Jul 10th, 2013 ActiveAdmin Form Preview With Javascript FormData One of my recent tasks has been to build a preview of a form submission into an &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -87,6 +87,99 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-10T20:46:00+01:00" data-updated="true" itemprop="datePublished">Jul 10<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/07/10/activeadmin-form-preview-with-javascript-formdata/" itemprop="url">ActiveAdmin Form Preview With Javascript FormData</a></h1>
+	<h2 class="sub_heading" itemprop="name"></h2>
+	<div class="entry-content" itemprop="articleBody">
+		<p>One of my recent tasks has been to build a preview of a form submission into an existing application. Having done something similar in the past involving changing the forms action with javascript, ajax posting the form (including images), generating a preview, changing the form back blaa blaa blaa blaa blaaaaa. I wanted to find a cleaner way to a) deal with the preview and b) ajaxing blob data (image/files) and thanks to not having to support IE implemented the following procedure using FormData and XMLHttpRequest 2.</p>
+
+<p>FormData is awesome, give it a form including blob data and it&rsquo;ll return an object that can be attached to $.ajax or standard XMLHttpRequest.send and all the caveats and nuiances of ajax forms disappear in the blink of an eye.</p>
+
+<pre><code>// something like
+var fd = FormData.new( $('form')[0] );
+
+$.ajax({
+  ...
+  url: '/iwantdata',
+  data: fd, 
+  ...
+})
+
+// or
+
+var ajax = new XMLHttpRequest();
+ajax.open("POST", "/iwantdata");
+ajax.send(fd));
+</code></pre>
+
+<p>My stratergy then was simple, take more fieldset, clone it, wrap it in a formtag (all in memory), create the formdata object and away we go images and all. So my first attempt looked as follows.</p>
+
+<pre><code>var buildFormData = function($fieldset){
+  var $clone = $('#fieldset').clone({ deepWithDataAndEvents: true});
+  var $form = $('&lt;form /&gt;).append($clone);
+  var fd = new FormData($form[0])
+  return fd
+};
+
+var sendPreview = function(formData){
+  $.ajax({
+   url: "/iwantdata",
+   type: "POST",
+   data: formData,
+   processData: false,
+   contentType: false,
+  }).done(weDidIt);
+};
+</code></pre>
+
+<p>This worked great at first all the data was being submitted correctly excpet file fields. These werent being copied over at all due to the caveats of browser security and cloning file fields it seems. So instead of doing it all in memory, which would have been the ideal, I had to use the file fields in the DOM but didnt want to have to pull the form apart and put it back together. Even though the html specification has a big NO NO when it comes to nested form tags it is possible to create them with javascript and this is what i did to build my in place subsection FormData.</p>
+
+<pre><code>var buildFormData = function($fieldset){
+  var $form = $fieldset.wrap('&lt;form /&gt;').closest('form');
+  var fd = new FormData($form[0])
+  $fieldset.unwrap();
+  return fd
+};
+
+var sendPreview = function(formData){
+  $.ajax({
+   url: "/iwantdata",
+   type: "POST",
+   data: formData,
+   processData: false,
+   contentType: false,
+  }).done(weDidIt);
+};
+</code></pre>
+
+<p>Not ideal but this solution was a simple way to create a FormData from a subset of fields on the fly which includes all the file field information also.</p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -704,41 +797,6 @@ heroku config:add ASSET_SYNC_EXISTING_REMOTE_FILES=keep
 <p>notice the symbol is wrapped in a string</p>
 
 <p>And thats it, your uploaded content will now be served over CloudFront and not directly from s3</p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-04-09T00:00:00+01:00" data-updated="true" itemprop="datePublished">Apr 9<span>th</span>, 2012</time></div>
-		<div class="tags">
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2012/04/09/final-year-project-video-demonstration/" itemprop="url">Final Year Project Video Demonstration</a></h1>
-	<h2 class="sub_heading" itemprop="name"></h2>
-	<div class="entry-content" itemprop="articleBody">
-		<p>For any one who wishes to know what Music Technology at Edinburgh actually means? well this is what i created for my final year project, a literal creative fusion of music and technology! Enjoy!</p>
-
-<iframe width="560" height="315" src="http://www.youtube.com/embed/DMitUrW-OXI" frameborder="0" > </iframe>
-
 
 		
 		
