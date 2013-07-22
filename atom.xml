@@ -4,7 +4,7 @@
   <title><![CDATA[Jordan Rogers-Smith]]></title>
   <link href="http://jordanrs.github.io/atom.xml" rel="self"/>
   <link href="http://jordanrs.github.io/"/>
-  <updated>2013-07-22T16:16:41+01:00</updated>
+  <updated>2013-07-22T16:17:48+01:00</updated>
   <id>http://jordanrs.github.io/</id>
   <author>
     <name><![CDATA[Jordan Rogers-Smith]]></name>
@@ -598,7 +598,7 @@ With this class its then easily to make a test_user factory as you would a rails
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Installing Guard and Spork for auto running of specs']]></title>
+    <title type="html"><![CDATA[Installing Guard & Spork for auto running of specs]]></title>
     <link href="http://jordanrs.github.io/blog/2013/04/25/installing-guard-and-spork-for-auto-running-of-tests/"/>
     <updated>2013-04-25T00:00:00+01:00</updated>
     <id>http://jordanrs.github.io/blog/2013/04/25/installing-guard-and-spork-for-auto-running-of-tests</id>
