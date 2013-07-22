@@ -92,26 +92,43 @@
 
 <p>A nice patch by <a href="https://coderwall.com/p/qzlssg">David Collom</a> allows us to customise what is displayed rather then just hiding it in CSS. The patch is as follows and i just placed it at the top of one of my <code>admin/###.rb</code> files</p>
 
-<pre><code>module ActiveAdmin
-  module Views
-    class PaginatedCollection
-      def build_pagination_with_formats(options)
-        div :id =&gt; "index_footer" do
-          build_pagination
-          div(page_entries_info(options).html_safe, :class =&gt; "pagination_information")
-          build_download_format_links([:csv]) unless @download_links == false
-        end
-      end
-    end
-  end
-end
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">ActiveAdmin</span>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">Views</span>
+</span><span class='line'>    <span class="k">class</span> <span class="nc">PaginatedCollection</span>
+</span><span class='line'>      <span class="k">def</span> <span class="nf">build_pagination_with_formats</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">div</span> <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s2">&quot;index_footer&quot;</span> <span class="k">do</span>
+</span><span class='line'>          <span class="n">build_pagination</span>
+</span><span class='line'>          <span class="n">div</span><span class="p">(</span><span class="n">page_entries_info</span><span class="p">(</span><span class="n">options</span><span class="p">)</span><span class="o">.</span><span class="n">html_safe</span><span class="p">,</span> <span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s2">&quot;pagination_information&quot;</span><span class="p">)</span>
+</span><span class='line'>          <span class="n">build_download_format_links</span><span class="p">(</span><span class="o">[</span><span class="ss">:csv</span><span class="o">]</span><span class="p">)</span> <span class="k">unless</span> <span class="vi">@download_links</span> <span class="o">==</span> <span class="kp">false</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>To customise what is displayed simplay change the array passing into <code>build_download_format_links()</code></p>
 
-<pre><code>build_download_format_links([:csv]) 
-build_download_format_links([:csv, :json])
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">build_download_format_links</span><span class="p">(</span><span class="o">[</span><span class="ss">:csv</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="n">build_download_format_links</span><span class="p">(</span><span class="o">[</span><span class="ss">:csv</span><span class="p">,</span> <span class="ss">:json</span><span class="o">]</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
 </div>
 
 </article>

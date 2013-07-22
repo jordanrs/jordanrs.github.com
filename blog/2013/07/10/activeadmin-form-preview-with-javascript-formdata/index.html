@@ -90,64 +90,119 @@
 	<h2 class="sub_heading" itemprop="name"></h2>
 	<div class="entry-content" itemprop="articleBody"><p>One of my recent tasks has been to build a preview of a form submission into an existing application. Having done something similar in the past involving changing the forms action with javascript, ajax posting the form (including images), generating a preview, changing the form back blaa blaa blaa blaa blaaaaa. I wanted to find a cleaner way to a) deal with the preview and b) ajaxing blob data (image/files) and thanks to not having to support IE implemented the following procedure using FormData and XMLHttpRequest 2.</p>
 
+<!-- more -->
+
+
 <p>FormData is awesome, give it a form including blob data and it&rsquo;ll return an object that can be attached to $.ajax or standard XMLHttpRequest.send and all the caveats and nuiances of ajax forms disappear in the blink of an eye.</p>
 
-<pre><code>// something like
-var fd = FormData.new( $('form')[0] );
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// something like</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">fd</span> <span class="o">=</span> <span class="nx">FormData</span><span class="p">.</span><span class="k">new</span><span class="p">(</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+</span><span class='line'>  <span class="p">...</span>
+</span><span class='line'>  <span class="nx">url</span><span class="o">:</span> <span class="s1">&#39;/iwantdata&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">data</span><span class="o">:</span> <span class="nx">fd</span><span class="p">,</span>
+</span><span class='line'>  <span class="p">...</span>
+</span><span class='line'><span class="p">})</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// or</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">ajax</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XMLHttpRequest</span><span class="p">();</span>
+</span><span class='line'><span class="nx">ajax</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="s2">&quot;/iwantdata&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">ajax</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">fd</span><span class="p">));</span>
+</span></code></pre></td></tr></table></div></figure>
 
-$.ajax({
-  ...
-  url: '/iwantdata',
-  data: fd, 
-  ...
-})
-
-// or
-
-var ajax = new XMLHttpRequest();
-ajax.open("POST", "/iwantdata");
-ajax.send(fd));
-</code></pre>
 
 <p>My stratergy then was simple, take more fieldset, clone it, wrap it in a formtag (all in memory), create the formdata object and away we go images and all. So my first attempt looked as follows.</p>
 
-<pre><code>var buildFormData = function($fieldset){
-  var $clone = $('#fieldset').clone({ deepWithDataAndEvents: true});
-  var $form = $('&lt;form /&gt;).append($clone);
-  var fd = new FormData($form[0])
-  return fd
-};
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">buildFormData</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$fieldset</span><span class="p">){</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">$clone</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#fieldset&#39;</span><span class="p">).</span><span class="nx">clone</span><span class="p">({</span> <span class="nx">deepWithDataAndEvents</span><span class="o">:</span> <span class="kc">true</span><span class="p">});</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">$form</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="err">&#39;</span><span class="o">&lt;</span><span class="nx">form</span> <span class="o">/&gt;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">$clone</span><span class="p">);</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">fd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FormData</span><span class="p">(</span><span class="nx">$form</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">fd</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">sendPreview</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">formData</span><span class="p">){</span>
+</span><span class='line'>  <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+</span><span class='line'>   <span class="nx">url</span><span class="o">:</span> <span class="s2">&quot;/iwantdata&quot;</span><span class="p">,</span>
+</span><span class='line'>   <span class="nx">type</span><span class="o">:</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span>
+</span><span class='line'>   <span class="nx">data</span><span class="o">:</span> <span class="nx">formData</span><span class="p">,</span>
+</span><span class='line'>   <span class="nx">processData</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span><span class='line'>   <span class="nx">contentType</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span><span class='line'>  <span class="p">}).</span><span class="nx">done</span><span class="p">(</span><span class="nx">weDidIt</span><span class="p">);</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
 
-var sendPreview = function(formData){
-  $.ajax({
-   url: "/iwantdata",
-   type: "POST",
-   data: formData,
-   processData: false,
-   contentType: false,
-  }).done(weDidIt);
-};
-</code></pre>
+
+<p></p>
 
 <p>This worked great at first all the data was being submitted correctly excpet file fields. These werent being copied over at all due to the caveats of browser security and cloning file fields it seems. So instead of doing it all in memory, which would have been the ideal, I had to use the file fields in the DOM but didnt want to have to pull the form apart and put it back together. Even though the html specification has a big NO NO when it comes to nested form tags it is possible to create them with javascript and this is what i did to build my in place subsection FormData.</p>
 
-<pre><code>var buildFormData = function($fieldset){
-  var $form = $fieldset.wrap('&lt;form /&gt;').closest('form');
-  var fd = new FormData($form[0])
-  $fieldset.unwrap();
-  return fd
-};
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">buildFormData</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$fieldset</span><span class="p">){</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">$form</span> <span class="o">=</span> <span class="nx">$fieldset</span><span class="p">.</span><span class="nx">wrap</span><span class="p">(</span><span class="s1">&#39;&lt;form /&gt;&#39;</span><span class="p">).</span><span class="nx">closest</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">);</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">fd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FormData</span><span class="p">(</span><span class="nx">$form</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</span><span class='line'>  <span class="nx">$fieldset</span><span class="p">.</span><span class="nx">unwrap</span><span class="p">();</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">fd</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">sendPreview</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">formData</span><span class="p">){</span>
+</span><span class='line'>  <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+</span><span class='line'>   <span class="nx">url</span><span class="o">:</span> <span class="s2">&quot;/iwantdata&quot;</span><span class="p">,</span>
+</span><span class='line'>   <span class="nx">type</span><span class="o">:</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span>
+</span><span class='line'>   <span class="nx">data</span><span class="o">:</span> <span class="nx">formData</span><span class="p">,</span>
+</span><span class='line'>   <span class="nx">processData</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span><span class='line'>   <span class="nx">contentType</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span><span class='line'>  <span class="p">}).</span><span class="nx">done</span><span class="p">(</span><span class="nx">weDidIt</span><span class="p">);</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
 
-var sendPreview = function(formData){
-  $.ajax({
-   url: "/iwantdata",
-   type: "POST",
-   data: formData,
-   processData: false,
-   contentType: false,
-  }).done(weDidIt);
-};
-</code></pre>
 
 <p>Not ideal but this solution was a simple way to create a FormData from a subset of fields on the fly which includes all the file field information also.</p>
 </div>

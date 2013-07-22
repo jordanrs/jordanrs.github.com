@@ -4,7 +4,7 @@
   <title><![CDATA[Category:  | Jordan Rogers-Smith]]></title>
   <link href="http://jordanrs.github.io/blog/categories//atom.xml" rel="self"/>
   <link href="http://jordanrs.github.io/"/>
-  <updated>2013-07-22T12:40:49+01:00</updated>
+  <updated>2013-07-22T16:16:41+01:00</updated>
   <id>http://jordanrs.github.io/</id>
   <author>
     <name><![CDATA[Jordan Rogers-Smith]]></name>
@@ -20,21 +20,34 @@
     <id>http://jordanrs.github.io/blog/2013/02/10/heroku-optimisations---unicorn-s3-and-cloudfront</id>
     <content type="html"><![CDATA[<p>As part of my continued learnings as a rails developer I had some free time during the week and looked into optimising heroku to make my rails apps far more efficient and effective. When i tested unicorn it showed itself to be a awesomely efficient application server giving you far more bang for your buck on heroku. Heres a quick guide of how I set up unicorn and some additional optimisations using s3 and cloudfront to serve my files that will now become my default set up to get the most out of my dynos.</p>
 
+<!-- more -->
+
+
 <p><strong>Setting up Unicorn</strong></p>
 
 <p><a href="https://github.com/defunkt/unicorn">Unicorn</a> is a HTTP server available for rails and other ruby frameworks that increase concurrency and the performance of your apps without having to increase the number of dynos (for a better explanation on the fundamentals of concurrency see this <a href="http://merbist.com/2011/02/22/concurrency-in-ruby-explained/">excellent post</a>). It does this by spawning extra processes to deal with incoming requests. It rocks, and showed itself to out perform the other popular ruby HTTP servers by a significant margin.</p>
 
 <p>1) Install the Unicorn gem into your gem file</p>
 
-<pre><code>gem 'unicorn'
+<p>```ruby Gemfile</p>
+
+<pre><code>...
+gem 'unicorn'
+...
 </code></pre>
 
-<p>2) replace the current <code>web:</code> line in your procfile with</p>
+<p><code>`
+2) replace the current</code>web:`` line in your procfile with</p>
+
+<p>```ruby Procfile</p>
 
 <pre><code>web: bundle exec unicorn_rails -p $PORT -c ./config/unicorn.rb
 </code></pre>
 
-<p>3) create a unicorn.rb file in the config directory with the following contents</p>
+<p>```
+3) create a unicorn.rb file in the config directory with the following contents</p>
+
+<p>```ruby config/unicorn.rb</p>
 
 <pre><code># If you have a very small app you may be able to
 # increase this, but in general 3 workers seems to
@@ -89,10 +102,16 @@ after_fork do |server, worker|
 end
 </code></pre>
 
+<p>```</p>
+
 <p>4) finally set up logging so it use STDOUT in the application class of config/application.rb</p>
+
+<p>```ruby config/application.rb</p>
 
 <pre><code>config.logger = Logger.new(STDOUT)
 </code></pre>
+
+<p>```</p>
 
 <p>The additions of the config file and logger changes fix a few issues that can happen when workers are being spawned/terminated, when adding certain gems like new relic or redis and making sure we get logging information reported correctly.</p>
 
@@ -106,6 +125,8 @@ end
 
 <p>1) Add the asset sync gem to your gem file</p>
 
+<p>```ruby Gemfile</p>
+
 <pre><code>group :assets do
 
 .....
@@ -115,25 +136,41 @@ end
 end
 </code></pre>
 
+<p>```</p>
+
 <p>2) in <code>production.rb</code> add our asset host</p>
+
+<p>```ruby config/environments/production.rb</p>
 
 <pre><code>config.action_controller.asset_host = "//#{ENV['FOG_DIRECTORY']}.s3.amazonaws.com"
 </code></pre>
+
+<p>```</p>
 
 <p>We chose this url over the other style <code>//s3.amazonaws.com/#{ENV['FOG_DIRECTORY']}</code> as we can then have our bucket in any region &ndash; using the second style results in a 301 moved permanently due to reasons explained <a href="https://forums.aws.amazon.com/thread.jspa?threadID=17989">here</a>. There is one caveat however and that is that the bucket name cannot contain any periods (.&rsquo;s) as this will break the ssl certificates over https.</p>
 
 <p>3) make sure the following are set in <code>production.rb</code></p>
 
-<pre><code>config.assets.digest is set to true.
-config.assets.enabled is set to true.
+<p>```ruby config/environments/production.rb</p>
+
+<pre><code>config.assets.digest = true.
+config.assets.enabled = true.
 </code></pre>
 
+<p>```</p>
+
 <p>4) One thing that we do is serve out staging assets and production assets from the same bucket. To do this we can add a asset prefix to our environments config file that declares the place the files should be stored within the bucket.</p>
+
+<p>```ruby config/environments/production.rb</p>
 
 <pre><code>config.assets.prefix = "/production/assets"
 </code></pre>
 
+<p>```</p>
+
 <p>5) add in the following environment variables on heroku</p>
+
+<p>``` bash</p>
 
 <pre><code>heroku config:add AWS_ACCESS_KEY_ID=xxxx
 heroku config:add AWS_SECRET_ACCESS_KEY=xxxx
@@ -148,21 +185,28 @@ heroku config:add ASSET_SYNC_MANIFEST=true
 heroku config:add ASSET_SYNC_EXISTING_REMOTE_FILES=keep
 </code></pre>
 
-<p>6) finally we need to make sure these variables are available to heroku at asset compilation time so run this from the console in your app root directory</p>
+<p>```
+6) finally we need to make sure these variables are available to heroku at asset compilation time so run this from the console in your app root directory</p>
+
+<p>```bash</p>
 
 <pre><code>heroku labs:enable user-env-compile -a myapp
 </code></pre>
 
-<p><strong>Setting up CloudFront to serve our files even faster</strong></p>
+<p>```
+<strong>Setting up CloudFront to serve our files even faster</strong></p>
 
 <p>Using a CDN to serve our assets instead of S3 or even the app itself will help improve load times and decrease requests to our app as assets get delivered from a data centre closer to the end users location. Setting up a CloudFront distribution for use with our rails app requires no special configuration options so selecting our bucket and using all the default options will be fine. If you&rsquo;ve used a CDN before you may have had problems expiring files once you&rsquo;ve made changes to them. Thanks to the asset pipeline that comes with rails we don&rsquo;t need to worry about this due to the unique identifier hash that gets appended onto the end of the file name before its extension.</p>
 
 <p>So after our distribution has completed downloading the assets from the bucket we will be given a CloudFront url. All we need to do once we have this url is change our asset host to point to this url</p>
 
+<p>```ruby config/environments/production.rb</p>
+
 <pre><code>config.action_controller.asset_host = "d1aa907b1q1s7qd.cloudfront.net"
 </code></pre>
 
-<p>Now when you make any changes to files and push them to heroku these new files with there unique hashes will get pushed to over to S3 and be different than the previous version. When the first user requests this new file from the CDN it wont be present so amazon is clever enough to attempt to fetch it from the bucket and save it to the CDN ready for the next person</p>
+<p>```  <br/>
+Now when you make any changes to files and push them to heroku these new files with there unique hashes will get pushed to over to S3 and be different than the previous version. When the first user requests this new file from the CDN it wont be present so amazon is clever enough to attempt to fetch it from the bucket and save it to the CDN ready for the next person</p>
 
 <p><strong>Setting up paperclip to use CloudFront</strong></p>
 
@@ -170,15 +214,21 @@ heroku config:add ASSET_SYNC_EXISTING_REMOTE_FILES=keep
 
 <p>1) Add in an :s3_host_alias</p>
 
+<p>```ruby</p>
+
 <pre><code>:s3_host_alias =&gt; 'd1aa907b1q1s7qd.cloudfront.net',
 </code></pre>
 
-<p>2) Change :url property to use &ldquo;:s3_alias_url&rdquo;</p>
+<p>```
+2) Change :url property to use &ldquo;:s3_alias_url&rdquo;</p>
+
+<p>```ruby</p>
 
 <pre><code>:url =&gt; ":s3_alias_url"
 </code></pre>
 
-<p>notice the symbol is wrapped in a string</p>
+<p>```
+notice the symbol is wrapped in a string</p>
 
 <p>And thats it, your uploaded content will now be served over CloudFront and not directly from s3</p>
 ]]></content>

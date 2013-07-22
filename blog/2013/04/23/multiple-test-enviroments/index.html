@@ -88,41 +88,68 @@
 				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 	<h1 class="title" itemprop="name">Multiple Test Environments in Rails</h1>
 	<h2 class="sub_heading" itemprop="name"></h2>
-	<div class="entry-content" itemprop="articleBody"><p>Create the file <code>config/enviroments/jordan_test.rd</code> and copy into it the contents of <code>config/enviroments/test.rb</code>
+	<div class="entry-content" itemprop="articleBody"><p>Multiple test enviorments allow for developers with different DB settings, gem desires to be able to setup and run the same test suite independently of one another.</p>
+
+<!-- more -->
+
+
+<p>Create the file <code>config/enviroments/jordan_test.rd</code> and copy into it the contents of <code>config/enviroments/test.rb</code>
 Via command line from application root:  <code>cp config/environments/test.rb config/environments/jordan_test.rb</code></p>
 
 <p>in config/database.yml add your DB settings (assumes using Postgres)</p>
 
-<pre><code>jordan_test:
-  adapter: postgresql
-  encoding: utf8
-  host: localhost
-  database: [project_name]_jordan_test
-  username: 
-  password: 
-</code></pre>
+<figure class='code'><figcaption><span>database.yml </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">jordan_test</span><span class="p">:</span>
+</span><span class='line'>  <span class="ss">adapter</span><span class="p">:</span> <span class="n">postgresql</span>
+</span><span class='line'>  <span class="ss">encoding</span><span class="p">:</span> <span class="n">utf8</span>
+</span><span class='line'>  <span class="ss">host</span><span class="p">:</span> <span class="n">localhost</span>
+</span><span class='line'>  <span class="ss">database</span><span class="p">:</span> <span class="o">[</span><span class="n">project_name</span><span class="o">]</span><span class="n">_jordan_test</span>
+</span><span class='line'>  <span class="ss">username</span><span class="p">:</span>
+</span><span class='line'>  <span class="ss">password</span><span class="p">:</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Create the new database</p>
 
-<pre><code>rake db:create:all
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake db:create:all
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>add environment to any :test specific gems or gem groups in your gem file</p>
 
-<pre><code>group :test, :jordan_test do
-    #blaaaaa........
-end
-</code></pre>
+<figure class='code'><figcaption><span>Gemfile</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">group</span> <span class="ss">:test</span><span class="p">,</span> <span class="ss">:jordan_test</span> <span class="k">do</span>
+</span><span class='line'>    <span class="c1">#blaaaaa........</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>or make a bundler group in application.rb so others envs can be added easier.</p>
 
-<pre><code>if defined?(Bundler)
-  # If you precompile assets before deploying to production, use this line
-  Bundler.require(*Rails.groups(:assets =&gt; %w(development test steve cronin sexyjordan_test), :test_envs =&gt; %w(test sexyjordan_test)))
-  # If you want your assets lazily compiled in production, use this line
-  # Bundler.require(:default, :assets, Rails.env)
-end   
-</code></pre>
+<p>
+or make a bundler group in application.rb so others envs can be added easier.</p>
+
+<figure class='code'><figcaption><span>config/application.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">if</span> <span class="n">defined?</span><span class="p">(</span><span class="no">Bundler</span><span class="p">)</span>
+</span><span class='line'>  <span class="c1"># If you precompile assets before deploying to production, use this line</span>
+</span><span class='line'>  <span class="no">Bundler</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="o">*</span><span class="no">Rails</span><span class="o">.</span><span class="n">groups</span><span class="p">(</span><span class="ss">:assets</span> <span class="o">=&gt;</span> <span class="sx">%w(development test steve cronin sexyjordan_test)</span><span class="p">,</span> <span class="ss">:test_envs</span> <span class="o">=&gt;</span> <span class="sx">%w(test sexyjordan_test)</span><span class="p">))</span>
+</span><span class='line'>  <span class="c1"># If you want your assets lazily compiled in production, use this line</span>
+</span><span class='line'>  <span class="c1"># Bundler.require(:default, :assets, Rails.env)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Usual run rake <code>db:test:prepare</code> or <code>db:test:clone</code> instead possible to run <code>rake db:migrate RAILS_ENV=jordan_test</code> perhaps make an alias for this in your .bash_profile</p>
 </div>

@@ -90,18 +90,31 @@
 	<h2 class="sub_heading" itemprop="name"></h2>
 	<div class="entry-content" itemprop="articleBody"><p>As to not forget the process of packaging up a gem and putting it on my own hosting just follow these simple tests :&ndash;</p>
 
+<!-- more -->
+
+
 <p>1) Firstly make sure the <code>PROJECT_NAME.gemspec</code> file is up to date and you have updated the <code>version.rb</code> file to the correct version.</p>
 
-<p>2) run the command <code>gem build mention-tagger.gemspec</code> or <code>rake build</code>
-that should put a gem file in the root directory with the name <code>PROJECT_NAME-VERSION.gem</code> or in <code>pkg/PROJECT_NAME-VERSION.gem</code></p>
+<p>2) run the command</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>gem build mention-tagger.gemspec
+</span><span class='line'><span class="c"># or</span>
+</span><span class='line'>rake build
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>that should put a gem file in the root directory with the name <code>PROJECT_NAME-VERSION.gem</code> or in <code>pkg/PROJECT_NAME-VERSION.gem</code></p>
 
 <p>To publish to your own gem host</p>
 
 <p>1) First set up geminabox as per these <a href="https://github.com/cwninja/geminabox">instructions</a></p>
 
-<ul>
-<li>gem install geminabox</li>
-</ul>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>gem install geminabox
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>2) then gem inabox <code>PROJECT_NAME-VERSION.gem</code></p>
@@ -116,16 +129,17 @@ that should put a gem file in the root directory with the name <code>PROJECT_NAM
 
 <p>Two ways</p>
 
-<ol>
-<li>gem &lsquo;rails&rsquo;, :git => &lsquo;git://github.com/rails/rails.git&rsquo;</li>
-</ol>
-
-
-<p>or equivalently</p>
-
-<ol>
-<li>gem &lsquo;rails&rsquo;, :githib => &lsquo;rails/rails&rsquo;</li>
-</ol>
+<figure class='code'><figcaption><span>Gemfile</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">1</span><span class="o">.</span> <span class="n">gem</span> <span class="s1">&#39;rails&#39;</span><span class="p">,</span> <span class="ss">:git</span> <span class="o">=&gt;</span> <span class="s1">&#39;git://github.com/rails/rails.git&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># or equivalently</span>
+</span><span class='line'>
+</span><span class='line'><span class="mi">2</span><span class="o">.</span> <span class="n">gem</span> <span class="s1">&#39;rails&#39;</span><span class="p">,</span> <span class="ss">:githib</span> <span class="o">=&gt;</span> <span class="s1">&#39;rails/rails&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>which is just <em>USERNAME/PROJECT_NAME</em></p>

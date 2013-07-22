@@ -4,7 +4,7 @@
   <title><![CDATA[Category: reminders | Jordan Rogers-Smith]]></title>
   <link href="http://jordanrs.github.io/blog/categories/reminders/atom.xml" rel="self"/>
   <link href="http://jordanrs.github.io/"/>
-  <updated>2013-07-22T12:40:49+01:00</updated>
+  <updated>2013-07-22T16:16:41+01:00</updated>
   <id>http://jordanrs.github.io/</id>
   <author>
     <name><![CDATA[Jordan Rogers-Smith]]></name>
@@ -20,7 +20,8 @@
     <id>http://jordanrs.github.io/blog/2013/02/12/activeadmin---customising-export-links</id>
     <content type="html"><![CDATA[<p>When using active admin there doesn&rsquo;t seem to be an easy way to format the output of the JSON and XML export options like you can with the CSV option.</p>
 
-<p>A nice patch by <a href="https://coderwall.com/p/qzlssg">David Collom</a> allows us to customise what is displayed rather then just hiding it in CSS. The patch is as follows and i just placed it at the top of one of my <code>admin/###.rb</code> files</p>
+<p>A nice patch by <a href="https://coderwall.com/p/qzlssg">David Collom</a> allows us to customise what is displayed rather then just hiding it in CSS. The patch is as follows and i just placed it at the top of one of my <code>admin/###.rb</code> files
+```ruby</p>
 
 <pre><code>module ActiveAdmin
   module Views
@@ -37,11 +38,16 @@
 end
 </code></pre>
 
-<p>To customise what is displayed simplay change the array passing into <code>build_download_format_links()</code></p>
+<p><code>`
+To customise what is displayed simplay change the array passing into</code>build_download_format_links()``</p>
+
+<p>```ruby</p>
 
 <pre><code>build_download_format_links([:csv]) 
 build_download_format_links([:csv, :json])
 </code></pre>
+
+<p>```</p>
 ]]></content>
   </entry>
   
@@ -51,6 +57,8 @@ build_download_format_links([:csv, :json])
     <updated>2013-02-10T00:00:00+00:00</updated>
     <id>http://jordanrs.github.io/blog/2013/02/10/s3-static-assets-group-policy</id>
     <content type="html"><![CDATA[<p>I always struggle to remember / find the group security policy for an S3 bucket to make all files available to the public.</p>
+
+<p>``` javascript</p>
 
 <pre><code>{
     "Version": "2008-10-17",
@@ -68,7 +76,8 @@ build_download_format_links([:csv, :json])
 }
 </code></pre>
 
-<p>The only thing that can be changed is the BUCKET-NAME, leave all other aspects of the policy the same.</p>
+<p>```
+The only thing that can be changed is the BUCKET-NAME, leave all other aspects of the policy the same.</p>
 ]]></content>
   </entry>
   

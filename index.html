@@ -112,9 +112,10 @@
 	<h1 class="title" itemprop="name"><a href="/blog/2013/07/22/hacked-2013/" itemprop="url">Hacked 2013</a></h1>
 	<h2 class="sub_heading" itemprop="name"></h2>
 	<div class="entry-content" itemprop="articleBody">
-		<p><a href="" title="http://hacked.io">Hacked.oi</a> was utterly awesome. In the end myself, <a href="https://twitter.com/marcelloseri">Marcello Seri</a> and <a href="https://twitter.com/b3noxley">Ben Oxley</a> created <a href="" title="https://www.hackerleague.org/hackathons/hacked/hacks/homeflux">homeFlux</a>, a realtime system for adapting light levels to match a desired intensity and also adjust colour values over time much like <a href="http://justgetflux.com/">flu.x</a>. Was awesome fun.</p>
+		<p><a href="http://hacked.io">Hacked.oi</a> was utterly awesome. In the end myself, <a href="https://twitter.com/marcelloseri">Marcello Seri</a> and <a href="https://twitter.com/b3noxley">Ben Oxley</a> created <a href="" title="https://www.hackerleague.org/hackathons/hacked/hacks/homeflux">homeFlux</a>, a realtime system for adapting light levels to match a desired intensity and also adjust colour values over time much like <a href="http://justgetflux.com/">flu.x</a>. Was awesome fun.</p>
 
-<p><a href="http://www.youtube.com/watch?feature=player_embedded&v=T_gPdTJkoM0" target="_blank"><img src="http://img.youtube.com/vi/T_gPdTJkoM0/0.jpg" alt="homeFlux Demo Video" width="240" height="180" border="10" /></a></p>
+<iframe width="560" height="315" src="//www.youtube.com/embed/T_gPdTJkoM0" frameborder="0" allowfullscreen></iframe>
+
 
 		
 		
@@ -148,69 +149,9 @@
 	<div class="entry-content" itemprop="articleBody">
 		<p>One of my recent tasks has been to build a preview of a form submission into an existing application. Having done something similar in the past involving changing the forms action with javascript, ajax posting the form (including images), generating a preview, changing the form back blaa blaa blaa blaa blaaaaa. I wanted to find a cleaner way to a) deal with the preview and b) ajaxing blob data (image/files) and thanks to not having to support IE implemented the following procedure using FormData and XMLHttpRequest 2.</p>
 
-<p>FormData is awesome, give it a form including blob data and it&rsquo;ll return an object that can be attached to $.ajax or standard XMLHttpRequest.send and all the caveats and nuiances of ajax forms disappear in the blink of an eye.</p>
-
-<pre><code>// something like
-var fd = FormData.new( $('form')[0] );
-
-$.ajax({
-  ...
-  url: '/iwantdata',
-  data: fd, 
-  ...
-})
-
-// or
-
-var ajax = new XMLHttpRequest();
-ajax.open("POST", "/iwantdata");
-ajax.send(fd));
-</code></pre>
-
-<p>My stratergy then was simple, take more fieldset, clone it, wrap it in a formtag (all in memory), create the formdata object and away we go images and all. So my first attempt looked as follows.</p>
-
-<pre><code>var buildFormData = function($fieldset){
-  var $clone = $('#fieldset').clone({ deepWithDataAndEvents: true});
-  var $form = $('&lt;form /&gt;).append($clone);
-  var fd = new FormData($form[0])
-  return fd
-};
-
-var sendPreview = function(formData){
-  $.ajax({
-   url: "/iwantdata",
-   type: "POST",
-   data: formData,
-   processData: false,
-   contentType: false,
-  }).done(weDidIt);
-};
-</code></pre>
-
-<p>This worked great at first all the data was being submitted correctly excpet file fields. These werent being copied over at all due to the caveats of browser security and cloning file fields it seems. So instead of doing it all in memory, which would have been the ideal, I had to use the file fields in the DOM but didnt want to have to pull the form apart and put it back together. Even though the html specification has a big NO NO when it comes to nested form tags it is possible to create them with javascript and this is what i did to build my in place subsection FormData.</p>
-
-<pre><code>var buildFormData = function($fieldset){
-  var $form = $fieldset.wrap('&lt;form /&gt;').closest('form');
-  var fd = new FormData($form[0])
-  $fieldset.unwrap();
-  return fd
-};
-
-var sendPreview = function(formData){
-  $.ajax({
-   url: "/iwantdata",
-   type: "POST",
-   data: formData,
-   processData: false,
-   contentType: false,
-  }).done(weDidIt);
-};
-</code></pre>
-
-<p>Not ideal but this solution was a simple way to create a FormData from a subset of fields on the fly which includes all the file field information also.</p>
 
 		
-		
+		<a href="/blog/2013/07/10/activeadmin-form-preview-with-javascript-formdata/" class="more-link">Read on &rarr;</a>
 	</div>
 
 </article>
@@ -313,28 +254,54 @@ var sendPreview = function(formData){
 
 <p>Install the following gems with <code>bundle install</code></p>
 
-<pre><code>group :test_envs do
-  gem 'rspec-rails', "~&gt; 2.0"
-  gem 'factory_girl_rails'
-  gem 'faker'
-  gem 'capybara', "~&gt; 2.0.2"
-  gem 'database_cleaner', "~&gt; 0.9.1"
-  gem 'launchy'
+<figure class='code'><figcaption><span>Gemfile</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'><span class="n">group</span> <span class="ss">:test_envs</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;rspec-rails&#39;</span><span class="p">,</span> <span class="s2">&quot;~&gt; 2.0&quot;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;factory_girl_rails&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;faker&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;capybara&#39;</span><span class="p">,</span> <span class="s2">&quot;~&gt; 2.0.2&quot;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;database_cleaner&#39;</span><span class="p">,</span> <span class="s2">&quot;~&gt; 0.9.1&quot;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;launchy&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># file system event triggers for ruby. See note at end about RVM </span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;rb-fsevent&#39;</span><span class="p">,</span> <span class="s1">&#39;0.9.3&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Notifications of test states, Requires Growl and growlnotify to be installed</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;growl&#39;</span><span class="p">,</span> <span class="s1">&#39;1.0.3&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Automated test running and speed imporvements</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;guard-rspec&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;guard-spork&#39;</span><span class="p">,</span> <span class="s1">&#39;1.2.0&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;childprocess&#39;</span><span class="p">,</span> <span class="s1">&#39;0.3.6&#39;</span><span class="c1"># this was due to errors appearing in 0.3.7 and higher</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;spork&#39;</span><span class="p">,</span> <span class="s1">&#39;0.9.2&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;debugger&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span></code></pre></td></tr></table></div></figure>
 
-  # file system event triggers for ruby. See note at end about RVM 
-  gem 'rb-fsevent', '0.9.3'
-
-  # Notifications of test states, Requires Growl and growlnotify to be installed
-  gem 'growl', '1.0.3'
-
-  # Automated test running and speed imporvements
-  gem 'guard-rspec'
-  gem 'guard-spork', '1.2.0'
-  gem 'childprocess', '0.3.6'# this was due to errors appearing in 0.3.7 and higher
-  gem 'spork', '0.9.2'
-  gem 'debugger'
-end
-</code></pre>
 
 <h2>spec/spec_helper</h2>
 
@@ -369,46 +336,11 @@ end
 	<h1 class="title" itemprop="name"><a href="/blog/2013/04/23/multiple-test-enviroments/" itemprop="url">Multiple Test Environments in Rails</a></h1>
 	<h2 class="sub_heading" itemprop="name"></h2>
 	<div class="entry-content" itemprop="articleBody">
-		<p>Create the file <code>config/enviroments/jordan_test.rd</code> and copy into it the contents of <code>config/enviroments/test.rb</code>
-Via command line from application root:  <code>cp config/environments/test.rb config/environments/jordan_test.rb</code></p>
+		<p>Multiple test enviorments allow for developers with different DB settings, gem desires to be able to setup and run the same test suite independently of one another.</p>
 
-<p>in config/database.yml add your DB settings (assumes using Postgres)</p>
-
-<pre><code>jordan_test:
-  adapter: postgresql
-  encoding: utf8
-  host: localhost
-  database: [project_name]_jordan_test
-  username: 
-  password: 
-</code></pre>
-
-<p>Create the new database</p>
-
-<pre><code>rake db:create:all
-</code></pre>
-
-<p>add environment to any :test specific gems or gem groups in your gem file</p>
-
-<pre><code>group :test, :jordan_test do
-    #blaaaaa........
-end
-</code></pre>
-
-<p>or make a bundler group in application.rb so others envs can be added easier.</p>
-
-<pre><code>if defined?(Bundler)
-  # If you precompile assets before deploying to production, use this line
-  Bundler.require(*Rails.groups(:assets =&gt; %w(development test steve cronin sexyjordan_test), :test_envs =&gt; %w(test sexyjordan_test)))
-  # If you want your assets lazily compiled in production, use this line
-  # Bundler.require(:default, :assets, Rails.env)
-end   
-</code></pre>
-
-<p>Usual run rake <code>db:test:prepare</code> or <code>db:test:clone</code> instead possible to run <code>rake db:migrate RAILS_ENV=jordan_test</code> perhaps make an alias for this in your .bash_profile</p>
 
 		
-		
+		<a href="/blog/2013/04/23/multiple-test-enviroments/" class="more-link">Read on &rarr;</a>
 	</div>
 
 </article>
@@ -439,15 +371,20 @@ end
 	<div class="entry-content" itemprop="articleBody">
 		<p>To get the tolk gem to work along side the Strong Parameters gem we need to apply a monkey patch to tolk</p>
 
-<pre><code>in config/initalizers/tolk.rb
+<figure class='code'><figcaption><span>config/initalizers/tolk.rb    </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">Tolk</span><span class="p">:</span><span class="ss">:LocalesController</span><span class="o">.</span><span class="n">class_eval</span> <span class="k">do</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>      <span class="ss">Tolk</span><span class="p">:</span><span class="ss">:Locale</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:tolk_locale</span><span class="o">].</span><span class="n">try</span><span class="p">(</span><span class="ss">:permit!</span><span class="p">))</span>
+</span><span class='line'>      <span class="n">redirect_to</span> <span class="ss">:action</span> <span class="o">=&gt;</span> <span class="ss">:index</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-Tolk::LocalesController.class_eval do  
-    def create
-      Tolk::Locale.create!(params[:tolk_locale].try(:permit!))
-      redirect_to :action =&gt; :index
-    end
-end
-</code></pre>
 
 		
 		
@@ -481,48 +418,9 @@ end
 	<div class="entry-content" itemprop="articleBody">
 		<p>As to not forget the process of packaging up a gem and putting it on my own hosting just follow these simple tests :&ndash;</p>
 
-<p>1) Firstly make sure the <code>PROJECT_NAME.gemspec</code> file is up to date and you have updated the <code>version.rb</code> file to the correct version.</p>
-
-<p>2) run the command <code>gem build mention-tagger.gemspec</code> or <code>rake build</code>
-that should put a gem file in the root directory with the name <code>PROJECT_NAME-VERSION.gem</code> or in <code>pkg/PROJECT_NAME-VERSION.gem</code></p>
-
-<p>To publish to your own gem host</p>
-
-<p>1) First set up geminabox as per these <a href="https://github.com/cwninja/geminabox">instructions</a></p>
-
-<ul>
-<li>gem install geminabox</li>
-</ul>
-
-
-<p>2) then gem inabox <code>PROJECT_NAME-VERSION.gem</code></p>
-
-<p>it&rsquo;ll ask for url</p>
-
-<p>3) put in your gem host</p>
-
-<p>and away she goes</p>
-
-<h2>Get it straight from git</h2>
-
-<p>Two ways</p>
-
-<ol>
-<li>gem &lsquo;rails&rsquo;, :git => &lsquo;git://github.com/rails/rails.git&rsquo;</li>
-</ol>
-
-
-<p>or equivalently</p>
-
-<ol>
-<li>gem &lsquo;rails&rsquo;, :githib => &lsquo;rails/rails&rsquo;</li>
-</ol>
-
-
-<p>which is just <em>USERNAME/PROJECT_NAME</em></p>
 
 		
-		
+		<a href="/blog/2013/02/21/making-a-gem/" class="more-link">Read on &rarr;</a>
 	</div>
 
 </article>
@@ -559,26 +457,43 @@ that should put a gem file in the root directory with the name <code>PROJECT_NAM
 
 <p>A nice patch by <a href="https://coderwall.com/p/qzlssg">David Collom</a> allows us to customise what is displayed rather then just hiding it in CSS. The patch is as follows and i just placed it at the top of one of my <code>admin/###.rb</code> files</p>
 
-<pre><code>module ActiveAdmin
-  module Views
-    class PaginatedCollection
-      def build_pagination_with_formats(options)
-        div :id =&gt; "index_footer" do
-          build_pagination
-          div(page_entries_info(options).html_safe, :class =&gt; "pagination_information")
-          build_download_format_links([:csv]) unless @download_links == false
-        end
-      end
-    end
-  end
-end
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">ActiveAdmin</span>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">Views</span>
+</span><span class='line'>    <span class="k">class</span> <span class="nc">PaginatedCollection</span>
+</span><span class='line'>      <span class="k">def</span> <span class="nf">build_pagination_with_formats</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">div</span> <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s2">&quot;index_footer&quot;</span> <span class="k">do</span>
+</span><span class='line'>          <span class="n">build_pagination</span>
+</span><span class='line'>          <span class="n">div</span><span class="p">(</span><span class="n">page_entries_info</span><span class="p">(</span><span class="n">options</span><span class="p">)</span><span class="o">.</span><span class="n">html_safe</span><span class="p">,</span> <span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s2">&quot;pagination_information&quot;</span><span class="p">)</span>
+</span><span class='line'>          <span class="n">build_download_format_links</span><span class="p">(</span><span class="o">[</span><span class="ss">:csv</span><span class="o">]</span><span class="p">)</span> <span class="k">unless</span> <span class="vi">@download_links</span> <span class="o">==</span> <span class="kp">false</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>To customise what is displayed simplay change the array passing into <code>build_download_format_links()</code></p>
 
-<pre><code>build_download_format_links([:csv]) 
-build_download_format_links([:csv, :json])
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">build_download_format_links</span><span class="p">(</span><span class="o">[</span><span class="ss">:csv</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="n">build_download_format_links</span><span class="p">(</span><span class="o">[</span><span class="ss">:csv</span><span class="p">,</span> <span class="ss">:json</span><span class="o">]</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 		
 		
@@ -616,23 +531,39 @@ build_download_format_links([:csv, :json])
 	<div class="entry-content" itemprop="articleBody">
 		<p>I always struggle to remember / find the group security policy for an S3 bucket to make all files available to the public.</p>
 
-<pre><code>{
-    "Version": "2008-10-17",
-    "Statement": [
-        {
-            "Sid": "AllowPublicRead",
-            "Effect": "Allow",
-            "Principal": {
-                "AWS": "*"
-            },
-            "Action": "s3:GetObject",
-            "Resource": "arn:aws:s3:::BUCKET-NAME/*"
-        }
-    ]
-}
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="s2">&quot;Version&quot;</span><span class="o">:</span> <span class="s2">&quot;2008-10-17&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;Statement&quot;</span><span class="o">:</span> <span class="p">[</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>          <span class="s2">&quot;Sid&quot;</span><span class="o">:</span> <span class="s2">&quot;AllowPublicRead&quot;</span><span class="p">,</span>
+</span><span class='line'>          <span class="s2">&quot;Effect&quot;</span><span class="o">:</span> <span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+</span><span class='line'>          <span class="s2">&quot;Principal&quot;</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>              <span class="s2">&quot;AWS&quot;</span><span class="o">:</span> <span class="s2">&quot;*&quot;</span>
+</span><span class='line'>          <span class="p">},</span>
+</span><span class='line'>          <span class="s2">&quot;Action&quot;</span><span class="o">:</span> <span class="s2">&quot;s3:GetObject&quot;</span><span class="p">,</span>
+</span><span class='line'>          <span class="s2">&quot;Resource&quot;</span><span class="o">:</span> <span class="s2">&quot;arn:aws:s3:::BUCKET-NAME/*&quot;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">]</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>The only thing that can be changed is the BUCKET-NAME, leave all other aspects of the policy the same.</p>
+
+<p>
+The only thing that can be changed is the BUCKET-NAME, leave all other aspects of the policy the same.</p>
 
 		
 		

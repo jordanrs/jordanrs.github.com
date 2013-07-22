@@ -90,15 +90,20 @@
 	<h2 class="sub_heading" itemprop="name"></h2>
 	<div class="entry-content" itemprop="articleBody"><p>To get the tolk gem to work along side the Strong Parameters gem we need to apply a monkey patch to tolk</p>
 
-<pre><code>in config/initalizers/tolk.rb
+<figure class='code'><figcaption><span>config/initalizers/tolk.rb    </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">Tolk</span><span class="p">:</span><span class="ss">:LocalesController</span><span class="o">.</span><span class="n">class_eval</span> <span class="k">do</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>      <span class="ss">Tolk</span><span class="p">:</span><span class="ss">:Locale</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:tolk_locale</span><span class="o">].</span><span class="n">try</span><span class="p">(</span><span class="ss">:permit!</span><span class="p">))</span>
+</span><span class='line'>      <span class="n">redirect_to</span> <span class="ss">:action</span> <span class="o">=&gt;</span> <span class="ss">:index</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-Tolk::LocalesController.class_eval do  
-    def create
-      Tolk::Locale.create!(params[:tolk_locale].try(:permit!))
-      redirect_to :action =&gt; :index
-    end
-end
-</code></pre>
 </div>
 
 </article>
