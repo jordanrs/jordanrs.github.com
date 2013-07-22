@@ -4,7 +4,7 @@
   <title><![CDATA[Jordan Rogers-Smith]]></title>
   <link href="http://jordanrs.github.io/atom.xml" rel="self"/>
   <link href="http://jordanrs.github.io/"/>
-  <updated>2013-07-12T16:38:00+01:00</updated>
+  <updated>2013-07-22T12:40:49+01:00</updated>
   <id>http://jordanrs.github.io/</id>
   <author>
     <name><![CDATA[Jordan Rogers-Smith]]></name>
@@ -12,6 +12,17 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Hacked 2013]]></title>
+    <link href="http://jordanrs.github.io/blog/2013/07/22/hacked-2013/"/>
+    <updated>2013-07-22T12:03:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2013/07/22/hacked-2013</id>
+    <content type="html"><![CDATA[<p><a href="" title="http://hacked.io">Hacked.oi</a> was utterly awesome. In the end myself, <a href="https://twitter.com/marcelloseri">Marcello Seri</a> and <a href="https://twitter.com/b3noxley">Ben Oxley</a> created <a href="" title="https://www.hackerleague.org/hackathons/hacked/hacks/homeflux">homeFlux</a>, a realtime system for adapting light levels to match a desired intensity and also adjust colour values over time much like <a href="http://justgetflux.com/">flu.x</a>. Was awesome fun.</p>
+
+<p><a href="http://www.youtube.com/watch?feature=player_embedded&v=T_gPdTJkoM0" target="_blank"><img src="http://img.youtube.com/vi/T_gPdTJkoM0/0.jpg" alt="homeFlux Demo Video" width="240" height="180" border="10" /></a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ActiveAdmin Form Preview with Javascript FormData]]></title>
@@ -1332,20 +1343,6 @@ A real time performance piece built using Max/Msp. It is designed to be controll
 <p><strong>The raw Max files and report</strong></p>
 
 <p><a href="https://sites.google.com/site/jordanrsblog/realtimesystems/piece1/RTSP_Assessment_1.zip">Download</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Fourier Analysis and MATLAB - Phase Vocoder]]></title>
-    <link href="http://jordanrs.github.io/blog/2010/10/20/Fourier-Analysis-and-MATLAB---Phase-Vocoder/"/>
-    <updated>2010-10-20T00:00:00+01:00</updated>
-    <id>http://jordanrs.github.io/blog/2010/10/20/Fourier-Analysis-and-MATLAB&#8212;Phase-Vocoder</id>
-    <content type="html"><![CDATA[<p>My first go at using MATLAB as a language was to build a phase vocoder with variable Q (below 1.5 works best) and create a GUI for easier use. It contains two methods of stretching  Both versions of the source code are attached (GUI and non-GUI). Isn&rsquo;t the fastest implementation so I would advise against trying to stretch large files. There are two algorithms included for stretching, the first use Overlap add of windows to create the stretch where as the other takes into account phase modifications</p>
-
-<p>Non-GUI implementation <a href="https://sites.google.com/site/jordanrsblog/musicalfourier/phase_vocoder_src.zip">
-Download</a></p>
-
-<p>GUI Implementation <a href="https://sites.google.com/site/jordanrsblog/musicalfourier/GUI_phase_vocoder_src.zip">Download</a></p>
 ]]></content>
   </entry>
   
