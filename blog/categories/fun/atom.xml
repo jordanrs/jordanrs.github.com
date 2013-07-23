@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: fun | Jordan Rogers-Smith]]></title>
+  <link href="http://jordanrs.github.io/blog/categories/fun/atom.xml" rel="self"/>
+  <link href="http://jordanrs.github.io/"/>
+  <updated>2013-07-23T09:55:58+01:00</updated>
+  <id>http://jordanrs.github.io/</id>
+  <author>
+    <name><![CDATA[Jordan Rogers-Smith]]></name>
+    <email><![CDATA[jordanrs2k1@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Royal Baby Catifier]]></title>
+    <link href="http://jordanrs.github.io/blog/2013/07/23/royal-baby-catifier/"/>
+    <updated>2013-07-23T09:54:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2013/07/23/royal-baby-catifier</id>
+    <content type="html"><![CDATA[<p>A quick, fun evening hacking up a Chrome extension. Sick of seeing articles about the royal baby? This extension removes the container and replaces it with a cat.</p>
+
+<p><a href="https://chrome.google.com/webstore/detail/royal-baby-catifier/adjameoabcmbdobiafhhoclndepibfno">Chrome Web Store</a></p>
+
+<p><img src="https://lh3.googleusercontent.com/0BF16NBbShToYIB8sSp49sKdFZR6wlWAQl8H7KN5_kEftx_3yvhJNCyPMOSF0RaBecRzTWrE3Q=s640-h400-e365-rw" alt="Cats" /></p>
+]]></content>
+  </entry>
+  
+</feed>
