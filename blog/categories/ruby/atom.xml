@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ruby | Jordan Rogers-Smith]]></title>
+  <link href="http://jordanrs.github.io/blog/categories/ruby/atom.xml" rel="self"/>
+  <link href="http://jordanrs.github.io/"/>
+  <updated>2013-08-10T08:12:00+01:00</updated>
+  <id>http://jordanrs.github.io/</id>
+  <author>
+    <name><![CDATA[Jordan Rogers-Smith]]></name>
+    <email><![CDATA[jordanrs2k1@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Serilisation, Preloading and SimpleCov]]></title>
+    <link href="http://jordanrs.github.io/blog/2013/08/09/serilisation-preloading-and-simplecov/"/>
+    <updated>2013-08-09T16:32:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2013/08/09/serilisation-preloading-and-simplecov</id>
+    <content type="html"><![CDATA[<p><a href="http://alisdair.mcdiarmid.org/2013/02/02/fixing-rails-auto-loading-for-serialized-objects.html">Alisdair McDiarmid</a>  has a great write up on solving the problems of serialising and deserializing custom objects to yaml in rails whilst in development and getting around the <code>ArgumentError: undefined class/module UnknownClass</code> error that are thrown due to classes not being loaded.</p>
+
+<p>The solution is to eager load classes and reload them each request to make sure that when YAML deserialization occurs the classes are present as usually this process doesnt trigger the default lazy loading of classes in development.</p>
+
+<p>```ruby The solution looks like this <a href="http://alisdair.mcdiarmid.org/2013/02/02/fixing-rails-auto-loading-for-serialized-objects.html">http://alisdair.mcdiarmid.org/2013/02/02/fixing-rails-auto-loading-for-serialized-objects.html</a> Source</p>
+
+<pre><code># Eager load all value objects, as they may be instantiated from
+# YAML before the symbol is referenced
+config.before_initialize do |app|
+    app.config.paths.add 'app/values', :eager_load =&gt; true
+end
+
+# Reload cached/serialized classes before every request (in development
+# mode) or on startup (in production mode)
+config.to_prepare do
+    Dir[ File.expand_path(Rails.root.join("app/values/*.rb")) ].each do |file|
+        require_dependency file
+    end
+    require_dependency 'article_cache'
+end
+</code></pre>
+
+<p>```</p>
+
+<h2>Testing, SimpleCov and Missed Coverage</h2>
+
+<p>This solution was great, it solves the loading issue but during development I noticed the lines of code covered by SimpleCov was reduced, looking into know issues on the SimpleCov <a href="https://github.com/colszowka/simplecov/issues/107">github one explained</a> the reason why files where missing. The above solution of preloading the classes for deserialization means that the files are already loaded in memory before SimpleCov initialises and thus cant be tracked by Ruby&rsquo;s built in coverage mechanism.</p>
+
+<h2>Solution</h2>
+
+<p>As of rails 3.1, objects can be serialised to JSON as well as YAML. While it requires the addition of two methods to the class in question it does mean the class doesn&rsquo;t need to be preloaded and thus allows the code coverage to be tracked.</p>
+
+<p>Adding the following two methods in your class and the additional JSON option to serialize in the model file allows for objects to be reinitialised based on the stored data parameters saved as JSON in the database.</p>
+
+<p>```ruby in the model file</p>
+
+<pre><code>serialize :column_name, JSON
+</code></pre>
+
+<p>```</p>
+
+<p>```ruby Serializing and Deserializing with JSON <a href="http://stackoverflow.com/questions/4569329/serialize-ruby-object-to-json-and-back">http://stackoverflow.com/questions/4569329/serialize-ruby-object-to-json-and-back</a> source</p>
+
+<pre><code>def self.json_create(o)
+  new(*o['data'])
+end
+
+def to_json(*a)
+  { 'json_class' =&gt; self.class.name, 'data' =&gt; [id, name, next_step] }.to_json(*a)
+end
+</code></pre>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+</feed>

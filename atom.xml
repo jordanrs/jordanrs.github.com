@@ -4,7 +4,7 @@
   <title><![CDATA[Jordan Rogers-Smith]]></title>
   <link href="http://jordanrs.github.io/atom.xml" rel="self"/>
   <link href="http://jordanrs.github.io/"/>
-  <updated>2013-07-23T09:58:01+01:00</updated>
+  <updated>2013-08-10T08:12:00+01:00</updated>
   <id>http://jordanrs.github.io/</id>
   <author>
     <name><![CDATA[Jordan Rogers-Smith]]></name>
@@ -12,6 +12,86 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Serilisation, Preloading and SimpleCov]]></title>
+    <link href="http://jordanrs.github.io/blog/2013/08/09/serilisation-preloading-and-simplecov/"/>
+    <updated>2013-08-09T16:32:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2013/08/09/serilisation-preloading-and-simplecov</id>
+    <content type="html"><![CDATA[<p><a href="http://alisdair.mcdiarmid.org/2013/02/02/fixing-rails-auto-loading-for-serialized-objects.html">Alisdair McDiarmid</a>  has a great write up on solving the problems of serialising and deserializing custom objects to yaml in rails whilst in development and getting around the <code>ArgumentError: undefined class/module UnknownClass</code> error that are thrown due to classes not being loaded.</p>
+
+<p>The solution is to eager load classes and reload them each request to make sure that when YAML deserialization occurs the classes are present as usually this process doesnt trigger the default lazy loading of classes in development.</p>
+
+<figure class='code'><figcaption><span>The solution looks like this</span><a href='http://alisdair.mcdiarmid.org/2013/02/02/fixing-rails-auto-loading-for-serialized-objects.html'>Source</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Eager load all value objects, as they may be instantiated from</span>
+</span><span class='line'><span class="c1"># YAML before the symbol is referenced</span>
+</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">before_initialize</span> <span class="k">do</span> <span class="o">|</span><span class="n">app</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">paths</span><span class="o">.</span><span class="n">add</span> <span class="s1">&#39;app/values&#39;</span><span class="p">,</span> <span class="ss">:eager_load</span> <span class="o">=&gt;</span> <span class="kp">true</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Reload cached/serialized classes before every request (in development</span>
+</span><span class='line'><span class="c1"># mode) or on startup (in production mode)</span>
+</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">to_prepare</span> <span class="k">do</span>
+</span><span class='line'>    <span class="no">Dir</span><span class="o">[</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;app/values/*.rb&quot;</span><span class="p">))</span> <span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
+</span><span class='line'>        <span class="n">require_dependency</span> <span class="n">file</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="n">require_dependency</span> <span class="s1">&#39;article_cache&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h2>Testing, SimpleCov and Missed Coverage</h2>
+
+<p>This solution was great, it solves the loading issue but during development I noticed the lines of code covered by SimpleCov was reduced, looking into know issues on the SimpleCov <a href="https://github.com/colszowka/simplecov/issues/107">github one explained</a> the reason why files where missing. The above solution of preloading the classes for deserialization means that the files are already loaded in memory before SimpleCov initialises and thus cant be tracked by Ruby&rsquo;s built in coverage mechanism.</p>
+
+<h2>Solution</h2>
+
+<p>As of rails 3.1, objects can be serialised to JSON as well as YAML. While it requires the addition of two methods to the class in question it does mean the class doesn&rsquo;t need to be preloaded and thus allows the code coverage to be tracked.</p>
+
+<p>Adding the following two methods in your class and the additional JSON option to serialize in the model file allows for objects to be reinitialised based on the stored data parameters saved as JSON in the database.</p>
+
+<figure class='code'><figcaption><span>in the model file </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">serialize</span> <span class="ss">:column_name</span><span class="p">,</span> <span class="no">JSON</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>Serializing and Deserializing with JSON</span><a href='http://stackoverflow.com/questions/4569329/serialize-ruby-object-to-json-and-back'>source</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">json_create</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+</span><span class='line'>  <span class="kp">new</span><span class="p">(</span><span class="o">*</span><span class="n">o</span><span class="o">[</span><span class="s1">&#39;data&#39;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="o">*</span><span class="n">a</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span> <span class="s1">&#39;json_class&#39;</span> <span class="o">=&gt;</span> <span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="nb">id</span><span class="p">,</span> <span class="nb">name</span><span class="p">,</span> <span class="n">next_step</span><span class="o">]</span> <span class="p">}</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="o">*</span><span class="n">a</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Royal Baby Catifier]]></title>
@@ -2059,22 +2139,6 @@ Download</a></p>
 Download</a></p>
 
 <p>Built using Max 5.0.7 and MotioninJoy 6</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Algorithmic Composition with Common Lisp Music - Piece-1]]></title>
-    <link href="http://jordanrs.github.io/blog/2010/11/15/Algorithmic-Composition-with-Common-Lisp-Music---Piece-1/"/>
-    <updated>2010-11-15T00:00:00+00:00</updated>
-    <id>http://jordanrs.github.io/blog/2010/11/15/Algorithmic-Composition-with-Common-Lisp-Music&#8212;Piece-1</id>
-    <content type="html"><![CDATA[<p>This composition was used as an inital exploration into the world of Lisp and Common Lisp Music 4 (CLM). It experiemtned with using the builtin instruments as well as instruments provided by the course lecturer. It takes loose inspiration from a piece by John Chowning with more explanation in the report. All samples used are referenced from within the source file and can be downloaded from <a href="" title="http://www.freesound.org/">www.freesound.org</a></p>
-
-<p><strong>Final Composition</strong></p>
-
-<iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F102118377&amp;color=ff6600&amp;auto_play=false&amp;show_artwork=false"></iframe>
-
-
-<p><a href="" title="https://sites.google.com/site/jordanrsblog/clmpiece1.zip">Download Source and Report</a></p>
 ]]></content>
   </entry>
   
