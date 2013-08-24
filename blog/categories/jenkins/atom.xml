@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: jenkins | Jordan Rogers-Smith]]></title>
+  <link href="http://jordanrs.github.io/blog/categories/jenkins/atom.xml" rel="self"/>
+  <link href="http://jordanrs.github.io/"/>
+  <updated>2013-08-24T17:29:25+01:00</updated>
+  <id>http://jordanrs.github.io/</id>
+  <author>
+    <name><![CDATA[Jordan Rogers-Smith]]></name>
+    <email><![CDATA[jordanrs2k1@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Setting up Jenkins with Chef for Rails Project]]></title>
+    <link href="http://jordanrs.github.io/blog/2013/08/21/setting-up-jenkins-with-chef-for-rails-project/"/>
+    <updated>2013-08-21T07:26:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2013/08/21/setting-up-jenkins-with-chef-for-rails-project</id>
+    <content type="html"><![CDATA[<p>There are numerous guides available on line for setting up a fresh install of Jenkins with numerous different configurations but i wanted to create a chef recipe that would give me a clean Jenkins install with my required project dependencies (excluding rvm) at the click of a button.</p>
+
+<p>The reasons the excluding RVM in the chef process, even though the chef-rvm cookback is fantastic having used it before in the creation of a Rails stack is that i just could get system level RVM to play nice with Jenkins and user specific RVM (to the Jenkins user) to automatically install without asking for the Jenkins password. Better minds will probably be able to solve this issue but i opted for a different approach.</p>
+
+<!-- more -->
+
+
+<h1>The CookBook</h1>
+
+<p>My build cookbook and recipes can be found over on GitHub at [URL]. It contains everything we require (except rvm) for building our rails apps, Postgres for the postgres C headers for the pg gem, a javascript runtime in the form of node.js for rails 3.1 and greater asset compilation, a web server for accessing Jenkins, libqt4 and Xvfb for headless running of our integration specs with capybara webkit.</p>
+
+<ul>
+<li>Clone or download the chef repositry from [URL]</li>
+<li>add in your own .chef/knife.rb and .pem files or make sure they can connect to your chef server</li>
+<li>run <code>berks install</code> and <code>berks upload</code> to collect together all the associated cookbooks then push them up to the hosted chef repo</li>
+<li>run <code>rake install</code> to upload our custom cookbooks and roles</li>
+<li>then create a new instance of EC2 that will automatically be built with our jenkins build recipes by running.</li>
+</ul>
+
+
+<p>``` bash</p>
+
+<pre><code>sudo 
+</code></pre>
+
+<p>```
+<em>this command requires a few config options to be added to your knife file to achieve the brevity. I wrote about this in a previous post <a href="/blog/2013/08/21/setting-up-jenkins-with-chef-for-rails-project/">here</a></em></p>
+
+<p>This final command will set about creating a new EC2 micro instance with Ubuntu 12.04 AMI in Europe and then install all the necessary packages for running our standard rails stack. It will also setup a reverse proxy for nginx so that jenkins will be available on on completeion at the EC2 instances Public DNS address.</p>
+
+<p>If all goes well the instal takes around 20 minutes and at the end you should see a print out as such.</p>
+
+<p>``` bash</p>
+
+<pre><code>ecX-XX-XXX-XXX-X.eu-west-1.compute.amazonaws.com Chef Client finished, 91 resources updated
+ecX-XX-XXX-XXX-X.eu-west-1.compute.amazonaws.com
+
+Instance ID: i-XXXXXXXX
+Flavor: t1.micro
+Image: ami-7962730d
+Region: eu-west-1
+Availability Zone: eu-west-1a
+Security Groups: default
+Security Group Ids: default
+Tags: {"Name"=&gt;"i-XXXXXXXX"}
+SSH Key: chef-test
+Root Device Type: ebs
+Root Volume ID: vol-XXXXXXXX
+Root Device Name: /dev/sda1
+Root Device Delete on Terminate: true
+Public DNS Name: ecX-XX-XXX-XXX-X.eu-west-1.compute.amazonaws.com
+Public IP Address: XX.XXX.XXX.X
+Private DNS Name: ip-XX-XX-XXX-XXX.eu-west-1.compute.internal
+Private IP Address: XX.XX.XXX.XXX
+Environment: _default
+Run List: role[jenkinsbuilder]
+</code></pre>
+
+<p><code>`
+Copy your public DNS address</code>ecX-XX-XXX-XXX-X.eu-west-1.compute.amazonaws.com`` paste into a browser, and you should be greated by jenkins loving face.</p>
+
+<p><img src="/images/post_images/21-8-2013-jenkins/jenkins-face.png" alt="Jenkins Welcome" /></p>
+
+<h2>A few caveats</h2>
+
+<ul>
+<li><p>We need to change the <strong>HTTP_HOST</strong> value in <strong>/etc/default/jenkins</strong> to be <strong>127.0.0.1</strong> as it is set by default to the DNS Name which means the deamon doesnt work to reload the app with nginx front end.</p></li>
+<li><p>Secondly we need to <code>jenkins ALL=(ALL) NOPASSWD:ALL</code> to /etc/sudoers so that Jenkins isn&rsquo;t asked for a password (jenkins password required for &lsquo;apt-get &mdash;quiet &mdash;yes update&rsquo;:)</p></li>
+<li><p>Postgres extensions arent installed and any builds which use them will fail. So if your using an extension like hstore it needs to be activated and this <a href="https://gist.github.com/terryjray/3296171">gist</a> gives a good run down of the commands to run.</p></li>
+</ul>
+
+
+<h1>Building our Rails Project</h1>
+
+<h2>Setting up RVM</h2>
+
+<p>The instructions for installing rvm with can all be found with more detail at <a href="https://rvm.io/integration/jenkins">here</a>, so the below is mearly a quick overview of the commands i ran to get rvm set up.</p>
+
+<p>```bash</p>
+
+<pre><code>sudo su -s /bin/bash jenkins #Loggin in with full terminal as jenkins 
+
+cd ~ #change to jenkins home dir
+
+\curl -L https://get.rvm.io | bash #install RVM the opening slash is important and delibrate
+
+# Add the following two lines to ~/.bashrc 
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] &amp;&amp; source "$HOME/.rvm/scripts/rvm"
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+
+# exit the shell and log back in 
+
+type rvm | head -1 # should show rvm is a function
+
+# add the following flags to ~/.rvmrc
+
+rvm_install_on_use_flag=1
+rvm_project_rvmrc=1
+rvm_gemset_create_on_use_flag=1
+</code></pre>
+
+<p>```</p>
+
+<p>Again more explanation can be found over at the rvm instruction pages. <a href="https://rvm.io/integration/jenkins">here</a></p>
+
+<h2>Pulling from Heroku</h2>
+
+<p>To pull from heroku ie use heroku as the SCM we need to add the generated SSH key to a user associated with the project.</p>
+
+<p>```bash</p>
+
+<pre><code>sudo su -s /bin/bash jenkins
+
+cd ~
+
+cat ~/.ssh/id_rsa.pub
+</code></pre>
+
+<p>```</p>
+
+<p>The output from the cat command needs to be copied and pasted into the ssh-keys for a user on heroku.com or via heroku cli <code>heroku keys:add ~/.ssh/id_rsa.pub</code></p>
+
+<p>The next thing is to make sure heroku is added to jenkins <code>~/.ssh/known_hosts</code>, the easiest way to do this is just git clone one of the projects for user the key was just added to and type yes when asked about the host.</p>
+
+<h1>Setting up Jenkins</h1>
+
+<p>Now that Jenkins will boot up and we are ready to pull from our SCM provider its time to setup security, install some plugins and set some global config variables so make life easier.</p>
+
+<h2>Security</h2>
+
+<p>Jenkins security is pretty simple and the docs do a great job of demonstrating how to set up a standard username/password login system with you as the super user. There is no need for me to duplicate this so head over to <a href="https://wiki.jenkins-ci.org/display/JENKINS/Standard+Security+Setup">Jenkins Wiki</a> and follow their instructions.</p>
+
+<h2>Plugins</h2>
+
+<p>The following plugins are my standard goto&rsquo;s for a new jenkins install</p>
+
+<ul>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/Git+Plugin"><strong>git</strong></a> &ndash; Adds git support to Jenkins SCM section. A global user name and email address will need to be configured in the global settings panel.</li>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/thinBackup"><strong>thinbackup</strong></a> &ndash; Regularly backup global config and project configs</li>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/ChuckNorris+Plugin"><strong>chucknorris</strong></a> &ndash; Chuck Norris banter on failed and successful builds</li>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/Ruby+metrics+plugin"><strong>rubyMetrics</strong></a> &ndash; Allows the interpretation of RCov coverage reports</li>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/Heroku+Plugin"><strong>heroku</strong></a> &ndash; Interact with heroku</li>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/Email-ext+plugin"><strong>email extension</strong></a> &ndash; Extends Jenkins built in e-mail.</li>
+</ul>
+
+
+<h1>Setting up the Rails Project</h1>
+
+<h2>Getting good reports</h2>
+
+<p>When running rails tests within Jenkins the output isn&rsquo;t formatted in such a way that Jenkins really knowns what to do with it, so a failed test run and a successful test run are seen as fundamentally the same thing. To alter this behaviour need to add the <strong>ci_reporter</strong> gem to to your projects gem file. The same applies to the standard code coverage gem <strong>simplecov</strong>, the output produced can be seen in the Jenkins workspace, but you dont get the nice tracking graphs. An easy way to fix this is with the <strong>simplecov-rcov</strong> gem which allows simplecovs output to be formatted like rocvs which can be picked up by the rubymetrics plugin in Jenkins.</p>
+
+<p>All you need to do is add the following lines above SimpleCov.start</p>
+
+<p>```ruby</p>
+
+<pre><code>require 'simplecov'
+require 'simplecov-rcov'
+SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
+SimpleCov.start 'rails'
+</code></pre>
+
+<p><code>`       
+The best way to get the correct formatted output is to set up rake task using</code>RSpec::Core::RakeTask<code>in 'lib/tasks/spec.rake' that allows you to run all specs with the command</code>rake all``</p>
+
+<p>```ruby</p>
+
+<pre><code>require 'rspec/core/rake_task'
+require 'ci/reporter/rake/rspec'
+
+RSpec::Core::RakeTask.new(:all =&gt; ["ci:setup:rspec"]) do |t|
+  t.pattern = '**/*_spec.rb'
+end
+</code></pre>
+
+<p>```</p>
+
+<h2>Separate Environment</h2>
+
+<p>The last thing i did was setup a new environment for the Jenkins user based of the default test environment. First I create a <code>config/environments/jenkins_test.rb</code>, add this to any bundler groups that test env was part of in config/application.rb and then leave out setting up a entry in <code>database.yml</code> as this will be done during the Jenkins build process</p>
+
+<h1>Project Setup</h1>
+
+<h2>Advanced Project Options</h2>
+
+<p>Set up quiet time option in the build when using heroku deploy hooks as they can fire before the last commit is available</p>
+
+<h2>Build Triggers</h2>
+
+<p>Trigger builds remotely through heroku deploy hooks.</p>
+
+<h2>Build</h2>
+
+<p>The current stock build script for a rails project</p>
+
+<p>```bash</p>
+
+<pre><code>#!/bin/bash 
+
+# Jenkins is installed as a service account when its running builds so it isn't 
+# using a login shell. So since RVM was installed to the user and is setup through .bashrc 
+# this doesn't happen so we need to load RVM right after the shebang   
+
+source "$HOME/.rvm/scripts/rvm"
+
+# Set the global rails env
+export RAILS_ENV=jenkins
+
+# Load RVM with a ruby and a gemset, if neither are present they will be installed
+rvm use 2.0.0@brandtone
+
+set -e
+
+bundle install
+
+# Duplicate a stock database yml file and the change our database name
+cp ~/database.yml config/database.yml
+sed -i 's/database_name/brandtone/g' config/database.yml
+
+# Create if not present and migrate out DB
+rake db:create RAILS_ENV=jenkins_test
+rake db:migrate RAILS_ENV=jenkins_test
+
+# run all tests in a virtual frame buffer thats auto numbered to prevent clashes
+xvfb-run --auto-servernum bundle exec rake all
+</code></pre>
+
+<p>```</p>
+
+<h2>Post Build Actions</h2>
+
+<p>Standard Post Build Actions</p>
+
+<ul>
+<li>Activate Chuck Norris</li>
+<li>Publish JUnit test result report</li>
+<li>Publish RCov Report</li>
+<li>Send Email Notifications</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

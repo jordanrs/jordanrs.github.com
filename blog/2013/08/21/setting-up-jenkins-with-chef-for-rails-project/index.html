@@ -1,0 +1,469 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Setting up Jenkins with Chef for Rails Project - Jordan Rogers-Smith</title>
+	<meta name="author" content="Jordan Rogers-Smith">
+
+	
+	<meta name="description" content="Setting Up Jenkins With Chef for Rails Project There are numerous guides available on line for setting up a fresh install of Jenkins with numerous &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Jordan Rogers-Smith" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://jordanrs.github.io/blog/2013/08/21/setting-up-jenkins-with-chef-for-rails-project/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("jordanrs2k1@gmail.com") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+</div>
+<hgroup>
+  <h1><a href="/">Jordan Rogers-Smith</a></h1>
+  
+    <h2>Coding away day to day.</h2>
+  
+</hgroup>
+
+
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		
+		<a class="twitter" href="http://twitter.com/JRogersSmith" title="Twitter">Twitter</a>
+		
+		
+		<a class="github" href="https://github.com/jordanrs" title="GitHub">GitHub</a>
+		
+		
+		
+		<a class="linkedin" href="http://www.linkedin.com/in/jordanrogerssmith">LinkedIn</a>
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Setting Up Jenkins With Chef for Rails Project</h1>
+	<h2 class="sub_heading" itemprop="name"></h2>
+	<div class="entry-content" itemprop="articleBody"><p>There are numerous guides available on line for setting up a fresh install of Jenkins with numerous different configurations but i wanted to create a chef recipe that would give me a clean Jenkins install with my required project dependencies (excluding rvm) at the click of a button.</p>
+
+<p>The reasons the excluding RVM in the chef process, even though the chef-rvm cookback is fantastic having used it before in the creation of a Rails stack is that i just could get system level RVM to play nice with Jenkins and user specific RVM (to the Jenkins user) to automatically install without asking for the Jenkins password. Better minds will probably be able to solve this issue but i opted for a different approach.</p>
+
+<!-- more -->
+
+
+<h1>The CookBook</h1>
+
+<p>My build cookbook and recipes can be found over on GitHub at [URL]. It contains everything we require (except rvm) for building our rails apps, Postgres for the postgres C headers for the pg gem, a javascript runtime in the form of node.js for rails 3.1 and greater asset compilation, a web server for accessing Jenkins, libqt4 and Xvfb for headless running of our integration specs with capybara webkit.</p>
+
+<ul>
+<li>Clone or download the chef repositry from [URL]</li>
+<li>add in your own .chef/knife.rb and .pem files or make sure they can connect to your chef server</li>
+<li>run <code>berks install</code> and <code>berks upload</code> to collect together all the associated cookbooks then push them up to the hosted chef repo</li>
+<li>run <code>rake install</code> to upload our custom cookbooks and roles</li>
+<li>then create a new instance of EC2 that will automatically be built with our jenkins build recipes by running.</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><em>this command requires a few config options to be added to your knife file to achieve the brevity. I wrote about this in a previous post <a href="/blog/2013/08/21/setting-up-jenkins-with-chef-for-rails-project/">here</a></em></p>
+
+<p>This final command will set about creating a new EC2 micro instance with Ubuntu 12.04 AMI in Europe and then install all the necessary packages for running our standard rails stack. It will also setup a reverse proxy for nginx so that jenkins will be available on on completeion at the EC2 instances Public DNS address.</p>
+
+<p>If all goes well the instal takes around 20 minutes and at the end you should see a print out as such.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ecX-XX-XXX-XXX-X.eu-west-1.compute.amazonaws.com Chef Client finished, 91 resources updated
+</span><span class='line'>ecX-XX-XXX-XXX-X.eu-west-1.compute.amazonaws.com
+</span><span class='line'>
+</span><span class='line'>Instance ID: i-XXXXXXXX
+</span><span class='line'>Flavor: t1.micro
+</span><span class='line'>Image: ami-7962730d
+</span><span class='line'>Region: eu-west-1
+</span><span class='line'>Availability Zone: eu-west-1a
+</span><span class='line'>Security Groups: default
+</span><span class='line'>Security Group Ids: default
+</span><span class='line'>Tags: <span class="o">{</span><span class="s2">&quot;Name&quot;</span><span class="o">=</span>&gt;<span class="s2">&quot;i-XXXXXXXX&quot;</span><span class="o">}</span>
+</span><span class='line'>SSH Key: chef-test
+</span><span class='line'>Root Device Type: ebs
+</span><span class='line'>Root Volume ID: vol-XXXXXXXX
+</span><span class='line'>Root Device Name: /dev/sda1
+</span><span class='line'>Root Device Delete on Terminate: <span class="nb">true</span>
+</span><span class='line'>Public DNS Name: ecX-XX-XXX-XXX-X.eu-west-1.compute.amazonaws.com
+</span><span class='line'>Public IP Address: XX.XXX.XXX.X
+</span><span class='line'>Private DNS Name: ip-XX-XX-XXX-XXX.eu-west-1.compute.internal
+</span><span class='line'>Private IP Address: XX.XX.XXX.XXX
+</span><span class='line'>Environment: _default
+</span><span class='line'>Run List: role<span class="o">[</span>jenkinsbuilder<span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Copy your public DNS address <code>ecX-XX-XXX-XXX-X.eu-west-1.compute.amazonaws.com</code> paste into a browser, and you should be greated by jenkins loving face.</p>
+
+<p><img src="/images/post_images/21-8-2013-jenkins/jenkins-face.png" alt="Jenkins Welcome" /></p>
+
+<h2>A few caveats</h2>
+
+<ul>
+<li><p>We need to change the <strong>HTTP_HOST</strong> value in <strong>/etc/default/jenkins</strong> to be <strong>127.0.0.1</strong> as it is set by default to the DNS Name which means the deamon doesnt work to reload the app with nginx front end.</p></li>
+<li><p>Secondly we need to <code>jenkins ALL=(ALL) NOPASSWD:ALL</code> to /etc/sudoers so that Jenkins isn&rsquo;t asked for a password (jenkins password required for &lsquo;apt-get &mdash;quiet &mdash;yes update&rsquo;:)</p></li>
+<li><p>Postgres extensions arent installed and any builds which use them will fail. So if your using an extension like hstore it needs to be activated and this <a href="https://gist.github.com/terryjray/3296171">gist</a> gives a good run down of the commands to run.</p></li>
+</ul>
+
+
+<h1>Building our Rails Project</h1>
+
+<h2>Setting up RVM</h2>
+
+<p>The instructions for installing rvm with can all be found with more detail at <a href="https://rvm.io/integration/jenkins">here</a>, so the below is mearly a quick overview of the commands i ran to get rvm set up.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>    sudo su -s /bin/bash jenkins <span class="c">#Loggin in with full terminal as jenkins </span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nb">cd</span> ~ <span class="c">#change to jenkins home dir</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="se">\c</span>url -L https://get.rvm.io | bash <span class="c">#install RVM the opening slash is important and delibrate</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># Add the following two lines to ~/.bashrc </span>
+</span><span class='line'>
+</span><span class='line'>    <span class="o">[[</span> -s <span class="s2">&quot;$HOME/.rvm/scripts/rvm&quot;</span> <span class="o">]]</span> <span class="o">&amp;&amp;</span> <span class="nb">source</span> <span class="s2">&quot;$HOME/.rvm/scripts/rvm&quot;</span>
+</span><span class='line'>    <span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="nv">$HOME</span>/.rvm/bin <span class="c"># Add RVM to PATH for scripting</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># exit the shell and log back in </span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nb">type </span>rvm | head -1 <span class="c"># should show rvm is a function</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># add the following flags to ~/.rvmrc</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nv">rvm_install_on_use_flag</span><span class="o">=</span>1
+</span><span class='line'>    <span class="nv">rvm_project_rvmrc</span><span class="o">=</span>1
+</span><span class='line'>    <span class="nv">rvm_gemset_create_on_use_flag</span><span class="o">=</span>1
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Again more explanation can be found over at the rvm instruction pages. <a href="https://rvm.io/integration/jenkins">here</a></p>
+
+<h2>Pulling from Heroku</h2>
+
+<p>To pull from heroku ie use heroku as the SCM we need to add the generated SSH key to a user associated with the project.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo su -s /bin/bash jenkins
+</span><span class='line'>
+</span><span class='line'><span class="nb">cd</span> ~
+</span><span class='line'>
+</span><span class='line'>cat ~/.ssh/id_rsa.pub
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The output from the cat command needs to be copied and pasted into the ssh-keys for a user on heroku.com or via heroku cli <code>heroku keys:add ~/.ssh/id_rsa.pub</code></p>
+
+<p>The next thing is to make sure heroku is added to jenkins <code>~/.ssh/known_hosts</code>, the easiest way to do this is just git clone one of the projects for user the key was just added to and type yes when asked about the host.</p>
+
+<h1>Setting up Jenkins</h1>
+
+<p>Now that Jenkins will boot up and we are ready to pull from our SCM provider its time to setup security, install some plugins and set some global config variables so make life easier.</p>
+
+<h2>Security</h2>
+
+<p>Jenkins security is pretty simple and the docs do a great job of demonstrating how to set up a standard username/password login system with you as the super user. There is no need for me to duplicate this so head over to <a href="https://wiki.jenkins-ci.org/display/JENKINS/Standard+Security+Setup">Jenkins Wiki</a> and follow their instructions.</p>
+
+<h2>Plugins</h2>
+
+<p>The following plugins are my standard goto&rsquo;s for a new jenkins install</p>
+
+<ul>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/Git+Plugin"><strong>git</strong></a> &ndash; Adds git support to Jenkins SCM section. A global user name and email address will need to be configured in the global settings panel.</li>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/thinBackup"><strong>thinbackup</strong></a> &ndash; Regularly backup global config and project configs</li>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/ChuckNorris+Plugin"><strong>chucknorris</strong></a> &ndash; Chuck Norris banter on failed and successful builds</li>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/Ruby+metrics+plugin"><strong>rubyMetrics</strong></a> &ndash; Allows the interpretation of RCov coverage reports</li>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/Heroku+Plugin"><strong>heroku</strong></a> &ndash; Interact with heroku</li>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/Email-ext+plugin"><strong>email extension</strong></a> &ndash; Extends Jenkins built in e-mail.</li>
+</ul>
+
+
+<h1>Setting up the Rails Project</h1>
+
+<h2>Getting good reports</h2>
+
+<p>When running rails tests within Jenkins the output isn&rsquo;t formatted in such a way that Jenkins really knowns what to do with it, so a failed test run and a successful test run are seen as fundamentally the same thing. To alter this behaviour need to add the <strong>ci_reporter</strong> gem to to your projects gem file. The same applies to the standard code coverage gem <strong>simplecov</strong>, the output produced can be seen in the Jenkins workspace, but you dont get the nice tracking graphs. An easy way to fix this is with the <strong>simplecov-rcov</strong> gem which allows simplecovs output to be formatted like rocvs which can be picked up by the rubymetrics plugin in Jenkins.</p>
+
+<p>All you need to do is add the following lines above SimpleCov.start</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;simplecov&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;simplecov-rcov&#39;</span>
+</span><span class='line'><span class="no">SimpleCov</span><span class="o">.</span><span class="n">formatter</span> <span class="o">=</span> <span class="ss">SimpleCov</span><span class="p">:</span><span class="ss">:Formatter</span><span class="o">::</span><span class="no">RcovFormatter</span>
+</span><span class='line'><span class="no">SimpleCov</span><span class="o">.</span><span class="n">start</span> <span class="s1">&#39;rails&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>     <br/>
+The best way to get the correct formatted output is to set up rake task using <code>RSpec::Core::RakeTask</code> in &lsquo;lib/tasks/spec.rake&rsquo; that allows you to run all specs with the command <code>rake all</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;rspec/core/rake_task&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;ci/reporter/rake/rspec&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="ss">RSpec</span><span class="p">:</span><span class="ss">:Core</span><span class="o">::</span><span class="no">RakeTask</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:all</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;ci:setup:rspec&quot;</span><span class="o">]</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">t</span><span class="o">.</span><span class="n">pattern</span> <span class="o">=</span> <span class="s1">&#39;**/*_spec.rb&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Separate Environment</h2>
+
+<p>The last thing i did was setup a new environment for the Jenkins user based of the default test environment. First I create a <code>config/environments/jenkins_test.rb</code>, add this to any bundler groups that test env was part of in config/application.rb and then leave out setting up a entry in <code>database.yml</code> as this will be done during the Jenkins build process</p>
+
+<h1>Project Setup</h1>
+
+<h2>Advanced Project Options</h2>
+
+<p>Set up quiet time option in the build when using heroku deploy hooks as they can fire before the last commit is available</p>
+
+<h2>Build Triggers</h2>
+
+<p>Trigger builds remotely through heroku deploy hooks.</p>
+
+<h2>Build</h2>
+
+<p>The current stock build script for a rails project</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash </span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># Jenkins is installed as a service account when its running builds so it isn&#39;t </span>
+</span><span class='line'><span class="c"># using a login shell. So since RVM was installed to the user and is setup through .bashrc </span>
+</span><span class='line'><span class="c"># this doesn&#39;t happen so we need to load RVM right after the shebang   </span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">source</span> <span class="s2">&quot;$HOME/.rvm/scripts/rvm&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># Set the global rails env</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">RAILS_ENV</span><span class="o">=</span>jenkins
+</span><span class='line'>
+</span><span class='line'><span class="c"># Load RVM with a ruby and a gemset, if neither are present they will be installed</span>
+</span><span class='line'>rvm use 2.0.0@brandtone
+</span><span class='line'>
+</span><span class='line'><span class="nb">set</span> -e
+</span><span class='line'>
+</span><span class='line'>bundle install
+</span><span class='line'>
+</span><span class='line'><span class="c"># Duplicate a stock database yml file and the change our database name</span>
+</span><span class='line'>cp ~/database.yml config/database.yml
+</span><span class='line'>sed -i <span class="s1">&#39;s/database_name/brandtone/g&#39;</span> config/database.yml
+</span><span class='line'>
+</span><span class='line'><span class="c"># Create if not present and migrate out DB</span>
+</span><span class='line'>rake db:create <span class="nv">RAILS_ENV</span><span class="o">=</span>jenkins_test
+</span><span class='line'>rake db:migrate <span class="nv">RAILS_ENV</span><span class="o">=</span>jenkins_test
+</span><span class='line'>
+</span><span class='line'><span class="c"># run all tests in a virtual frame buffer thats auto numbered to prevent clashes</span>
+</span><span class='line'>xvfb-run --auto-servernum bundle <span class="nb">exec </span>rake all
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Post Build Actions</h2>
+
+<p>Standard Post Build Actions</p>
+
+<ul>
+<li>Activate Chuck Norris</li>
+<li>Publish JUnit test result report</li>
+<li>Publish RCov Report</li>
+<li>Send Email Notifications</li>
+</ul>
+
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2013 - Jordan Rogers-Smith -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+			<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'jordanrs-blog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://jordanrs.github.io/blog/2013/08/21/setting-up-jenkins-with-chef-for-rails-project/';
+        var disqus_url = 'http://jordanrs.github.io/blog/2013/08/21/setting-up-jenkins-with-chef-for-rails-project/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

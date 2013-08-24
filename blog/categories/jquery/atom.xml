@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: fun | Jordan Rogers-Smith]]></title>
-  <link href="http://jordanrs.github.io/blog/categories/fun/atom.xml" rel="self"/>
+  <title><![CDATA[Category: jquery | Jordan Rogers-Smith]]></title>
+  <link href="http://jordanrs.github.io/blog/categories/jquery/atom.xml" rel="self"/>
   <link href="http://jordanrs.github.io/"/>
   <updated>2013-08-24T17:29:25+01:00</updated>
   <id>http://jordanrs.github.io/</id>

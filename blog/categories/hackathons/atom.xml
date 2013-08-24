@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: hackathons | Jordan Rogers-Smith]]></title>
+  <link href="http://jordanrs.github.io/blog/categories/hackathons/atom.xml" rel="self"/>
+  <link href="http://jordanrs.github.io/"/>
+  <updated>2013-08-24T17:29:25+01:00</updated>
+  <id>http://jordanrs.github.io/</id>
+  <author>
+    <name><![CDATA[Jordan Rogers-Smith]]></name>
+    <email><![CDATA[jordanrs2k1@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Hacked 2013]]></title>
+    <link href="http://jordanrs.github.io/blog/2013/07/22/hacked-2013/"/>
+    <updated>2013-07-22T12:03:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2013/07/22/hacked-2013</id>
+    <content type="html"><![CDATA[<p><a href="http://hacked.io">Hacked.oi</a> was utterly awesome. In the end myself, <a href="https://twitter.com/marcelloseri">Marcello Seri</a> and <a href="https://twitter.com/b3noxley">Ben Oxley</a> created <a href="https://www.hackerleague.org/hackathons/hacked/hacks/homeflux">homeFlux</a>, a realtime system for adapting light levels to match a desired intensity and also adjust colour values over time much like <a href="http://justgetflux.com/">flu.x</a>. Was awesome fun.</p>
+
+<iframe width="560" height="315" src="http://jordanrs.github.io//www.youtube.com/embed/T_gPdTJkoM0" frameborder="0" allowfullscreen></iframe>
+
+]]></content>
+  </entry>
+  
+</feed>
