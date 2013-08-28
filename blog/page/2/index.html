@@ -7,7 +7,7 @@
 	<meta name="author" content="Jordan Rogers-Smith">
 
 	
-	<meta name="description" content="Feb 21st, 2013 Making a Gem As to not forget the process of packaging up a gem and putting it on my own hosting just follow these simple tests :& &hellip;">
+	<meta name="description" content="Apr 5th, 2013 Strong Parameters and Tolk Gem To get the tolk gem to work along side the Strong Parameters gem we need to apply a monkey patch to &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -87,6 +87,53 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-05T00:00:00+01:00" data-updated="true" itemprop="datePublished">Apr 5<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/04/05/strong-parameters-and-tolk-gem/" itemprop="url">Strong Parameters and Tolk Gem</a></h1>
+	<h2 class="sub_heading" itemprop="name"></h2>
+	<div class="entry-content" itemprop="articleBody">
+		<p>To get the tolk gem to work along side the Strong Parameters gem we need to apply a monkey patch to tolk</p>
+
+<figure class='code'><figcaption><span>config/initalizers/tolk.rb    </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">Tolk</span><span class="p">:</span><span class="ss">:LocalesController</span><span class="o">.</span><span class="n">class_eval</span> <span class="k">do</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>      <span class="ss">Tolk</span><span class="p">:</span><span class="ss">:Locale</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:tolk_locale</span><span class="o">].</span><span class="n">try</span><span class="p">(</span><span class="ss">:permit!</span><span class="p">))</span>
+</span><span class='line'>      <span class="n">redirect_to</span> <span class="ss">:action</span> <span class="o">=&gt;</span> <span class="ss">:index</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -529,44 +576,6 @@ The only thing that can be changed is the BUCKET-NAME, leave all other aspects o
 
 		
 		<a href="/blog/2011/04/30/Algorithmic-Composition-Piece-2-Research---Choas-Functions/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-12-19T00:00:00+00:00" data-updated="true" itemprop="datePublished">Dec 19<span>th</span>, 2010</time></div>
-		<div class="tags">
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2010/12/19/Computer-Programming-for-Music-Technology---Quadraphonic-Delay-In-C-and-MaxMsp/" itemprop="url">Computer Programming for Music Technology - Quadraphonic Delay in C and Max/Msp</a></h1>
-	<h2 class="sub_heading" itemprop="name"></h2>
-	<div class="entry-content" itemprop="articleBody">
-		<p>The final piece of a course in C and its uses in building Max/Msp objects was to design and code a quadraphonic (four tap) delay in C for use as a Max/Msp object. The delay takes an incoming mono signal and allows the user to set four delay times which correspond to the the four outputs.</p>
-
-<p><strong>Source code and Object</strong>
-<a href="https://sites.google.com/site/jordanrsblog/cpmt/quaddelaysrc.zip">
-Download</a></p>
-
-<p>Built using Max/Msp SDK 5.1.6, tested on Windows 7 with Max/Msp 5.0.7</p>
-
-		
-		
 	</div>
 
 </article>

@@ -4,7 +4,7 @@
   <title><![CDATA[Jordan Rogers-Smith]]></title>
   <link href="http://jordanrs.github.io/atom.xml" rel="self"/>
   <link href="http://jordanrs.github.io/"/>
-  <updated>2013-08-24T17:29:25+01:00</updated>
+  <updated>2013-08-28T19:12:09+01:00</updated>
   <id>http://jordanrs.github.io/</id>
   <author>
     <name><![CDATA[Jordan Rogers-Smith]]></name>
@@ -12,6 +12,26 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Removing Node.js]]></title>
+    <link href="http://jordanrs.github.io/blog/2013/08/28/removing-node-dot-js/"/>
+    <updated>2013-08-28T19:05:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2013/08/28/removing-node-dot-js</id>
+    <content type="html"><![CDATA[<p>For when i cant find it, here is the best instructions i found for removing</p>
+
+<ol>
+<li>Go to /usr/local/lib and delete any node and node_modules</li>
+<li>Go to /usr/local/include and delete any node and node_modules directory</li>
+<li>If you installed with brew install node, then run brew uninstall node in your terminal</li>
+<li>Check your Home directory for any &ldquo;local&rdquo; or &ldquo;lib&rdquo; or &ldquo;include&rdquo; folders, and delete any &ldquo;node&rdquo; or &ldquo;node_modules&rdquo; from there</li>
+<li>Go to /usr/local/bin and delete any node executable</li>
+</ol>
+
+
+<p><a href="http://stackoverflow.com/questions/11177954/how-do-i-completely-uninstall-node-js-and-reinstall-from-beginning-mac-os-x">source</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Setting up Jenkins with Chef for Rails Project]]></title>
@@ -2419,21 +2439,6 @@ Now when you make any changes to files and push them to heroku these new files w
 </span><span class='line'> <span class="p">(</span><span class="nb">format</span> <span class="no">t</span> <span class="s">&quot;~D ~D~%&quot;</span> <span class="nv">y</span> <span class="nv">x</span><span class="p">))))</span>
 </span></code></pre></td></tr></table></div></figure>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Computer Programming for Music Technology - Quadraphonic Delay In C and Max/Msp]]></title>
-    <link href="http://jordanrs.github.io/blog/2010/12/19/Computer-Programming-for-Music-Technology---Quadraphonic-Delay-In-C-and-MaxMsp/"/>
-    <updated>2010-12-19T00:00:00+00:00</updated>
-    <id>http://jordanrs.github.io/blog/2010/12/19/Computer-Programming-for-Music-Technology&#8212;Quadraphonic-Delay-In-C-and-MaxMsp</id>
-    <content type="html"><![CDATA[<p>The final piece of a course in C and its uses in building Max/Msp objects was to design and code a quadraphonic (four tap) delay in C for use as a Max/Msp object. The delay takes an incoming mono signal and allows the user to set four delay times which correspond to the the four outputs.</p>
-
-<p><strong>Source code and Object</strong>
-<a href="https://sites.google.com/site/jordanrsblog/cpmt/quaddelaysrc.zip">
-Download</a></p>
-
-<p>Built using Max/Msp SDK 5.1.6, tested on Windows 7 with Max/Msp 5.0.7</p>
 ]]></content>
   </entry>
   

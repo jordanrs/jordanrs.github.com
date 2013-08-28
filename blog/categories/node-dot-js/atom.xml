@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: node.js | Jordan Rogers-Smith]]></title>
+  <link href="http://jordanrs.github.io/blog/categories/node-dot-js/atom.xml" rel="self"/>
+  <link href="http://jordanrs.github.io/"/>
+  <updated>2013-08-28T19:12:09+01:00</updated>
+  <id>http://jordanrs.github.io/</id>
+  <author>
+    <name><![CDATA[Jordan Rogers-Smith]]></name>
+    <email><![CDATA[jordanrs2k1@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Removing Node.js]]></title>
+    <link href="http://jordanrs.github.io/blog/2013/08/28/removing-node-dot-js/"/>
+    <updated>2013-08-28T19:05:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2013/08/28/removing-node-dot-js</id>
+    <content type="html"><![CDATA[<p>For when i cant find it, here is the best instructions i found for removing</p>
+
+<ol>
+<li>Go to /usr/local/lib and delete any node and node_modules</li>
+<li>Go to /usr/local/include and delete any node and node_modules directory</li>
+<li>If you installed with brew install node, then run brew uninstall node in your terminal</li>
+<li>Check your Home directory for any &ldquo;local&rdquo; or &ldquo;lib&rdquo; or &ldquo;include&rdquo; folders, and delete any &ldquo;node&rdquo; or &ldquo;node_modules&rdquo; from there</li>
+<li>Go to /usr/local/bin and delete any node executable</li>
+</ol>
+
+
+<p><a href="http://stackoverflow.com/questions/11177954/how-do-i-completely-uninstall-node-js-and-reinstall-from-beginning-mac-os-x">source</a></p>
+]]></content>
+  </entry>
+  
+</feed>
