@@ -4,7 +4,7 @@
   <title><![CDATA[Jordan Rogers-Smith]]></title>
   <link href="http://jordanrs.github.io/atom.xml" rel="self"/>
   <link href="http://jordanrs.github.io/"/>
-  <updated>2013-08-28T19:12:09+01:00</updated>
+  <updated>2014-04-30T18:42:49+01:00</updated>
   <id>http://jordanrs.github.io/</id>
   <author>
     <name><![CDATA[Jordan Rogers-Smith]]></name>
@@ -12,6 +12,383 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Quick way to join across two databases]]></title>
+    <link href="http://jordanrs.github.io/blog/2014/04/30/dblink/"/>
+    <updated>2014-04-30T17:54:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2014/04/30/dblink</id>
+    <content type="html"><![CDATA[<p>A recent hack / sketchy 1st product draft required datasets that live in two different database to be joined together to do some analysis on. Initially thoughts of denormalization or key/value lookup crossed peoples minds but wanting a quick win to try and get the idea validated as quickly as possible, I kept on digging.</p>
+
+<p>As always <a href="http://stackoverflow.com/questions/9493332/postgres-how-to-create-a-select-query-that-would-join-two-databases">stackoverflow</a> provided the start of the journey of discovery with something called dblink.</p>
+
+<h2>dblink to the rescue!</h2>
+
+<p><a href="http://www.postgresql.org/docs/current/interactive/contrib-dblink-function.html">dblink</a> is a hidden gem of a extension that made doing a join across two databases (weather there local or remote) a total breeze. Firstly the extension needs to be installed on the database with the following command.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'>  <span class="k">CREATE</span> <span class="n">EXTENSION</span> <span class="n">dblink</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>Once added to your database using it requires three pieces of information</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'>  <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">dblink</span><span class="p">(</span><span class="s1">&#39;CONNECTION STRING&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s1">&#39;QUERY STRING&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">AS</span> <span class="n">t</span><span class="p">(</span> <span class="n">CASTING</span> <span class="n">RESTULS</span> <span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Connection String</h2>
+
+<p>I personally use this format of string as it allows easy access to both local and remote DBs.</p>
+
+<pre><code>postgres://PG_USER:PG_PASSWORD@HOST:PORT/DATABSE_NAME'
+
+eg
+
+postgres://pguser:abcd@127.0.0.1:5432/test_db'
+</code></pre>
+
+<h2>Query String</h2>
+
+<p>This is query you wish to run on the remote machine. It can be any valid SQL.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="s1">&#39;SELECT title, price, category FROM products WHERE shop_id = 99&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Casting the results</h2>
+
+<p>When the results from the query are returned to local machine postgres doesn&rsquo;t know the column types of the received result set and thus needs to be told about them</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">AS</span> <span class="n">t</span><span class="p">(</span><span class="n">title</span> <span class="nb">varchar</span><span class="p">,</span> <span class="n">price</span> <span class="nb">int</span><span class="p">,</span> <span class="n">category</span> <span class="nb">varchar</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Full call example</h2>
+
+<p>So putting those three things together the final call would be</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'>  <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">dblink</span><span class="p">(</span><span class="s1">&#39;postgres://pguser:abcd@127.0.0.1:5432/test_db&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s1">&#39;SELECT title, price, category FROM products WHERE shop_id = 99&#39;</span><span class="p">)</span>
+</span><span class='line'>   <span class="k">AS</span> <span class="n">t</span><span class="p">(</span><span class="n">title</span> <span class="nb">varchar</span><span class="p">,</span> <span class="n">price</span> <span class="nb">int</span><span class="p">,</span> <span class="n">category</span> <span class="nb">varchar</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Allowing you to manipulate this results just as it they were from a local database table.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Vim Shortcuts]]></title>
+    <link href="http://jordanrs.github.io/blog/2013/09/23/vim-shortcuts/"/>
+    <updated>2013-09-23T09:10:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2013/09/23/vim-shortcuts</id>
+    <content type="html"><![CDATA[<p>Vim Commands</p>
+
+<p>i = insert mode</p>
+
+<p>h,j,k,l = move left, up, down, left
+w = move from word to word
+b = move back word to word
+W = jumps the whole word
+B = jusmps back a word to word</p>
+
+<p>$ = go to end of the line
+^ = go to the begining of the line
+0 = goes to the very beginning</p>
+
+<p>gg = goes to the begginig of the file
+G = goes to the bottom of the file
+{ } = jumps paragraphs</p>
+
+<p>f = finds the first occurence of a string in the file
+F = fins the first occurance of a string backward</p>
+
+<p>number followed by comman (4dd) &ndash; deletes four lines</p>
+
+<p>3gg = goes 3 lines from the top
+:13 = goes to line 13
+3 G = goes three lines from the bottom</p>
+
+<p>Advanced movement</p>
+
+<p>ctrl d &ndash; moves half screen down
+ctrl u &ndash; moves half screen up
+ctrl f &ndash; full screen forward
+ctrl b &ndash; full screen backward</p>
+
+<p>M &ndash; goes to middle of the window
+H &ndash; goes to top of window
+L &ndash; goes to last line of window
+3L &ndash; goes three lines above bottom of window</p>
+
+<p>zt &ndash; moves the line our cursor is on to the top
+zb &ndash; moves the line to the botton
+zz &ndash; moves the line to the middle</p>
+
+<p>ma &ndash; saves cursor position to a register
+&lsquo;a &ndash; goes directly to register a
+&rsquo; &ndash; move between markers</p>
+
+<hr />
+
+<h2>Basic Editing</h2>
+
+<p>X &ndash; deletes behind the cursor
+x &ndash; delete whats under the cursor
+dd &ndash; delete the line
+dw &ndash; delete the word
+db &ndash; delete revious word</p>
+
+<p>cc &ndash; delete line and enter insert mode
+cw &ndash; delete work and enter insert mode
+cd &ndash; delete previous word and enter insert mode</p>
+
+<p>ci&#8221; &ndash; changes whats inbetween two &ldquo;
+ca&rdquo; &ndash; deletes everything inside the quot and the quote</p>
+
+<hr />
+
+<h2>cut copy and paste</h2>
+
+<p>Every deleteion is a cut command, puts in a special registar for pasting later</p>
+
+<p>p &ndash; pastes last thing in deletion cut register
+P &ndash; pastes before the cursor
+y &ndash; yank/copy somehting copy can be used with any familiar command
+yw &ndash; copy word
+yy &ndash; copy line</p>
+
+<hr />
+
+<h2>search</h2>
+
+<p>/search = starts searching for word search. it is also case sensitive
+?search = looks backwards for the word search
+set incsearch = sets incremental search on
+set ignorecase = turns of case senestive search
+set hlsearch = turns on highlight search
+nohlsearch / noh = turns off highlight search
+n = searchs mores. vim stores the last search
+c/find = will delete from the cursor to find and then enter insert mode</p>
+
+<p>vim search can use regexs</p>
+
+<hr />
+
+<h2>Search and replace</h2>
+
+<p>:s/pattern/replace/flags
+:s &ndash; perfoms a substitutions replaces on first occurance by defaul
+:s/vim/Vim &ndash; replaces vim for Vim
+:%s/vim/Vim &ndash; replaces whole file with vim for Vim
+:%s/vim/Vim/g &ndash; replaces whole file with vim for Vim globally</p>
+
+<p>vim will use previous serach pattern
+so can do :s//pattern
+when using regex can use \ze or \zs to stop selection before or af</p>
+
+<p>Visual mode &ndash; v
+visual line mode &ndash; V</p>
+
+<p>gv &ndash; reslects last selection</p>
+
+<p>go to a bracket, enter visual mode hit % and that will find the corresponding</p>
+
+<p>FLAGS</p>
+
+<p>c = confirm, asks for confirmation for oeach occurence
+i = insensitive
+g = finds all occurances in a line</p>
+
+<p>HELP</p>
+
+<p>:help s &ndash; opens the help for a command</p>
+
+<hr />
+
+<h2>Macros and Register</h2>
+
+<p>ctrl g &ndash; get file in fo</p>
+
+<p>macros store a command pipeline that can be used over and over</p>
+
+<p>qa &ndash; start recording a macro in register a
+q &ndash; stops recroding
+:registers / reg &ndash; shows the recorded registers
+@a &ndash; runs macro in a register
+@@ &ndash; runts the last macro ran again</p>
+
+<hr />
+
+<h2>command line in vim</h2>
+
+<p>:! &ndash; initalises comman from the shell then run command
+:read !date &ndash; puts the oupt of shell into the file under cursor
+:r !curl &mdash;silent URL &ndash; outputs the file into the buffer
+you can take the selected text buffer feed it in to standard in and replace it with output</p>
+
+<hr />
+
+<h2>navigating between buffers</h2>
+
+<p>:ls &ndash; lists all active buffers for files in memory
+:bn / bnext &ndash; next buffer
+:bp / bprev &ndash; previous buffer
+:b# &ndash; last buffer we visited
+:bf &ndash; first buffer</p>
+
+<p>:bd 14 &ndash; deletes buffer 14</p>
+
+<hr />
+
+<h2>Windows and tabs</h2>
+
+<p>Split windows</p>
+
+<p>:vsplit / vs file_path &ndash; splits the
+ctrl+w h/l = move between left right
+ctrl+w H / L = move to the left / right most part
+ctrl + w J/K = move to the bottom / top
+ctrl + w +/&ndash; = increase/decrease window hight 1 row
+ctrl + w </> = increase/decrease width by 1 column
+ctrl + w = = auto resize windows equally
+:q = clost a window buffer</p>
+
+<p>:sb 2 = split buffer in memory
+:vert sb = vetical split buffer in memory</p>
+
+<p>Tabs</p>
+
+<p>:tab e / tabedit file_path
+:gt &ndash; move oen tab forward
+:gT &ndash; move one tab backward</p>
+
+<hr />
+
+<h2>Graphical Vim</h2>
+
+<p>set gfn &ndash; sets current font</p>
+
+<hr />
+
+<h2>Indents and Folds </h2>
+
+<p>:set list &ndash; prnts lines/tabs/space</p>
+
+<blockquote><blockquote><ul>
+<li>indent of one tab
+8>> &ndash; indents following 8 lines</li>
+</ul>
+</blockquote></blockquote>
+
+<p>:set expandtab &ndash; sets soft tabs
+:set noexpandtab &ndash; sets tabs normal
+:set shiftwidth=3 &ndash; 3 spaces for one indentation
+:set smartindent &ndash; sets smart indentation
+:set softtabstop / sts 3</p>
+
+<p>in visual mode &ndash;</p>
+
+<p>gv &ndash; reselects last selection</p>
+
+<blockquote><p>/&lt; &ndash; indents</p></blockquote>
+
+<p>Auto indent
+= on select texted auto indent
+=3j auto indent next 2 lines
+=G indents the whole file</p>
+
+<p>In inset mode
+tab = inserts
+ctrl + t = indent forward
+ctrl + d = indent back</p>
+
+<p>Folding</p>
+
+<p>manual folds
+zf5j &ndash; fold the next 5 lines
+zo &ndash; open fold
+zO &ndash; open from cursor fown
+zc &ndash; close everything from position up fold
+zd &ndash; delete fold
+zf% &ndash; folds the matching bracket
+zi &ndash; inverts folding on/off</p>
+
+<p>auto folding</p>
+
+<p>set foldmethod/fdm &ndash; numberous options see help foldmethod
+set fdm=sytax = fold baed on syntax
+set fdm=marker = set a custom folder maker } for instace</p>
+
+<hr />
+
+<h2>.vimrc file</h2>
+
+<p>:so % &ndash; source our current file</p>
+
+<p>set nocompatible &ndash; sets vims way of doing things</p>
+
+<p>allows file types to be detected than plugins and indentation set up based on those files</p>
+
+<p>filetype on
+filetype indent on
+filetype  plugin on</p>
+
+<p>let VARIAABLE &ndash; &ldquo;.&rdquo;
+syntax enable</p>
+
+<p>set ignorecase
+set hlsearch
+set autoindent
+set fileencoding=utf-8
+set encoding=utf-8
+set backspace=indent.eol.start</p>
+
+<p>set smartcase &ndash; perform smart searchs
+gdefault &ndash; perform global replacments
+set incsearch
+set showmatch &ndash; highlight all matching parentheses</p>
+
+<p>deals with how windows are auto sized
+set winwidth=84
+set winheight=5
+set winminheight=5
+set winheight=999</p>
+
+<p>set no/list &ndash; view all tabs and line endings
+set guifont= &ndash; sets the font
+set guioptions= add options
+set guioptions-= remove options
+set number &ndash; set line numbers
+set visualbell &ndash; flash the screen over the bell
+set cursoline &ndash; highlight line your in</p>
+
+<p>set cc=80 &ndash; sets line at 80th column
+set background=dark
+colorschmeme solarized</p>
+
+<p>au BufRead,BufNewFil *.ru setfiletype ruby</p>
+
+<hr />
+
+<h2>Mappings</h2>
+
+<p>sequence of characters that triggers sequence of commands</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Removing Node.js]]></title>
@@ -2017,428 +2394,6 @@ Now when you make any changes to files and push them to heroku these new files w
 <p><a href="https://sites.google.com/site/jordanrsblog/KinecttoMax.zip?attredirects=0&amp;d=1">Download Location 1</a></p>
 
 <p><a href="http://www.mediafire.com/?ljoxdh01fdorgmd">MediaFire Mirror</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Chaos Music - The Final Piece]]></title>
-    <link href="http://jordanrs.github.io/blog/2011/04/30/Chaos-Music---The-Final-Piece/"/>
-    <updated>2011-04-30T00:00:00+01:00</updated>
-    <id>http://jordanrs.github.io/blog/2011/04/30/Chaos-Music&#8212;The-Final-Piece</id>
-    <content type="html"><![CDATA[<p>Chaos music is a composition based on my research and programming of the functions documented in <a href="http://jordanrs.blogspot.com/2011/04/algorithmic-comp-piece-2-research-choas.html">my previous post.</a>  The piece uses the output data from the chaotic functions to drive musical synthesis with the built in functions of CLM, more explanation about methodology can be found in the attached report.</p>
-
-<p><strong>Final Piece</strong></p>
-
-<iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F102117823&amp;color=ff6600&amp;auto_play=false&amp;show_artwork=false"></iframe>
-
-
-<p><strong>Download Source and Report</strong></p>
-
-<p><img style="display: block; margin: 0px auto 10px; text-align: center; cursor: pointer; width: 287px; height: 400px;" src="http://2.bp.blogspot.com/-PqHESAb3dX0/TbxzzLXTW6I/AAAAAAAABXI/ZIrSRy9qfPU/s400/algocomp.jpg" alt="" id="BLOGGER_PHOTO_ID_5601479359603104674" border="0" /></p>
-
-<p><a href="https://sites.google.com/site/jordanrsblog/algorithmiccomp/Project2.zip"><br />Download</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Algorithmic Comp. Piece 2 Research - Chaos Functions]]></title>
-    <link href="http://jordanrs.github.io/blog/2011/04/30/Algorithmic-Composition-Piece-2-Research---Choas-Functions/"/>
-    <updated>2011-04-30T00:00:00+01:00</updated>
-    <id>http://jordanrs.github.io/blog/2011/04/30/Algorithmic-Composition-Piece-2-Research&#8212;Choas-Functions</id>
-    <content type="html"><![CDATA[<p>For my final year piece iv been researching chaotic functions and non-linear maps. Below is a selection of function iv ported into Lisp. Each function outputs a text file that can be imported into most graphing software (the corresponding pictures were all produced with MATLAB). I intend to implement these functions and use there output to drive a piece of music.</p>
-
-<p><strong>The Logistic Equation</strong></p>
-
-<p><img style="display: block; margin: 0px auto 10px; text-align: center; cursor: pointer; width: 302px; height: 298px;" src="http://4.bp.blogspot.com/-E1OToaCO-yg/TbxIpC3F1fI/AAAAAAAABU4/8soPQ8FU69Y/s320/logistic.jpg" alt="" id="BLOGGER_PHOTO_ID_5601431906521830898" border="0" /></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='common-lisp'><span class='line'><span class="p">(</span><span class="nb">with-open-file</span> <span class="p">(</span><span class="vg">*standard-output*</span> <span class="s">&quot;logistic.txt&quot;</span> <span class="ss">:direction</span> <span class="ss">:output</span>
-</span><span class='line'>                                  <span class="ss">:if-exists</span> <span class="ss">:supersede</span><span class="p">)</span>
-</span><span class='line'><span class="p">(</span><span class="k">let*</span>  <span class="p">((</span><span class="nv">x</span> <span class="mf">0.5</span><span class="p">)</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">r-env</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">0</span> <span class="mi">1</span> <span class="mi">1000</span> <span class="mf">4.0</span><span class="p">))</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">r</span> <span class="mf">0.0</span><span class="p">))</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>   <span class="p">(</span><span class="nb">loop</span> <span class="nv">for</span> <span class="nv">i</span> <span class="nv">below</span> <span class="mi">1000</span> <span class="nb">do</span>
-</span><span class='line'>  <span class="p">(</span><span class="nb">setf</span> <span class="nv">r</span> <span class="p">(</span><span class="nv">envelope-interp</span> <span class="nv">i</span> <span class="nv">r-env</span><span class="p">)</span>
-</span><span class='line'>     <span class="nv">x</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">r</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">x</span> <span class="p">(</span><span class="nb">-</span> <span class="mi">1</span> <span class="nv">x</span><span class="p">))))</span>
-</span><span class='line'>  <span class="p">(</span><span class="nb">format</span> <span class="no">t</span> <span class="s">&quot;~D ~D~%&quot;</span> <span class="nv">r</span> <span class="nv">x</span><span class="p">)</span>
-</span><span class='line'>  <span class="p">)))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>The Henon Map</strong></p>
-
-<!--more-->
-
-
-<p><img style="display: block; margin: 0px auto 10px; text-align: center; cursor: pointer; width: 320px; height: 256px;" src="http://3.bp.blogspot.com/-6WhbHPFz2VU/TbxYE4-VJCI/AAAAAAAABVA/uQxuuX5kwGg/s320/henon.jpg" alt="" id="BLOGGER_PHOTO_ID_5601448877578593314" border="0" /></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='common-lisp'><span class='line'><span class="p">(</span><span class="nb">with-open-file</span> <span class="p">(</span><span class="vg">*standard-output*</span> <span class="s">&quot;henon.txt&quot;</span> <span class="ss">:direction</span> <span class="ss">:output</span>
-</span><span class='line'>                                  <span class="ss">:if-exists</span> <span class="ss">:supersede</span><span class="p">)</span>
-</span><span class='line'><span class="p">(</span><span class="k">let*</span> <span class="p">((</span><span class="nv">x</span> <span class="mf">0.1</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">(</span><span class="nv">y</span> <span class="mf">0.1</span><span class="p">)</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">a</span> <span class="mf">1.4</span><span class="p">)</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">b</span> <span class="mf">0.3</span><span class="p">)</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">z</span> <span class="mf">0.0</span><span class="p">))</span>
-</span><span class='line'>
-</span><span class='line'> <span class="p">(</span><span class="nb">loop</span> <span class="nv">for</span> <span class="nv">i</span> <span class="nv">below</span> <span class="mi">500</span> <span class="nb">do</span>
-</span><span class='line'> <span class="p">(</span><span class="nb">setf</span> <span class="nv">z</span> <span class="nv">x</span>
-</span><span class='line'>    <span class="nv">x</span> <span class="p">(</span><span class="nb">-</span><span class="p">(</span><span class="nb">+</span> <span class="nv">y</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">a</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">)))</span>
-</span><span class='line'>    <span class="nv">y</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">b</span> <span class="nv">z</span><span class="p">))</span>
-</span><span class='line'>
-</span><span class='line'> <span class="p">(</span><span class="nb">format</span> <span class="no">t</span> <span class="s">&quot;~D ~D~%&quot;</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">))))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>The Lorenz Attractor</strong>
-<img style="display: block; margin: 0px auto 10px; text-align: center; cursor: pointer; width: 300px; height: 320px;" src="http://4.bp.blogspot.com/-GlNo5diFAZo/TbxZqaGYVlI/AAAAAAAABVI/zXK9B45Av9Y/s320/lorenz.jpg" alt="" id="BLOGGER_PHOTO_ID_5601450621637514834" border="0" /></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class='common-lisp'><span class='line'><span class="p">(</span><span class="nb">with-open-file</span> <span class="p">(</span><span class="vg">*standard-output*</span> <span class="s">&quot;lorenz.txt&quot;</span> <span class="ss">:direction</span> <span class="ss">:output</span>
-</span><span class='line'>                             <span class="ss">:if-exists</span> <span class="ss">:supersede</span><span class="p">)</span>
-</span><span class='line'><span class="p">(</span><span class="k">let*</span> <span class="p">((</span><span class="nv">x1</span> <span class="mf">0.0</span><span class="p">)</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">y1</span> <span class="mf">1.0</span><span class="p">)</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">z1</span> <span class="mf">0.0</span><span class="p">)</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">dt</span> <span class="mf">0.001</span><span class="p">)</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">x</span> <span class="mf">0.0</span><span class="p">)</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">y</span> <span class="mf">0.0</span><span class="p">)</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">z</span> <span class="mf">0.0</span><span class="p">)</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">a</span> <span class="mi">10</span><span class="p">)</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">b</span> <span class="p">(</span><span class="nb">/</span> <span class="mi">8</span> <span class="mi">3</span><span class="p">))</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">p</span> <span class="mi">28</span><span class="p">))</span>
-</span><span class='line'>
-</span><span class='line'> <span class="p">(</span><span class="nb">loop</span> <span class="nv">for</span> <span class="nv">i</span> <span class="nv">below</span> <span class="mi">1000</span> <span class="nb">do</span>
-</span><span class='line'>  <span class="p">(</span><span class="nb">setf</span> <span class="nv">x</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x1</span> <span class="p">(</span><span class="nb">*</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">a</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">y1</span> <span class="nv">x1</span><span class="p">))</span> <span class="nv">dt</span><span class="p">))</span>
-</span><span class='line'>     <span class="nv">y</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">y1</span> <span class="p">(</span><span class="nb">*</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">y1</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">x1</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">p</span> <span class="nv">z1</span><span class="p">)))</span> <span class="nv">dt</span><span class="p">))</span>
-</span><span class='line'>     <span class="nv">z</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">z1</span> <span class="p">(</span><span class="nb">*</span> <span class="p">(</span><span class="nb">-</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">x1</span> <span class="nv">y1</span><span class="p">)</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">b</span> <span class="nv">z1</span><span class="p">))</span> <span class="nv">dt</span><span class="p">))</span>
-</span><span class='line'>     <span class="nv">x1</span> <span class="nv">x</span>
-</span><span class='line'>     <span class="nv">y1</span> <span class="nv">y</span>
-</span><span class='line'>     <span class="nv">z1</span> <span class="nv">z</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'> <span class="p">(</span><span class="nb">format</span> <span class="no">t</span> <span class="s">&quot;~D ~D ~D~%&quot;</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">1000</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">1000</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">1000</span> <span class="nv">z</span><span class="p">)))))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>The Ikeda Map</strong>
-<img style="display: block; margin: 0px auto 10px; text-align: center; cursor: pointer; width: 276px; height: 320px;" src="http://4.bp.blogspot.com/-GWcUIpsnOOc/TbxamvvnwOI/AAAAAAAABVQ/95bnAwy3KA8/s320/ikeda.jpg" alt="" id="BLOGGER_PHOTO_ID_5601451658239787234" border="0" /></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='common-lisp'><span class='line'><span class="p">(</span><span class="nb">with-open-file</span> <span class="p">(</span><span class="vg">*standard-output*</span> <span class="s">&quot;ikeda.txt&quot;</span> <span class="ss">:direction</span> <span class="ss">:output</span>
-</span><span class='line'>                               <span class="ss">:if-exists</span> <span class="ss">:supersede</span><span class="p">)</span>
-</span><span class='line'><span class="p">(</span><span class="k">let*</span> <span class="p">((</span><span class="nv">x</span> <span class="mf">1.0</span><span class="p">)</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">y</span> <span class="mf">1.0</span><span class="p">)</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">u</span> <span class="mf">0.95</span><span class="p">)</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">z</span> <span class="mf">0.0</span><span class="p">)</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">b</span> <span class="mf">0.0</span><span class="p">))</span>
-</span><span class='line'> <span class="p">(</span><span class="nb">loop</span> <span class="nv">for</span> <span class="nv">i</span> <span class="nv">below</span> <span class="mi">1000</span> <span class="nb">do</span>
-</span><span class='line'>  <span class="p">(</span><span class="nb">setf</span> <span class="nv">z</span> <span class="nv">x</span>
-</span><span class='line'>     <span class="nv">b</span> <span class="p">(</span><span class="nb">-</span> <span class="mf">0.4</span> <span class="p">(</span><span class="nb">/</span> <span class="mi">6</span> <span class="p">(</span><span class="nb">+</span> <span class="mi">1</span> <span class="p">(</span><span class="nb">+</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">y</span> <span class="nv">y</span><span class="p">)))))</span>
-</span><span class='line'>     <span class="nv">x</span> <span class="p">(</span><span class="nb">+</span> <span class="mi">1</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">u</span> <span class="p">(</span><span class="nb">-</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">x</span> <span class="p">(</span><span class="nb">cos</span> <span class="nv">b</span><span class="p">))</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">y</span> <span class="p">(</span><span class="nb">sin</span> <span class="nv">b</span><span class="p">)))))</span>
-</span><span class='line'>     <span class="nv">y</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">u</span> <span class="p">(</span><span class="nb">+</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">z</span> <span class="p">(</span><span class="nb">sin</span> <span class="nv">b</span><span class="p">))</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">y</span> <span class="p">(</span><span class="nb">cos</span> <span class="nv">b</span><span class="p">)))))</span>
-</span><span class='line'>
-</span><span class='line'> <span class="p">(</span><span class="nb">format</span> <span class="no">t</span> <span class="s">&quot;~D ~D~%&quot;</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">))))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>The Tent Map</strong>
-<img style="display: block; margin: 0px auto 10px; text-align: center; cursor: pointer; width: 320px; height: 320px;" src="http://1.bp.blogspot.com/-9Lpgb5RcTPY/TbxbjFJq4kI/AAAAAAAABVY/oh7uzLHqos8/s320/tent.jpg" alt="" id="BLOGGER_PHOTO_ID_5601452694778339906" border="0" /></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='common-lisp'><span class='line'><span class="p">(</span><span class="nb">with-open-file</span> <span class="p">(</span><span class="vg">*standard-output*</span> <span class="s">&quot;tent.txt&quot;</span> <span class="ss">:direction</span> <span class="ss">:output</span>
-</span><span class='line'>                                <span class="ss">:if-exists</span> <span class="ss">:supersede</span><span class="p">)</span>
-</span><span class='line'><span class="p">(</span><span class="k">let*</span> <span class="p">((</span><span class="nv">x</span> <span class="mf">0.5</span><span class="p">)</span>
-</span><span class='line'>   <span class="p">(</span><span class="nv">u</span> <span class="mf">0.0</span><span class="p">)</span>
-</span><span class='line'>   <span class="p">(</span><span class="nv">u-env</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">0</span> <span class="mi">1</span> <span class="mi">1000</span> <span class="mf">2.0</span><span class="p">)))</span>
-</span><span class='line'>
-</span><span class='line'> <span class="p">(</span><span class="nb">loop</span> <span class="nv">for</span> <span class="nv">i</span> <span class="nv">below</span> <span class="mi">1000</span> <span class="nb">do</span>
-</span><span class='line'>  <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nv">&amp;lt</span><span class="c1">; x 0.5)</span>
-</span><span class='line'>   <span class="p">(</span><span class="k">progn</span>
-</span><span class='line'>   <span class="p">(</span><span class="nb">setf</span> <span class="nv">u</span> <span class="p">(</span><span class="nv">envelope-interp</span> <span class="nv">i</span> <span class="nv">u-env</span><span class="p">)</span>
-</span><span class='line'>      <span class="nv">x</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">u</span> <span class="nv">x</span><span class="p">))</span>
-</span><span class='line'>   <span class="p">(</span><span class="nb">format</span> <span class="no">t</span> <span class="s">&quot;~D ~D~%&quot;</span> <span class="nv">x</span> <span class="nv">u</span><span class="p">))</span>
-</span><span class='line'>   <span class="p">(</span><span class="k">progn</span>
-</span><span class='line'>   <span class="p">(</span><span class="nb">setf</span> <span class="nv">u</span> <span class="p">(</span><span class="nv">envelope-interp</span> <span class="nv">i</span> <span class="nv">u-env</span><span class="p">)</span>
-</span><span class='line'>      <span class="nv">x</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">u</span> <span class="p">(</span><span class="nb">-</span> <span class="mi">1</span> <span class="nv">x</span><span class="p">)))</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="p">(</span><span class="nb">format</span> <span class="no">t</span> <span class="s">&quot;~D ~D~%&quot;</span> <span class="nv">u</span> <span class="nv">x</span><span class="p">))))))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p><strong>The Gauss Iterated Map</strong>
-<img style="display: block; margin: 0px auto 10px; text-align: center; cursor: pointer; width: 320px; height: 258px;" src="http://1.bp.blogspot.com/-SmYtPew_6nY/TbxciohI0TI/AAAAAAAABVg/UbPoMLPtdrQ/s320/gauss.jpg" alt="" id="BLOGGER_PHOTO_ID_5601453786603770162" border="0" /></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='common-lisp'><span class='line'><span class="p">(</span><span class="nb">with-open-file</span> <span class="p">(</span><span class="vg">*standard-output*</span> <span class="s">&quot;gauss.txt&quot;</span> <span class="ss">:direction</span> <span class="ss">:output</span>
-</span><span class='line'>                                <span class="ss">:if-exists</span> <span class="ss">:supersede</span><span class="p">)</span>
-</span><span class='line'><span class="p">(</span><span class="k">let*</span>  <span class="p">((</span><span class="nv">x</span> <span class="mf">0.0</span><span class="p">)</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">a</span> <span class="mf">6.2</span><span class="p">)</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">b-env</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">0</span> <span class="mi">-1</span> <span class="mi">500</span> <span class="mi">1</span><span class="p">))</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">b</span> <span class="mf">0.0</span><span class="p">))</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="p">(</span><span class="nb">loop</span> <span class="nv">for</span> <span class="nv">i</span> <span class="nv">below</span> <span class="mi">500</span> <span class="nb">do</span>
-</span><span class='line'>  <span class="p">(</span><span class="nb">setf</span> <span class="nv">b</span> <span class="p">(</span><span class="nv">envelope-interp</span> <span class="nv">i</span> <span class="nv">b-env</span><span class="p">)</span>
-</span><span class='line'>     <span class="nv">x</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">b</span> <span class="p">(</span><span class="nb">exp</span><span class="p">(</span><span class="nb">*</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">-1</span> <span class="nv">a</span><span class="p">)</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">)))))</span>
-</span><span class='line'>  <span class="p">(</span><span class="nb">format</span> <span class="no">t</span> <span class="s">&quot;~D ~D~%&quot;</span> <span class="nv">i</span> <span class="nv">x</span><span class="p">))))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>The Tinkerbell Map</strong>
-<img style="display: block; margin: 0px auto 10px; text-align: center; cursor: pointer; width: 320px; height: 284px;" src="http://1.bp.blogspot.com/-I37WgDY5-Yg/TbxdO8MjqEI/AAAAAAAABVo/POBxhfgV6ng/s320/tinkerbelle.jpg" alt="" id="BLOGGER_PHOTO_ID_5601454547800401986" border="0" /></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='common-lisp'><span class='line'><span class="p">(</span><span class="nb">with-open-file</span> <span class="p">(</span><span class="vg">*standard-output*</span> <span class="s">&quot;tinkbell.txt&quot;</span> <span class="ss">:direction</span> <span class="ss">:output</span>
-</span><span class='line'>                                <span class="ss">:if-exists</span> <span class="ss">:supersede</span><span class="p">)</span>
-</span><span class='line'><span class="p">(</span><span class="k">let*</span> <span class="p">((</span><span class="nv">x</span> <span class="mf">-0.72</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">(</span><span class="nv">y</span> <span class="mf">-0.64</span><span class="p">)</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">a</span> <span class="mf">0.9</span><span class="p">)</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">b</span> <span class="mf">-0.6013</span><span class="p">)</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">c</span> <span class="mi">2</span><span class="p">)</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">d</span> <span class="mf">0.5</span><span class="p">)</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">z</span> <span class="mf">0.0</span><span class="p">))</span>
-</span><span class='line'>
-</span><span class='line'> <span class="p">(</span><span class="nb">loop</span> <span class="nv">for</span> <span class="nv">i</span> <span class="nv">below</span> <span class="mi">2500</span> <span class="nb">do</span>
-</span><span class='line'> <span class="p">(</span><span class="nb">setf</span> <span class="nv">z</span> <span class="nv">x</span>
-</span><span class='line'>    <span class="nv">x</span> <span class="p">(</span><span class="nb">+</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">b</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nb">+</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">a</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">-</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">y</span> <span class="nv">y</span><span class="p">))))</span>
-</span><span class='line'>    <span class="nv">y</span> <span class="p">(</span><span class="nb">+</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">d</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nb">+</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">c</span> <span class="nv">z</span><span class="p">)</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">2</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">z</span> <span class="nv">y</span><span class="p">)))))</span>
-</span><span class='line'>
-</span><span class='line'> <span class="p">(</span><span class="nb">format</span> <span class="no">t</span> <span class="s">&quot;~D ~D~%&quot;</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">))))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>The Rabinovich-Fabrikant Equation</strong>
-<img style="display: block; margin: 0px auto 10px; text-align: center; cursor: pointer; width: 320px; height: 271px;" src="http://4.bp.blogspot.com/-gIz3Lb1N7ag/TbxeMisXZLI/AAAAAAAABVw/uH4KW7rAB_8/s320/rf.jpg" alt="" id="BLOGGER_PHOTO_ID_5601455606106383538" border="0" /></p>
-
-<p>The graph may not look like those from other resources but that&rsquo;s because it was not ran over enough iterations, changing the loop value to over 1000 produces the main graph shape.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='common-lisp'><span class='line'><span class="p">(</span><span class="nb">with-open-file</span> <span class="p">(</span><span class="vg">*standard-output*</span> <span class="s">&quot;rabfab.txt&quot;</span> <span class="ss">:direction</span> <span class="ss">:output</span>
-</span><span class='line'>                                  <span class="ss">:if-exists</span> <span class="ss">:supersede</span><span class="p">)</span>
-</span><span class='line'><span class="p">(</span><span class="k">let*</span> <span class="p">((</span><span class="nv">x1</span> <span class="mf">-1.0</span><span class="p">)</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">y1</span> <span class="mf">0.0</span><span class="p">)</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">z1</span> <span class="mf">0.5</span><span class="p">)</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">dt</span> <span class="mf">0.01</span><span class="p">)</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">x</span> <span class="mf">0.0</span><span class="p">)</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">y</span> <span class="mf">0.0</span><span class="p">)</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">z</span> <span class="mf">0.0</span><span class="p">)</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">a</span> <span class="mf">0.14</span><span class="p">)</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">g</span> <span class="mf">0.1</span><span class="p">))</span>
-</span><span class='line'>
-</span><span class='line'> <span class="p">(</span><span class="nb">loop</span> <span class="nv">for</span> <span class="nv">i</span> <span class="nv">below</span> <span class="mi">1000</span> <span class="nb">do</span>
-</span><span class='line'>  <span class="p">(</span><span class="nb">setf</span> <span class="nv">x</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x1</span> <span class="p">(</span><span class="nb">*</span> <span class="p">(</span><span class="nb">+</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">g</span> <span class="nv">x1</span><span class="p">)</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">y1</span> <span class="p">(</span><span class="nb">+</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">x1</span> <span class="nv">x1</span><span class="p">)</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">z1</span> <span class="mi">1</span><span class="p">))))</span> <span class="nv">dt</span><span class="p">))</span>
-</span><span class='line'>     <span class="nv">y</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">y1</span> <span class="p">(</span><span class="nb">*</span> <span class="p">(</span><span class="nb">+</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">g</span> <span class="nv">y1</span><span class="p">)</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">x1</span> <span class="p">(</span><span class="nb">-</span> <span class="p">(</span><span class="nb">+</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">3</span> <span class="nv">z1</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">x1</span> <span class="nv">x1</span><span class="p">))))</span> <span class="nv">dt</span><span class="p">))</span>
-</span><span class='line'>     <span class="nv">z</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">z1</span> <span class="p">(</span><span class="nb">*</span> <span class="p">(</span><span class="nb">*</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">2</span> <span class="mi">-1</span><span class="p">)</span> <span class="nv">z1</span><span class="p">)</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">a</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">x1</span> <span class="nv">y1</span><span class="p">))</span> <span class="nv">dt</span><span class="p">))</span>
-</span><span class='line'>     <span class="nv">x1</span> <span class="nv">x</span>
-</span><span class='line'>     <span class="nv">y1</span> <span class="nv">y</span>
-</span><span class='line'>     <span class="nv">z1</span> <span class="nv">z</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'> <span class="p">(</span><span class="nb">format</span> <span class="no">t</span> <span class="s">&quot;~D ~D ~D~%&quot;</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">1000</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">1000</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">1000</span> <span class="nv">z</span><span class="p">)))))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>The Torus Knot</strong>
-<img style="display: block; margin: 0px auto 10px; text-align: center; cursor: pointer; width: 320px; height: 266px;" src="http://3.bp.blogspot.com/-0BfnejP-UEE/TbxftjkCQsI/AAAAAAAABWI/eOcIeBdxdtU/s320/torustd.jpg" alt="" id="BLOGGER_PHOTO_ID_5601457272787190466" border="0" />
-<img style="display: block; margin: 0px auto 10px; text-align: center; cursor: pointer; width: 311px; height: 320px;" src="http://4.bp.blogspot.com/-R1iTUBrYO3Q/TbxfbAiVvyI/AAAAAAAABWA/BTBqMf8H5eA/s320/torus.jpg" alt="" id="BLOGGER_PHOTO_ID_5601456954147192610" border="0" /></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='common-lisp'><span class='line'><span class="p">(</span><span class="nb">with-open-file</span> <span class="p">(</span><span class="vg">*standard-output*</span> <span class="s">&quot;torus.txt&quot;</span> <span class="ss">:direction</span> <span class="ss">:output</span>
-</span><span class='line'>                                  <span class="ss">:if-exists</span> <span class="ss">:supersede</span><span class="p">)</span>
-</span><span class='line'><span class="p">(</span><span class="k">let*</span> <span class="p">((</span><span class="nv">x</span> <span class="mf">0.0</span><span class="p">)</span>
-</span><span class='line'>   <span class="p">(</span><span class="nv">y</span> <span class="mf">0.0</span><span class="p">)</span>
-</span><span class='line'>   <span class="p">(</span><span class="nv">z</span> <span class="mf">0.0</span><span class="p">)</span>
-</span><span class='line'>   <span class="p">(</span><span class="nv">r</span> <span class="mf">0.0</span><span class="p">)</span>
-</span><span class='line'>   <span class="p">(</span><span class="nv">q</span> <span class="mi">5</span><span class="p">)</span>
-</span><span class='line'>   <span class="p">(</span><span class="nv">p</span> <span class="mi">2</span><span class="p">)</span>
-</span><span class='line'>   <span class="p">(</span><span class="nv">phi</span> <span class="mf">0.0</span><span class="p">)</span>
-</span><span class='line'>   <span class="p">(</span><span class="nv">phi-env</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">1000</span> <span class="mf">6.283</span><span class="p">)))</span>
-</span><span class='line'>
-</span><span class='line'> <span class="p">(</span><span class="nb">loop</span> <span class="nv">for</span> <span class="nv">i</span> <span class="nv">below</span> <span class="mi">1000</span> <span class="nb">do</span>
-</span><span class='line'>    <span class="p">(</span><span class="nb">setf</span> <span class="nv">phi</span> <span class="p">(</span><span class="nv">envelope-interp</span> <span class="nv">i</span> <span class="nv">phi-env</span><span class="p">)</span>
-</span><span class='line'>    <span class="nv">r</span> <span class="p">(</span><span class="nb">+</span> <span class="p">(</span><span class="nb">cos</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">q</span> <span class="nv">phi</span><span class="p">))</span> <span class="mi">2</span><span class="p">)</span>
-</span><span class='line'>    <span class="nv">x</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">r</span> <span class="p">(</span><span class="nb">cos</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">p</span> <span class="nv">phi</span><span class="p">)))</span>
-</span><span class='line'>    <span class="nv">y</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">r</span> <span class="p">(</span><span class="nb">sin</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">p</span> <span class="nv">phi</span><span class="p">)))</span>
-</span><span class='line'>    <span class="nv">z</span> <span class="p">(</span><span class="nb">sin</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">q</span> <span class="nv">phi</span><span class="p">)))</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="p">(</span><span class="nb">format</span> <span class="no">t</span> <span class="s">&quot;~D ~D ~D~%&quot;</span> <span class="nv">x</span> <span class="nv">y</span> <span class="nv">z</span><span class="p">))))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>The Van Der-Pol Oscillator</strong></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='common-lisp'><span class='line'><span class="p">(</span><span class="nb">with-open-file</span> <span class="p">(</span><span class="vg">*standard-output*</span> <span class="s">&quot;vdp.txt&quot;</span> <span class="ss">:direction</span> <span class="ss">:output</span>
-</span><span class='line'>                                  <span class="ss">:if-exists</span> <span class="ss">:supersede</span><span class="p">)</span>
-</span><span class='line'><span class="p">(</span><span class="k">let*</span> <span class="p">((</span><span class="nv">x1</span> <span class="mf">0.5</span><span class="p">)</span>
-</span><span class='line'>   <span class="p">(</span><span class="nv">y1</span> <span class="mf">1.0</span><span class="p">)</span>
-</span><span class='line'>   <span class="p">(</span><span class="nv">x</span> <span class="mf">0.0</span><span class="p">)</span>
-</span><span class='line'>   <span class="p">(</span><span class="nv">y</span> <span class="mf">0.0</span><span class="p">)</span>
-</span><span class='line'>   <span class="p">(</span><span class="nv">u</span> <span class="mf">6.0</span><span class="p">)</span>
-</span><span class='line'>   <span class="p">(</span><span class="nv">dt</span> <span class="mf">0.1</span><span class="p">))</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="p">(</span><span class="nb">loop</span> <span class="nv">for</span> <span class="nv">i</span> <span class="nv">below</span> <span class="mi">10000</span> <span class="nb">do</span>
-</span><span class='line'>  <span class="p">(</span><span class="nb">setf</span> <span class="nv">x</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x1</span> <span class="p">(</span><span class="nb">*</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">u</span> <span class="p">(</span><span class="nb">-</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">x1</span> <span class="p">(</span><span class="nb">*</span> <span class="p">(</span><span class="nb">/</span> <span class="mi">1</span> <span class="mi">3</span><span class="p">)</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">x1</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">x1</span> <span class="nv">x1</span><span class="p">))))</span> <span class="nv">y1</span><span class="p">))</span> <span class="nv">dt</span><span class="p">))</span>
-</span><span class='line'>     <span class="nv">y</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">y1</span> <span class="p">(</span><span class="nb">*</span> <span class="p">(</span><span class="nb">*</span> <span class="p">(</span><span class="nb">/</span> <span class="mi">1</span> <span class="nv">u</span><span class="p">)</span> <span class="nv">x1</span><span class="p">)</span> <span class="nv">dt</span><span class="p">))</span>
-</span><span class='line'>     <span class="nv">x1</span> <span class="nv">x</span>
-</span><span class='line'>     <span class="nv">y1</span> <span class="nv">y</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'> <span class="p">(</span><span class="nb">format</span> <span class="no">t</span> <span class="s">&quot;~D ~D~%&quot;</span> <span class="nv">y</span> <span class="nv">x</span><span class="p">))))</span>
-</span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
   </entry>
   

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: postgres | Jordan Rogers-Smith]]></title>
+  <link href="http://jordanrs.github.io/blog/categories/postgres/atom.xml" rel="self"/>
+  <link href="http://jordanrs.github.io/"/>
+  <updated>2014-04-30T18:42:49+01:00</updated>
+  <id>http://jordanrs.github.io/</id>
+  <author>
+    <name><![CDATA[Jordan Rogers-Smith]]></name>
+    <email><![CDATA[jordanrs2k1@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Quick way to join across two databases]]></title>
+    <link href="http://jordanrs.github.io/blog/2014/04/30/dblink/"/>
+    <updated>2014-04-30T17:54:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2014/04/30/dblink</id>
+    <content type="html"><![CDATA[<p>A recent hack / sketchy 1st product draft required datasets that live in two different database to be joined together to do some analysis on. Initially thoughts of denormalization or key/value lookup crossed peoples minds but wanting a quick win to try and get the idea validated as quickly as possible, I kept on digging.</p>
+
+<p>As always <a href="http://stackoverflow.com/questions/9493332/postgres-how-to-create-a-select-query-that-would-join-two-databases">stackoverflow</a> provided the start of the journey of discovery with something called dblink.</p>
+
+<h2>dblink to the rescue!</h2>
+
+<p><a href="http://www.postgresql.org/docs/current/interactive/contrib-dblink-function.html">dblink</a> is a hidden gem of a extension that made doing a join across two databases (weather there local or remote) a total breeze. Firstly the extension needs to be installed on the database with the following command.</p>
+
+<p><code>sql
+  CREATE EXTENSION dblink
+</code></p>
+
+<p>Once added to your database using it requires three pieces of information</p>
+
+<p>```sql
+  SELECT * FROM dblink(&lsquo;CONNECTION STRING&rsquo;,</p>
+
+<pre><code>'QUERY STRING') 
+</code></pre>
+
+<p>  AS t( CASTING RESTULS )
+```</p>
+
+<h2>Connection String</h2>
+
+<p>I personally use this format of string as it allows easy access to both local and remote DBs.</p>
+
+<pre><code>postgres://PG_USER:PG_PASSWORD@HOST:PORT/DATABSE_NAME'
+
+eg
+
+postgres://pguser:abcd@127.0.0.1:5432/test_db'
+</code></pre>
+
+<h2>Query String</h2>
+
+<p>This is query you wish to run on the remote machine. It can be any valid SQL.</p>
+
+<p>```sql</p>
+
+<pre><code>'SELECT title, price, category FROM products WHERE shop_id = 99'
+</code></pre>
+
+<p>```</p>
+
+<h2>Casting the results</h2>
+
+<p>When the results from the query are returned to local machine postgres doesn&rsquo;t know the column types of the received result set and thus needs to be told about them</p>
+
+<p>```sql</p>
+
+<pre><code>AS t(title varchar, price int, category varchar)
+</code></pre>
+
+<p>```</p>
+
+<h2>Full call example</h2>
+
+<p>So putting those three things together the final call would be</p>
+
+<p>```sql
+  SELECT * FROM dblink(&lsquo;postgres://pguser:abcd@127.0.0.1:5432/test_db&rsquo;,</p>
+
+<pre><code>'SELECT title, price, category FROM products WHERE shop_id = 99') 
+</code></pre>
+
+<p>   AS t(title varchar, price int, category varchar)
+```</p>
+
+<p>Allowing you to manipulate this results just as it they were from a local database table.</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -7,7 +7,7 @@
 	<meta name="author" content="Jordan Rogers-Smith">
 
 	
-	<meta name="description" content="Aug 28th, 2013 node.js Removing Node.js For when i cant find it, here is the best instructions i found for removing Go to /usr/local/lib and delete &hellip;">
+	<meta name="description" content="Apr 30th, 2014 postgres Quick Way to Join Across Two Databases A recent hack / sketchy 1st product draft required datasets that live in two &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -87,6 +87,437 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-30T17:54:00+01:00" data-updated="true" itemprop="datePublished">Apr 30<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/postgres/'>postgres</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/04/30/dblink/" itemprop="url">Quick Way to Join Across Two Databases</a></h1>
+	<h2 class="sub_heading" itemprop="name"></h2>
+	<div class="entry-content" itemprop="articleBody">
+		<p>A recent hack / sketchy 1st product draft required datasets that live in two different database to be joined together to do some analysis on. Initially thoughts of denormalization or key/value lookup crossed peoples minds but wanting a quick win to try and get the idea validated as quickly as possible, I kept on digging.</p>
+
+<p>As always <a href="http://stackoverflow.com/questions/9493332/postgres-how-to-create-a-select-query-that-would-join-two-databases">stackoverflow</a> provided the start of the journey of discovery with something called dblink.</p>
+
+<h2>dblink to the rescue!</h2>
+
+<p><a href="http://www.postgresql.org/docs/current/interactive/contrib-dblink-function.html">dblink</a> is a hidden gem of a extension that made doing a join across two databases (weather there local or remote) a total breeze. Firstly the extension needs to be installed on the database with the following command.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'>  <span class="k">CREATE</span> <span class="n">EXTENSION</span> <span class="n">dblink</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>Once added to your database using it requires three pieces of information</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'>  <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">dblink</span><span class="p">(</span><span class="s1">&#39;CONNECTION STRING&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s1">&#39;QUERY STRING&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">AS</span> <span class="n">t</span><span class="p">(</span> <span class="n">CASTING</span> <span class="n">RESTULS</span> <span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Connection String</h2>
+
+<p>I personally use this format of string as it allows easy access to both local and remote DBs.</p>
+
+<pre><code>postgres://PG_USER:PG_PASSWORD@HOST:PORT/DATABSE_NAME'
+
+eg
+
+postgres://pguser:abcd@127.0.0.1:5432/test_db'
+</code></pre>
+
+<h2>Query String</h2>
+
+<p>This is query you wish to run on the remote machine. It can be any valid SQL.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="s1">&#39;SELECT title, price, category FROM products WHERE shop_id = 99&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Casting the results</h2>
+
+<p>When the results from the query are returned to local machine postgres doesn&rsquo;t know the column types of the received result set and thus needs to be told about them</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">AS</span> <span class="n">t</span><span class="p">(</span><span class="n">title</span> <span class="nb">varchar</span><span class="p">,</span> <span class="n">price</span> <span class="nb">int</span><span class="p">,</span> <span class="n">category</span> <span class="nb">varchar</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Full call example</h2>
+
+<p>So putting those three things together the final call would be</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'>  <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">dblink</span><span class="p">(</span><span class="s1">&#39;postgres://pguser:abcd@127.0.0.1:5432/test_db&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s1">&#39;SELECT title, price, category FROM products WHERE shop_id = 99&#39;</span><span class="p">)</span>
+</span><span class='line'>   <span class="k">AS</span> <span class="n">t</span><span class="p">(</span><span class="n">title</span> <span class="nb">varchar</span><span class="p">,</span> <span class="n">price</span> <span class="nb">int</span><span class="p">,</span> <span class="n">category</span> <span class="nb">varchar</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Allowing you to manipulate this results just as it they were from a local database table.</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-23T09:10:00+01:00" data-updated="true" itemprop="datePublished">Sep 23<span>rd</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/vim/'>vim</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/09/23/vim-shortcuts/" itemprop="url">Vim Shortcuts</a></h1>
+	<h2 class="sub_heading" itemprop="name"></h2>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Vim Commands</p>
+
+<p>i = insert mode</p>
+
+<p>h,j,k,l = move left, up, down, left
+w = move from word to word
+b = move back word to word
+W = jumps the whole word
+B = jusmps back a word to word</p>
+
+<p>$ = go to end of the line
+^ = go to the begining of the line
+0 = goes to the very beginning</p>
+
+<p>gg = goes to the begginig of the file
+G = goes to the bottom of the file
+{ } = jumps paragraphs</p>
+
+<p>f = finds the first occurence of a string in the file
+F = fins the first occurance of a string backward</p>
+
+<p>number followed by comman (4dd) &ndash; deletes four lines</p>
+
+<p>3gg = goes 3 lines from the top
+:13 = goes to line 13
+3 G = goes three lines from the bottom</p>
+
+<p>Advanced movement</p>
+
+<p>ctrl d &ndash; moves half screen down
+ctrl u &ndash; moves half screen up
+ctrl f &ndash; full screen forward
+ctrl b &ndash; full screen backward</p>
+
+<p>M &ndash; goes to middle of the window
+H &ndash; goes to top of window
+L &ndash; goes to last line of window
+3L &ndash; goes three lines above bottom of window</p>
+
+<p>zt &ndash; moves the line our cursor is on to the top
+zb &ndash; moves the line to the botton
+zz &ndash; moves the line to the middle</p>
+
+<p>ma &ndash; saves cursor position to a register
+&lsquo;a &ndash; goes directly to register a
+&rsquo; &ndash; move between markers</p>
+
+<hr />
+
+<h2>Basic Editing</h2>
+
+<p>X &ndash; deletes behind the cursor
+x &ndash; delete whats under the cursor
+dd &ndash; delete the line
+dw &ndash; delete the word
+db &ndash; delete revious word</p>
+
+<p>cc &ndash; delete line and enter insert mode
+cw &ndash; delete work and enter insert mode
+cd &ndash; delete previous word and enter insert mode</p>
+
+<p>ci&#8221; &ndash; changes whats inbetween two &ldquo;
+ca&rdquo; &ndash; deletes everything inside the quot and the quote</p>
+
+<hr />
+
+<h2>cut copy and paste</h2>
+
+<p>Every deleteion is a cut command, puts in a special registar for pasting later</p>
+
+<p>p &ndash; pastes last thing in deletion cut register
+P &ndash; pastes before the cursor
+y &ndash; yank/copy somehting copy can be used with any familiar command
+yw &ndash; copy word
+yy &ndash; copy line</p>
+
+<hr />
+
+<h2>search</h2>
+
+<p>/search = starts searching for word search. it is also case sensitive
+?search = looks backwards for the word search
+set incsearch = sets incremental search on
+set ignorecase = turns of case senestive search
+set hlsearch = turns on highlight search
+nohlsearch / noh = turns off highlight search
+n = searchs mores. vim stores the last search
+c/find = will delete from the cursor to find and then enter insert mode</p>
+
+<p>vim search can use regexs</p>
+
+<hr />
+
+<h2>Search and replace</h2>
+
+<p>:s/pattern/replace/flags
+:s &ndash; perfoms a substitutions replaces on first occurance by defaul
+:s/vim/Vim &ndash; replaces vim for Vim
+:%s/vim/Vim &ndash; replaces whole file with vim for Vim
+:%s/vim/Vim/g &ndash; replaces whole file with vim for Vim globally</p>
+
+<p>vim will use previous serach pattern
+so can do :s//pattern
+when using regex can use \ze or \zs to stop selection before or af</p>
+
+<p>Visual mode &ndash; v
+visual line mode &ndash; V</p>
+
+<p>gv &ndash; reslects last selection</p>
+
+<p>go to a bracket, enter visual mode hit % and that will find the corresponding</p>
+
+<p>FLAGS</p>
+
+<p>c = confirm, asks for confirmation for oeach occurence
+i = insensitive
+g = finds all occurances in a line</p>
+
+<p>HELP</p>
+
+<p>:help s &ndash; opens the help for a command</p>
+
+<hr />
+
+<h2>Macros and Register</h2>
+
+<p>ctrl g &ndash; get file in fo</p>
+
+<p>macros store a command pipeline that can be used over and over</p>
+
+<p>qa &ndash; start recording a macro in register a
+q &ndash; stops recroding
+:registers / reg &ndash; shows the recorded registers
+@a &ndash; runs macro in a register
+@@ &ndash; runts the last macro ran again</p>
+
+<hr />
+
+<h2>command line in vim</h2>
+
+<p>:! &ndash; initalises comman from the shell then run command
+:read !date &ndash; puts the oupt of shell into the file under cursor
+:r !curl &mdash;silent URL &ndash; outputs the file into the buffer
+you can take the selected text buffer feed it in to standard in and replace it with output</p>
+
+<hr />
+
+<h2>navigating between buffers</h2>
+
+<p>:ls &ndash; lists all active buffers for files in memory
+:bn / bnext &ndash; next buffer
+:bp / bprev &ndash; previous buffer
+:b# &ndash; last buffer we visited
+:bf &ndash; first buffer</p>
+
+<p>:bd 14 &ndash; deletes buffer 14</p>
+
+<hr />
+
+<h2>Windows and tabs</h2>
+
+<p>Split windows</p>
+
+<p>:vsplit / vs file_path &ndash; splits the
+ctrl+w h/l = move between left right
+ctrl+w H / L = move to the left / right most part
+ctrl + w J/K = move to the bottom / top
+ctrl + w +/&ndash; = increase/decrease window hight 1 row
+ctrl + w </> = increase/decrease width by 1 column
+ctrl + w = = auto resize windows equally
+:q = clost a window buffer</p>
+
+<p>:sb 2 = split buffer in memory
+:vert sb = vetical split buffer in memory</p>
+
+<p>Tabs</p>
+
+<p>:tab e / tabedit file_path
+:gt &ndash; move oen tab forward
+:gT &ndash; move one tab backward</p>
+
+<hr />
+
+<h2>Graphical Vim</h2>
+
+<p>set gfn &ndash; sets current font</p>
+
+<hr />
+
+<h2>Indents and Folds </h2>
+
+<p>:set list &ndash; prnts lines/tabs/space</p>
+
+<blockquote><blockquote><ul>
+<li>indent of one tab
+8>> &ndash; indents following 8 lines</li>
+</ul>
+</blockquote></blockquote>
+
+<p>:set expandtab &ndash; sets soft tabs
+:set noexpandtab &ndash; sets tabs normal
+:set shiftwidth=3 &ndash; 3 spaces for one indentation
+:set smartindent &ndash; sets smart indentation
+:set softtabstop / sts 3</p>
+
+<p>in visual mode &ndash;</p>
+
+<p>gv &ndash; reselects last selection</p>
+
+<blockquote><p>/&lt; &ndash; indents</p></blockquote>
+
+<p>Auto indent
+= on select texted auto indent
+=3j auto indent next 2 lines
+=G indents the whole file</p>
+
+<p>In inset mode
+tab = inserts
+ctrl + t = indent forward
+ctrl + d = indent back</p>
+
+<p>Folding</p>
+
+<p>manual folds
+zf5j &ndash; fold the next 5 lines
+zo &ndash; open fold
+zO &ndash; open from cursor fown
+zc &ndash; close everything from position up fold
+zd &ndash; delete fold
+zf% &ndash; folds the matching bracket
+zi &ndash; inverts folding on/off</p>
+
+<p>auto folding</p>
+
+<p>set foldmethod/fdm &ndash; numberous options see help foldmethod
+set fdm=sytax = fold baed on syntax
+set fdm=marker = set a custom folder maker } for instace</p>
+
+<hr />
+
+<h2>.vimrc file</h2>
+
+<p>:so % &ndash; source our current file</p>
+
+<p>set nocompatible &ndash; sets vims way of doing things</p>
+
+<p>allows file types to be detected than plugins and indentation set up based on those files</p>
+
+<p>filetype on
+filetype indent on
+filetype  plugin on</p>
+
+<p>let VARIAABLE &ndash; &ldquo;.&rdquo;
+syntax enable</p>
+
+<p>set ignorecase
+set hlsearch
+set autoindent
+set fileencoding=utf-8
+set encoding=utf-8
+set backspace=indent.eol.start</p>
+
+<p>set smartcase &ndash; perform smart searchs
+gdefault &ndash; perform global replacments
+set incsearch
+set showmatch &ndash; highlight all matching parentheses</p>
+
+<p>deals with how windows are auto sized
+set winwidth=84
+set winheight=5
+set winminheight=5
+set winheight=999</p>
+
+<p>set no/list &ndash; view all tabs and line endings
+set guifont= &ndash; sets the font
+set guioptions= add options
+set guioptions-= remove options
+set number &ndash; set line numbers
+set visualbell &ndash; flash the screen over the bell
+set cursoline &ndash; highlight line your in</p>
+
+<p>set cc=80 &ndash; sets line at 80th column
+set background=dark
+colorschmeme solarized</p>
+
+<p>au BufRead,BufNewFil *.ru setfiletype ruby</p>
+
+<hr />
+
+<h2>Mappings</h2>
+
+<p>sequence of characters that triggers sequence of commands</p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -473,125 +904,6 @@
 
 </article>
 
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-25T00:00:00+01:00" data-updated="true" itemprop="datePublished">Apr 25<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/04/25/installing-guard-and-spork-for-auto-running-of-tests/" itemprop="url">Installing Guard & Spork for Auto Running of Specs</a></h1>
-	<h2 class="sub_heading" itemprop="name"></h2>
-	<div class="entry-content" itemprop="articleBody">
-		<h2>Gemfile</h2>
-
-<p>Install the following gems with <code>bundle install</code></p>
-
-<figure class='code'><figcaption><span>Gemfile</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span><span class="o">.</span>
-</span><span class='line'><span class="n">group</span> <span class="ss">:test_envs</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;rspec-rails&#39;</span><span class="p">,</span> <span class="s2">&quot;~&gt; 2.0&quot;</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;factory_girl_rails&#39;</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;faker&#39;</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;capybara&#39;</span><span class="p">,</span> <span class="s2">&quot;~&gt; 2.0.2&quot;</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;database_cleaner&#39;</span><span class="p">,</span> <span class="s2">&quot;~&gt; 0.9.1&quot;</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;launchy&#39;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># file system event triggers for ruby. See note at end about RVM </span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;rb-fsevent&#39;</span><span class="p">,</span> <span class="s1">&#39;0.9.3&#39;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># Notifications of test states, Requires Growl and growlnotify to be installed</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;growl&#39;</span><span class="p">,</span> <span class="s1">&#39;1.0.3&#39;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># Automated test running and speed imporvements</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;guard-rspec&#39;</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;guard-spork&#39;</span><span class="p">,</span> <span class="s1">&#39;1.2.0&#39;</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;childprocess&#39;</span><span class="p">,</span> <span class="s1">&#39;0.3.6&#39;</span><span class="c1"># this was due to errors appearing in 0.3.7 and higher</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;spork&#39;</span><span class="p">,</span> <span class="s1">&#39;0.9.2&#39;</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;debugger&#39;</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span><span class="o">.</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>spec/spec_helper</h2>
-
-
-		
-		<a href="/blog/2013/04/25/installing-guard-and-spork-for-auto-running-of-tests/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-23T00:00:00+01:00" data-updated="true" itemprop="datePublished">Apr 23<span>rd</span>, 2013</time></div>
-		<div class="tags">
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/04/23/multiple-test-enviroments/" itemprop="url">Multiple Test Environments in Rails</a></h1>
-	<h2 class="sub_heading" itemprop="name"></h2>
-	<div class="entry-content" itemprop="articleBody">
-		<p>Multiple test enviorments allow for developers with different DB settings, gem desires to be able to setup and run the same test suite independently of one another.</p>
-
-
-		
-		<a href="/blog/2013/04/23/multiple-test-enviroments/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
 </div>
 <nav id="pagenavi">
     
@@ -602,7 +914,7 @@
 </nav></div>
 			</div>
 			<footer id="footer" class="inner"><p>
-  Copyright &copy; 2013 - Jordan Rogers-Smith -
+  Copyright &copy; 2014 - Jordan Rogers-Smith -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

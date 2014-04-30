@@ -7,7 +7,16 @@
 	<meta name="author" content="Jordan Rogers-Smith">
 
 	
-	<meta name="description" content="Apr 5th, 2013 Strong Parameters and Tolk Gem To get the tolk gem to work along side the Strong Parameters gem we need to apply a monkey patch to &hellip;">
+	<meta name="description" content="Apr 25th, 2013 Installing Guard & Spork for Auto Running of Specs Gemfile Install the following gems with bundle install Gemfile1
+2
+3
+4
+5
+6
+7
+8
+9
+10 &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -87,6 +96,125 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-25T00:00:00+01:00" data-updated="true" itemprop="datePublished">Apr 25<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/04/25/installing-guard-and-spork-for-auto-running-of-tests/" itemprop="url">Installing Guard & Spork for Auto Running of Specs</a></h1>
+	<h2 class="sub_heading" itemprop="name"></h2>
+	<div class="entry-content" itemprop="articleBody">
+		<h2>Gemfile</h2>
+
+<p>Install the following gems with <code>bundle install</code></p>
+
+<figure class='code'><figcaption><span>Gemfile</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'><span class="n">group</span> <span class="ss">:test_envs</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;rspec-rails&#39;</span><span class="p">,</span> <span class="s2">&quot;~&gt; 2.0&quot;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;factory_girl_rails&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;faker&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;capybara&#39;</span><span class="p">,</span> <span class="s2">&quot;~&gt; 2.0.2&quot;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;database_cleaner&#39;</span><span class="p">,</span> <span class="s2">&quot;~&gt; 0.9.1&quot;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;launchy&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># file system event triggers for ruby. See note at end about RVM </span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;rb-fsevent&#39;</span><span class="p">,</span> <span class="s1">&#39;0.9.3&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Notifications of test states, Requires Growl and growlnotify to be installed</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;growl&#39;</span><span class="p">,</span> <span class="s1">&#39;1.0.3&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Automated test running and speed imporvements</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;guard-rspec&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;guard-spork&#39;</span><span class="p">,</span> <span class="s1">&#39;1.2.0&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;childprocess&#39;</span><span class="p">,</span> <span class="s1">&#39;0.3.6&#39;</span><span class="c1"># this was due to errors appearing in 0.3.7 and higher</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;spork&#39;</span><span class="p">,</span> <span class="s1">&#39;0.9.2&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;debugger&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>spec/spec_helper</h2>
+
+
+		
+		<a href="/blog/2013/04/25/installing-guard-and-spork-for-auto-running-of-tests/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-23T00:00:00+01:00" data-updated="true" itemprop="datePublished">Apr 23<span>rd</span>, 2013</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/04/23/multiple-test-enviroments/" itemprop="url">Multiple Test Environments in Rails</a></h1>
+	<h2 class="sub_heading" itemprop="name"></h2>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Multiple test enviorments allow for developers with different DB settings, gem desires to be able to setup and run the same test suite independently of one another.</p>
+
+
+		
+		<a href="/blog/2013/04/23/multiple-test-enviroments/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -471,115 +599,6 @@ The only thing that can be changed is the BUCKET-NAME, leave all other aspects o
 
 </article>
 
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-04-30T00:00:00+01:00" data-updated="true" itemprop="datePublished">Apr 30<span>th</span>, 2011</time></div>
-		<div class="tags">
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2011/04/30/Chaos-Music---The-Final-Piece/" itemprop="url">Chaos Music - the Final Piece</a></h1>
-	<h2 class="sub_heading" itemprop="name"></h2>
-	<div class="entry-content" itemprop="articleBody">
-		<p>Chaos music is a composition based on my research and programming of the functions documented in <a href="http://jordanrs.blogspot.com/2011/04/algorithmic-comp-piece-2-research-choas.html">my previous post.</a>  The piece uses the output data from the chaotic functions to drive musical synthesis with the built in functions of CLM, more explanation about methodology can be found in the attached report.</p>
-
-<p><strong>Final Piece</strong></p>
-
-<iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F102117823&amp;color=ff6600&amp;auto_play=false&amp;show_artwork=false"></iframe>
-
-
-<p><strong>Download Source and Report</strong></p>
-
-<p><img style="display: block; margin: 0px auto 10px; text-align: center; cursor: pointer; width: 287px; height: 400px;" src="http://2.bp.blogspot.com/-PqHESAb3dX0/TbxzzLXTW6I/AAAAAAAABXI/ZIrSRy9qfPU/s400/algocomp.jpg" alt="" id="BLOGGER_PHOTO_ID_5601479359603104674" border="0" /></p>
-
-<p><a href="https://sites.google.com/site/jordanrsblog/algorithmiccomp/Project2.zip"><br />Download</a></p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-04-30T00:00:00+01:00" data-updated="true" itemprop="datePublished">Apr 30<span>th</span>, 2011</time></div>
-		<div class="tags">
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2011/04/30/Algorithmic-Composition-Piece-2-Research---Choas-Functions/" itemprop="url">Algorithmic Comp. Piece 2 Research - Chaos Functions</a></h1>
-	<h2 class="sub_heading" itemprop="name"></h2>
-	<div class="entry-content" itemprop="articleBody">
-		<p>For my final year piece iv been researching chaotic functions and non-linear maps. Below is a selection of function iv ported into Lisp. Each function outputs a text file that can be imported into most graphing software (the corresponding pictures were all produced with MATLAB). I intend to implement these functions and use there output to drive a piece of music.</p>
-
-<p><strong>The Logistic Equation</strong></p>
-
-<p><img style="display: block; margin: 0px auto 10px; text-align: center; cursor: pointer; width: 302px; height: 298px;" src="http://4.bp.blogspot.com/-E1OToaCO-yg/TbxIpC3F1fI/AAAAAAAABU4/8soPQ8FU69Y/s320/logistic.jpg" alt="" id="BLOGGER_PHOTO_ID_5601431906521830898" border="0" /></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='common-lisp'><span class='line'><span class="p">(</span><span class="nb">with-open-file</span> <span class="p">(</span><span class="vg">*standard-output*</span> <span class="s">&quot;logistic.txt&quot;</span> <span class="ss">:direction</span> <span class="ss">:output</span>
-</span><span class='line'>                                  <span class="ss">:if-exists</span> <span class="ss">:supersede</span><span class="p">)</span>
-</span><span class='line'><span class="p">(</span><span class="k">let*</span>  <span class="p">((</span><span class="nv">x</span> <span class="mf">0.5</span><span class="p">)</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">r-env</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">0</span> <span class="mi">1</span> <span class="mi">1000</span> <span class="mf">4.0</span><span class="p">))</span>
-</span><span class='line'> <span class="p">(</span><span class="nv">r</span> <span class="mf">0.0</span><span class="p">))</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>   <span class="p">(</span><span class="nb">loop</span> <span class="nv">for</span> <span class="nv">i</span> <span class="nv">below</span> <span class="mi">1000</span> <span class="nb">do</span>
-</span><span class='line'>  <span class="p">(</span><span class="nb">setf</span> <span class="nv">r</span> <span class="p">(</span><span class="nv">envelope-interp</span> <span class="nv">i</span> <span class="nv">r-env</span><span class="p">)</span>
-</span><span class='line'>     <span class="nv">x</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">r</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">x</span> <span class="p">(</span><span class="nb">-</span> <span class="mi">1</span> <span class="nv">x</span><span class="p">))))</span>
-</span><span class='line'>  <span class="p">(</span><span class="nb">format</span> <span class="no">t</span> <span class="s">&quot;~D ~D~%&quot;</span> <span class="nv">r</span> <span class="nv">x</span><span class="p">)</span>
-</span><span class='line'>  <span class="p">)))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>The Henon Map</strong></p>
-
-
-		
-		<a href="/blog/2011/04/30/Algorithmic-Composition-Piece-2-Research---Choas-Functions/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
 </div>
 <nav id="pagenavi">
     
@@ -592,7 +611,7 @@ The only thing that can be changed is the BUCKET-NAME, leave all other aspects o
 </nav></div>
 			</div>
 			<footer id="footer" class="inner"><p>
-  Copyright &copy; 2013 - Jordan Rogers-Smith -
+  Copyright &copy; 2014 - Jordan Rogers-Smith -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
