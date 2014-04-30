@@ -7,7 +7,7 @@
 	<meta name="author" content="Jordan Rogers-Smith">
 
 	
-	<meta name="description" content="Quick Way to Join Across Two Databases A recent hack / sketchy 1st product draft required datasets that live in two different database to be joined &hellip;">
+	<meta name="description" content="Quick Way to Join Across Two Databases Left align Right align Center align This This This column column column will will will be be be left right &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -88,7 +88,57 @@
 				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 	<h1 class="title" itemprop="name">Quick Way to Join Across Two Databases</h1>
 	<h2 class="sub_heading" itemprop="name"></h2>
-	<div class="entry-content" itemprop="articleBody"><p>A recent hack / sketchy 1st product draft required datasets that live in two different database to be joined together to do some analysis on. Initially thoughts of denormalization or key/value lookup crossed peoples minds but wanting a quick win to try and get the idea validated as quickly as possible, I kept on digging.</p>
+	<div class="entry-content" itemprop="articleBody"><table>
+<thead>
+<tr>
+<th></th>
+<th align="left"> Left align </th>
+<th align="right"> Right align </th>
+<th align="center"> Center align </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td align="left"> This       </td>
+<td align="right">        This </td>
+<td align="center">     This     </td>
+</tr>
+<tr>
+<td></td>
+<td align="left"> column     </td>
+<td align="right">      column </td>
+<td align="center">    column    </td>
+</tr>
+<tr>
+<td></td>
+<td align="left"> will       </td>
+<td align="right">        will </td>
+<td align="center">     will     </td>
+</tr>
+<tr>
+<td></td>
+<td align="left"> be         </td>
+<td align="right">          be </td>
+<td align="center">      be      </td>
+</tr>
+<tr>
+<td></td>
+<td align="left"> left       </td>
+<td align="right">       right </td>
+<td align="center">    center    </td>
+</tr>
+<tr>
+<td></td>
+<td align="left"> aligned    </td>
+<td align="right">     aligned </td>
+<td align="center">   aligned</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>A recent hack / sketchy 1st product draft required datasets that live in two different database to be joined together to do some analysis on. Initially thoughts of denormalization or key/value lookup crossed peoples minds but wanting a quick win to try and get the idea validated as quickly as possible, I kept on digging.</p>
 
 <p>As always <a href="http://stackoverflow.com/questions/9493332/postgres-how-to-create-a-select-query-that-would-join-two-databases">stackoverflow</a> provided the start of the journey of discovery with something called dblink.</p>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: vim | Jordan Rogers-Smith]]></title>
   <link href="http://jordanrs.github.io/blog/categories/vim/atom.xml" rel="self"/>
   <link href="http://jordanrs.github.io/"/>
-  <updated>2014-04-30T18:42:49+01:00</updated>
+  <updated>2014-04-30T20:46:24+01:00</updated>
   <id>http://jordanrs.github.io/</id>
   <author>
     <name><![CDATA[Jordan Rogers-Smith]]></name>
@@ -18,7 +18,7 @@
     <link href="http://jordanrs.github.io/blog/2013/09/23/vim-shortcuts/"/>
     <updated>2013-09-23T09:10:00+01:00</updated>
     <id>http://jordanrs.github.io/blog/2013/09/23/vim-shortcuts</id>
-    <content type="html"><![CDATA[<p>Vim Commands</p>
+    <content type="html"><![CDATA[<h2>Vim Commands</h2>
 
 <p>i = insert mode</p>
 
@@ -45,7 +45,9 @@ F = fins the first occurance of a string backward</p>
 :13 = goes to line 13
 3 G = goes three lines from the bottom</p>
 
-<p>Advanced movement</p>
+<hr />
+
+<h2>Advanced Movement</h2>
 
 <p>ctrl d &ndash; moves half screen down
 ctrl u &ndash; moves half screen up
@@ -84,7 +86,7 @@ ca&rdquo; &ndash; deletes everything inside the quot and the quote</p>
 
 <hr />
 
-<h2>cut copy and paste</h2>
+<h2>Cut, Copy and Paste</h2>
 
 <p>Every deleteion is a cut command, puts in a special registar for pasting later</p>
 
@@ -96,7 +98,7 @@ yy &ndash; copy line</p>
 
 <hr />
 
-<h2>search</h2>
+<h2>Search</h2>
 
 <p>/search = starts searching for word search. it is also case sensitive
 ?search = looks backwards for the word search
@@ -111,7 +113,7 @@ c/find = will delete from the cursor to find and then enter insert mode</p>
 
 <hr />
 
-<h2>Search and replace</h2>
+<h2>Search and Replace</h2>
 
 <p>:s/pattern/replace/flags
 :s &ndash; perfoms a substitutions replaces on first occurance by defaul
@@ -156,7 +158,7 @@ q &ndash; stops recroding
 
 <hr />
 
-<h2>command line in vim</h2>
+<h2>Command Line in Vim</h2>
 
 <p>:! &ndash; initalises comman from the shell then run command
 :read !date &ndash; puts the oupt of shell into the file under cursor
@@ -165,7 +167,7 @@ you can take the selected text buffer feed it in to standard in and replace it w
 
 <hr />
 
-<h2>navigating between buffers</h2>
+<h2>Navigating Between Buffers</h2>
 
 <p>:ls &ndash; lists all active buffers for files in memory
 :bn / bnext &ndash; next buffer
@@ -177,7 +179,7 @@ you can take the selected text buffer feed it in to standard in and replace it w
 
 <hr />
 
-<h2>Windows and tabs</h2>
+<h2>Windows and Tabs</h2>
 
 <p>Split windows</p>
 
@@ -258,7 +260,7 @@ set fdm=marker = set a custom folder maker } for instace</p>
 
 <hr />
 
-<h2>.vimrc file</h2>
+<h2>.vimrc File</h2>
 
 <p>:so % &ndash; source our current file</p>
 
