@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: refactoring | Jordan Rogers-Smith]]></title>
+  <link href="http://jordanrs.github.io/blog/categories/refactoring/atom.xml" rel="self"/>
+  <link href="http://jordanrs.github.io/"/>
+  <updated>2014-05-03T10:45:09+01:00</updated>
+  <id>http://jordanrs.github.io/</id>
+  <author>
+    <name><![CDATA[Jordan Rogers-Smith]]></name>
+    <email><![CDATA[jordanrs2k1@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[When to Refractor - Bad Smells in Code]]></title>
+    <link href="http://jordanrs.github.io/blog/2014/03/11/refractoring-ruby/"/>
+    <updated>2014-03-11T08:12:00+00:00</updated>
+    <id>http://jordanrs.github.io/blog/2014/03/11/refractoring-ruby</id>
+    <content type="html"><![CDATA[<p>Notes from Refactoring Ruby by Jay Fields, Shane Harvie, Martin Fowler &amp; Kent Beck.</p>
+
+<p><strong>Duplicated Code</strong></p>
+
+<p>Problem &ndash; This stinks, when you have the same expression in two different methods in the same class</p>
+
+<p>Solution &ndash; Extract the method to a new method in the class and use in place</p>
+
+<p><strong>Duplication in Sibling Classes</strong></p>
+
+<p>Problem &ndash; Two methods in sibling class that that have the same expression.</p>
+
+<p>Solution &ndash; Extract the method into one on the shared base class and use this instead.</p>
+
+<p><strong>Duplication across unrelated classes</strong></p>
+
+<p>Problem &ndash; The same method or expression across two unrelated classes</p>
+
+<p>Solution &ndash; Extract the method into a new class or module and then use either inheritance or composition to give the class the new method.</p>
+
+<!-- more -->
+
+
+<p><strong>Long Method</strong></p>
+
+<p>Problem &ndash; The longer the method the harder it can become for someone to understand</p>
+
+<p>Solution &ndash; Long methods should be broken down into smaller methods with a single responsibility</p>
+
+<hr />
+
+<p>Problem &ndash; Code within a method needs a comment to explain what it is doing ie the distance between what the method does on the surface and how it does it internally</p>
+
+<p>Solution &ndash; The code should be extracted into a new method and given a new that describes its function clearly</p>
+
+<p>Other potential problems &ndash; Conditionals and loops can give sign for extractions. Loops can be switched out with collection closure methods and then these can be extract out further</p>
+
+<p><strong>Large Class</strong></p>
+
+<p>Problem &ndash; Lots of instance variables in a class is generally a sign that the class is doing to much. Especially when different instances of a class use different sets of variables</p>
+
+<p>Solution &ndash; Instance variables that make sense to go together should be grouped with any associating methods and extracted to a subclass, separate class or module</p>
+
+<p><strong>Long Parameter List</strong></p>
+
+<p>Problem &ndash; passing long lists of parameters into a function can become hard to understand and difficult to follow.</p>
+
+<p>Solution &ndash; Swap these long lists with passing the object in instead or creating a name parameter instead</p>
+
+<p>Caveat &ndash; This can increase coupling between objects by passing objects through instead of parameter lists. Instead do use parameter list but be aware of the trade off</p>
+
+<p><strong>Divergent Change</strong></p>
+
+<p>Problem &ndash; Changes to the same object happen to completely separate reasons. ie the same object needs to be changed when a user type is added or when a new sport is added.</p>
+
+<p>Solution &ndash; A sign that this class is doing to much and should instead be to separate classes</p>
+
+<p><strong>Shotgun Surgery</strong></p>
+
+<p>Problem &ndash; The opposite of Divergent Change, when you have to make changes across multiple different classes when you make one type of change.</p>
+
+<p>Solution &ndash; Move the methods and fields into there own classes this could be an in-line class, existing or separate class.</p>
+
+<p><strong>Feature Envy</strong></p>
+
+<p>Problem &ndash; A method being more interested in the data from another class then its own</p>
+
+<p>Solution &ndash; Move the envious methods over to the other class</p>
+
+<p>Not so cut a dry &ndash; If the method uses data from several classes the general rule of thumb is that the method belongs in the class of which the most data is used. Or put things together that change together</p>
+
+<p><strong>Data Clumps</strong></p>
+
+<p>Problem &ndash; You frequently see the same instances variables hanging around together, passed into the same methods together.</p>
+
+<p>Solution &ndash; extract these same parameters into a class of there own and then change the method signatures to use the object. As long as your replacing two or more instance variables you&rsquo;ll come out ahead. One way to test if variables belong together is to delete one and see if the rest still make sense.</p>
+
+<p><strong>Primitive Obsession</strong></p>
+
+<p>Problem &ndash; using primitive types ie (string, float, fixnum etc.) when a small object would be better</p>
+
+<p><strong>Case Statments</strong></p>
+
+<p>Problem &ndash; Case statements are a sign of duplication usually. One case statement could appear several times around the code base as its usually switching on a type code</p>
+
+<p>Solution &ndash; Polymorphism, depending on the number of case statements could be overkill and using an explicit method or state/strategy be better</p>
+
+<p><strong>Parallel Inheritance Hierarchies</strong></p>
+
+<p>Problem &ndash; Every time you create a subclass of one class you also make a subclass of another class. Usually the prefixes of the two different hierarchies will be the same</p>
+
+<p><strong>Lazy class</strong></p>
+
+<p>Problem &ndash; A class/module that doesn&rsquo;t do enough to justify it being around</p>
+
+<p>Solution &ndash; Collapse the class hierarchy or make the classes/modules in-line</p>
+
+<p><strong>Speculative Generality</strong></p>
+
+<p>Problem &ndash; When design decisions are taken for potential or future use cases that aren&rsquo;t in the current spec or brief. Increase complexity since the things aren&rsquo;t required</p>
+
+<p>Solution &ndash; Remove this code, good highlighter is when the only users of a method or class are the test cases!</p>
+
+<p><strong>Temporay Field</strong></p>
+
+<p>Problem &ndash; When a instance variable is only set in certain circumstances. Code is difficult to understand due to the expectation of objects using all there variables</p>
+
+<p>Solution &ndash; Extract class on the concerning code or introduce a null object to create alternative component</p>
+
+<p><strong>Message Chains</strong></p>
+
+<p>Problem &ndash; Long chains of objects reaching across other objects for information. Introduces tight coupling of the structure make changes more difficult</p>
+
+<p>Solution &ndash; You can hide the delegates by forwarding on methods to reduce the chain length or you can look at the resulting method and potentially extract it and move it down the message chain</p>
+
+<p><strong>Middle Man</strong></p>
+
+<p>Problem &ndash; When looking at a classes interface we see that most of the methods delegate to another object in the class.</p>
+
+<p>Solution &ndash; There comes a point when it becomes better to remove the middle man and talk directly to the object. If its only a few methods you can in-line them into the caller or if it is a lot you can replace delegation with a hierarchy and include a module instead</p>
+
+<p><strong>Inappropriate Intimacy</strong></p>
+
+<p>Problem &ndash; Class that know far to much about other classes private parts.</p>
+
+<p>Solution &ndash; Overly intimate class need to be broken up where its moving methods or fields , or extracting classes or hiding delegates it depends on the severity of the infidelity</p>
+
+<p><strong>Alternative Classes with different Interfaces</strong></p>
+
+<p>Problem &ndash; Methods that do the same thing but have different signatures for what they do.</p>
+
+<p>Solution &ndash; Move method to the classes till there protocols are the same</p>
+
+<p><strong>Incomplete Library class</strong></p>
+
+<p>Problem &ndash; A third party library is missing a method / algorithm / data type you need</p>
+
+<p>Solution &ndash; Monkey patching classes in ruby makes small additions easily possible</p>
+
+<p><strong>Data Class</strong></p>
+
+<p>Problem &ndash; A class that just has attributes and nothing else. They are most certainly being manipulated in far to much detail by other classes.</p>
+
+<p>Solution &ndash; Look at moving these attributes out to other classes with more responsibility</p>
+]]></content>
+  </entry>
+  
+</feed>

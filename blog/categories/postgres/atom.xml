@@ -4,7 +4,7 @@
   <title><![CDATA[Category: postgres | Jordan Rogers-Smith]]></title>
   <link href="http://jordanrs.github.io/blog/categories/postgres/atom.xml" rel="self"/>
   <link href="http://jordanrs.github.io/"/>
-  <updated>2014-04-30T20:46:24+01:00</updated>
+  <updated>2014-05-03T10:45:09+01:00</updated>
   <id>http://jordanrs.github.io/</id>
   <author>
     <name><![CDATA[Jordan Rogers-Smith]]></name>
@@ -18,57 +18,7 @@
     <link href="http://jordanrs.github.io/blog/2014/04/30/dblink/"/>
     <updated>2014-04-30T17:54:00+01:00</updated>
     <id>http://jordanrs.github.io/blog/2014/04/30/dblink</id>
-    <content type="html"><![CDATA[<table>
-<thead>
-<tr>
-<th></th>
-<th align="left"> Left align </th>
-<th align="right"> Right align </th>
-<th align="center"> Center align </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td align="left"> This       </td>
-<td align="right">        This </td>
-<td align="center">     This     </td>
-</tr>
-<tr>
-<td></td>
-<td align="left"> column     </td>
-<td align="right">      column </td>
-<td align="center">    column    </td>
-</tr>
-<tr>
-<td></td>
-<td align="left"> will       </td>
-<td align="right">        will </td>
-<td align="center">     will     </td>
-</tr>
-<tr>
-<td></td>
-<td align="left"> be         </td>
-<td align="right">          be </td>
-<td align="center">      be      </td>
-</tr>
-<tr>
-<td></td>
-<td align="left"> left       </td>
-<td align="right">       right </td>
-<td align="center">    center    </td>
-</tr>
-<tr>
-<td></td>
-<td align="left"> aligned    </td>
-<td align="right">     aligned </td>
-<td align="center">   aligned</td>
-</tr>
-</tbody>
-</table>
-
-
-<p>A recent hack / sketchy 1st product draft required datasets that live in two different database to be joined together to do some analysis on. Initially thoughts of denormalization or key/value lookup crossed peoples minds but wanting a quick win to try and get the idea validated as quickly as possible, I kept on digging.</p>
+    <content type="html"><![CDATA[<p>A recent hack / sketchy 1st product draft required datasets that live in two different database to be joined together to do some analysis on. Initially thoughts of denormalization or key/value lookup crossed peoples minds but wanting a quick win to try and get the idea validated as quickly as possible, I kept on digging.</p>
 
 <p>As always <a href="http://stackoverflow.com/questions/9493332/postgres-how-to-create-a-select-query-that-would-join-two-databases">stackoverflow</a> provided the start of the journey of discovery with something called dblink.</p>
 
@@ -101,6 +51,9 @@ eg
 
 postgres://pguser:abcd@127.0.0.1:5432/test_db'
 </code></pre>
+
+<!-- more -->
+
 
 <h2>Query String</h2>
 

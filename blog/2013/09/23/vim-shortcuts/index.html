@@ -3,14 +3,14 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Vim Shortcuts - Jordan Rogers-Smith</title>
+	<title>Vim Cheat Sheet - Jordan Rogers-Smith</title>
 	<meta name="author" content="Jordan Rogers-Smith">
 
 	
-	<meta name="description" content="Vim Shortcuts Vim Commands i = insert mode h,j,k,l = move left, up, down, left
+	<meta name="description" content="Vim Cheat Sheet Basic Commands i = insert mode h,j,k,l = move left, up, down, left
 w = move from word to word
 b = move back word to word
-W = jumps the &hellip;">
+W = jumps &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,97 +89,102 @@ W = jumps the &hellip;">
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-	<h1 class="title" itemprop="name">Vim Shortcuts</h1>
+	<h1 class="title" itemprop="name">Vim Cheat Sheet</h1>
 	<h2 class="sub_heading" itemprop="name"></h2>
-	<div class="entry-content" itemprop="articleBody"><h2>Vim Commands</h2>
+	<div class="entry-content" itemprop="articleBody"><hr />
+
+<h2>Basic Commands</h2>
 
 <p>i = insert mode</p>
 
-<p>h,j,k,l = move left, up, down, left
-w = move from word to word
-b = move back word to word
-W = jumps the whole word
+<p>h,j,k,l = move left, up, down, left<br/>
+w = move from word to word<br/>
+b = move back word to word<br/>
+W = jumps the whole word<br/>
 B = jusmps back a word to word</p>
 
-<p>$ = go to end of the line
-^ = go to the begining of the line
+<p>$ = go to end of the line<br/>
+^ = go to the begining of the line<br/>
 0 = goes to the very beginning</p>
 
-<p>gg = goes to the begginig of the file
-G = goes to the bottom of the file
+<p>gg = goes to the begginig of the file<br/>
+G = goes to the bottom of the file<br/>
 { } = jumps paragraphs</p>
 
-<p>f = finds the first occurence of a string in the file
+<p>f = finds the first occurence of a string in the file<br/>
 F = fins the first occurance of a string backward</p>
 
 <p>number followed by comman (4dd) &ndash; deletes four lines</p>
 
-<p>3gg = goes 3 lines from the top
-:13 = goes to line 13
+<p>3gg = goes 3 lines from the top <br/>
+:13 = goes to line 13<br/>
 3 G = goes three lines from the bottom</p>
+
+<!-- more -->
+
 
 <hr />
 
 <h2>Advanced Movement</h2>
 
-<p>ctrl d &ndash; moves half screen down
-ctrl u &ndash; moves half screen up
-ctrl f &ndash; full screen forward
+<p>ctrl d &ndash; moves half screen down<br/>
+ctrl u &ndash; moves half screen up<br/>
+ctrl f &ndash; full screen forward<br/>
 ctrl b &ndash; full screen backward</p>
 
-<p>M &ndash; goes to middle of the window
-H &ndash; goes to top of window
-L &ndash; goes to last line of window
+<p>M &ndash; goes to middle of the window<br/>
+H &ndash; goes to top of window<br/>
+L &ndash; goes to last line of window<br/>
 3L &ndash; goes three lines above bottom of window</p>
 
-<p>zt &ndash; moves the line our cursor is on to the top
-zb &ndash; moves the line to the botton
+<p>zt &ndash; moves the line our cursor is on to the top<br/>
+zb &ndash; moves the line to the botton<br/>
 zz &ndash; moves the line to the middle</p>
 
-<p>ma &ndash; saves cursor position to a register
-&lsquo;a &ndash; goes directly to register a
+<p>ma &ndash; saves cursor position to a register<br/>
+&lsquo;a &ndash; goes directly to register a<br/>
 &rsquo; &ndash; move between markers</p>
 
 <hr />
 
 <h2>Basic Editing</h2>
 
-<p>X &ndash; deletes behind the cursor
-x &ndash; delete whats under the cursor
-dd &ndash; delete the line
-dw &ndash; delete the word
-db &ndash; delete revious word</p>
+<p>X &ndash; deletes behind the cursor<br/>
+x &ndash; delete whats under the cursor<br/>
+dd &ndash; delete the line<br/>
+dw &ndash; delete the word<br/>
+db &ndash; delete previous word</p>
 
-<p>cc &ndash; delete line and enter insert mode
-cw &ndash; delete work and enter insert mode
+<p>cc &ndash; delete line and enter insert mode<br/>
+cw &ndash; delete work and enter insert mode<br/>
 cd &ndash; delete previous word and enter insert mode</p>
 
-<p>ci&#8221; &ndash; changes whats inbetween two &ldquo;
-ca&rdquo; &ndash; deletes everything inside the quot and the quote</p>
+<p>ci&#8221; &ndash; changes whats inbetween two &ldquo;<br/>
+ca&rdquo; &ndash; deletes everything inside the quotes</p>
 
 <hr />
 
 <h2>Cut, Copy and Paste</h2>
 
-<p>Every deleteion is a cut command, puts in a special registar for pasting later</p>
+<p>Every deletion is a cut command, puts in a special register for pasting later</p>
 
 <p>p &ndash; pastes last thing in deletion cut register
 P &ndash; pastes before the cursor
-y &ndash; yank/copy somehting copy can be used with any familiar command
-yw &ndash; copy word
+y &ndash; yank/copy something copy can be used with any familiar command<br/>
+yw &ndash; copy word <br/>
 yy &ndash; copy line</p>
 
 <hr />
 
 <h2>Search</h2>
 
-<p>/search = starts searching for word search. it is also case sensitive
-?search = looks backwards for the word search
-set incsearch = sets incremental search on
-set ignorecase = turns of case senestive search
-set hlsearch = turns on highlight search
-nohlsearch / noh = turns off highlight search
-n = searchs mores. vim stores the last search
+<p>/search = starts searching for word search. it is also case sensitive<br/>
+?search = looks backwards for the word search<br/>
+set incsearch = sets incremental search on <br/>
+set ignorecase = turns off case sensitive search<br/>
+set hlsearch = turns on highlight search<br/>
+nohlsearch / noh = turns off highlight search<br/>
+n = find next occurence. vim stores the last search<br/>
 c/find = will delete from the cursor to find and then enter insert mode</p>
 
 <p>vim search can use regexs</p>
@@ -188,27 +193,26 @@ c/find = will delete from the cursor to find and then enter insert mode</p>
 
 <h2>Search and Replace</h2>
 
-<p>:s/pattern/replace/flags
-:s &ndash; perfoms a substitutions replaces on first occurance by defaul
-:s/vim/Vim &ndash; replaces vim for Vim
-:%s/vim/Vim &ndash; replaces whole file with vim for Vim
+<p>:s/pattern/replace/flags<br/>
+:s &ndash; perfoms a substitutions replaces on first occurance by default<br/>
+:s/vim/Vim &ndash; replaces vim for Vim<br/>
+:%s/vim/Vim &ndash; replaces whole file with vim for Vim<br/>
 :%s/vim/Vim/g &ndash; replaces whole file with vim for Vim globally</p>
 
-<p>vim will use previous serach pattern
-so can do :s//pattern
-when using regex can use \ze or \zs to stop selection before or af</p>
+<p>vim will use previous serach pattern so can do :s//pattern<br/>
+when using regex can use \ze or \zs to stop selection before or after</p>
 
-<p>Visual mode &ndash; v
+<p>Visual mode &ndash; v<br/>
 visual line mode &ndash; V</p>
 
 <p>gv &ndash; reslects last selection</p>
 
-<p>go to a bracket, enter visual mode hit % and that will find the corresponding</p>
+<p>go to a bracket, enter visual mode hit % and that will find the corresponding bracket</p>
 
 <p>FLAGS</p>
 
-<p>c = confirm, asks for confirmation for oeach occurence
-i = insensitive
+<p>c = confirm, asks for confirmation for oeach occurence<br/>
+i = insensitive<br/>
 g = finds all occurances in a line</p>
 
 <p>HELP</p>
@@ -219,33 +223,33 @@ g = finds all occurances in a line</p>
 
 <h2>Macros and Register</h2>
 
-<p>ctrl g &ndash; get file in fo</p>
+<p>ctrl g &ndash; get file info</p>
 
 <p>macros store a command pipeline that can be used over and over</p>
 
-<p>qa &ndash; start recording a macro in register a
-q &ndash; stops recroding
-:registers / reg &ndash; shows the recorded registers
-@a &ndash; runs macro in a register
+<p>qa &ndash; start recording a macro in register a<br/>
+q &ndash; stops recroding<br/>
+:registers / reg &ndash; shows the recorded registers<br/>
+@a &ndash; runs macro in a register<br/>
 @@ &ndash; runts the last macro ran again</p>
 
 <hr />
 
 <h2>Command Line in Vim</h2>
 
-<p>:! &ndash; initalises comman from the shell then run command
-:read !date &ndash; puts the oupt of shell into the file under cursor
-:r !curl &mdash;silent URL &ndash; outputs the file into the buffer
-you can take the selected text buffer feed it in to standard in and replace it with output</p>
+<p>:! &ndash; initalises comman from the shell then run command<br/>
+:read !date &ndash; puts the oupt of shell into the file under cursor<br/>
+:r !curl &mdash;silent URL &ndash; outputs the file into the buffer<br/>
+you can take the selected text buffer and feed it into standard in and replace it with output</p>
 
 <hr />
 
 <h2>Navigating Between Buffers</h2>
 
-<p>:ls &ndash; lists all active buffers for files in memory
-:bn / bnext &ndash; next buffer
-:bp / bprev &ndash; previous buffer
-:b# &ndash; last buffer we visited
+<p>:ls &ndash; lists all active buffers for files in memory<br/>
+:bn / bnext &ndash; next buffer<br/>
+:bp / bprev &ndash; previous buffer<br/>
+:b# &ndash; last buffer we visited<br/>
 :bf &ndash; first buffer</p>
 
 <p>:bd 14 &ndash; deletes buffer 14</p>
@@ -256,22 +260,22 @@ you can take the selected text buffer feed it in to standard in and replace it w
 
 <p>Split windows</p>
 
-<p>:vsplit / vs file_path &ndash; splits the
-ctrl+w h/l = move between left right
-ctrl+w H / L = move to the left / right most part
-ctrl + w J/K = move to the bottom / top
-ctrl + w +/&ndash; = increase/decrease window hight 1 row
-ctrl + w </> = increase/decrease width by 1 column
-ctrl + w = = auto resize windows equally
+<p>:vsplit / vs file_path &ndash; splits the buffer vertically
+ctrl+w h/l = move between left right<br/>
+ctrl+w H / L = move to the left / right most part<br/>
+ctrl + w J/K = move to the bottom / top<br/>
+ctrl + w +/&ndash; = increase/decrease window hight 1 row<br/>
+ctrl + w </> = increase/decrease width by 1 column<br/>
+ctrl + w = = auto resize windows equally<br/>
 :q = clost a window buffer</p>
 
-<p>:sb 2 = split buffer in memory
+<p>:sb 2 = split buffer in memory<br/>
 :vert sb = vetical split buffer in memory</p>
 
 <p>Tabs</p>
 
-<p>:tab e / tabedit file_path
-:gt &ndash; move oen tab forward
+<p>:tab e / tabedit file_path<br/>
+:gt &ndash; move oen tab forward<br/>
 :gT &ndash; move one tab backward</p>
 
 <hr />
@@ -284,51 +288,45 @@ ctrl + w = = auto resize windows equally
 
 <h2>Indents and Folds </h2>
 
-<p>:set list &ndash; prnts lines/tabs/space</p>
-
-<blockquote><blockquote><ul>
-<li>indent of one tab
-8>> &ndash; indents following 8 lines</li>
-</ul>
-</blockquote></blockquote>
-
-<p>:set expandtab &ndash; sets soft tabs
-:set noexpandtab &ndash; sets tabs normal
-:set shiftwidth=3 &ndash; 3 spaces for one indentation
-:set smartindent &ndash; sets smart indentation
+<p>:set list &ndash; prnts lines/tabs/space<br/>
+>> &ndash; indent of one tab<br/>
+8>> &ndash; indents following 8 lines<br/>
+:set expandtab &ndash; sets soft tabs<br/>
+:set noexpandtab &ndash; sets tabs normal<br/>
+:set shiftwidth=3 &ndash; 3 spaces for one indentation<br/>
+:set smartindent &ndash; sets smart indentation<br/>
 :set softtabstop / sts 3</p>
 
 <p>in visual mode &ndash;</p>
 
-<p>gv &ndash; reselects last selection</p>
-
-<blockquote><p>/&lt; &ndash; indents</p></blockquote>
+<p>gv &ndash; reselects last selection<br/>
+>/&lt; &ndash; indents</p>
 
 <p>Auto indent
-= on select texted auto indent
-=3j auto indent next 2 lines
+= on select texted auto indent<br/>
+=3j auto indent next 2 lines<br/>
 =G indents the whole file</p>
 
 <p>In inset mode
-tab = inserts
-ctrl + t = indent forward
+tab = inserts<br/>
+ctrl + t = indent forward<br/>
 ctrl + d = indent back</p>
 
 <p>Folding</p>
 
 <p>manual folds
-zf5j &ndash; fold the next 5 lines
-zo &ndash; open fold
-zO &ndash; open from cursor fown
-zc &ndash; close everything from position up fold
-zd &ndash; delete fold
-zf% &ndash; folds the matching bracket
+zf5j &ndash; fold the next 5 lines<br/>
+zo &ndash; open fold<br/>
+zO &ndash; open from cursor fown<br/>
+zc &ndash; close everything from position up fold<br/>
+zd &ndash; delete fold<br/>
+zf% &ndash; folds the matching bracket<br/>
 zi &ndash; inverts folding on/off</p>
 
 <p>auto folding</p>
 
-<p>set foldmethod/fdm &ndash; numberous options see help foldmethod
-set fdm=sytax = fold baed on syntax
+<p>set foldmethod/fdm &ndash; numberous options see help foldmethod<br/>
+set fdm=sytax = fold baed on syntax<br/>
 set fdm=marker = set a custom folder maker } for instace</p>
 
 <hr />
@@ -341,41 +339,41 @@ set fdm=marker = set a custom folder maker } for instace</p>
 
 <p>allows file types to be detected than plugins and indentation set up based on those files</p>
 
-<p>filetype on
-filetype indent on
+<p>filetype on<br/>
+filetype indent on<br/>
 filetype  plugin on</p>
 
-<p>let VARIAABLE &ndash; &ldquo;.&rdquo;
+<p>let VARIAABLE &ndash; &ldquo;.&#8221;<br/>
 syntax enable</p>
 
-<p>set ignorecase
-set hlsearch
-set autoindent
-set fileencoding=utf-8
-set encoding=utf-8
+<p>set ignorecase<br/>
+set hlsearch<br/>
+set autoindent<br/>
+set fileencoding=utf-8<br/>
+set encoding=utf-8<br/>
 set backspace=indent.eol.start</p>
 
-<p>set smartcase &ndash; perform smart searchs
-gdefault &ndash; perform global replacments
-set incsearch
+<p>set smartcase &ndash; perform smart searchs<br/>
+gdefault &ndash; perform global replacments<br/>
+set incsearch<br/>
 set showmatch &ndash; highlight all matching parentheses</p>
 
-<p>deals with how windows are auto sized
-set winwidth=84
-set winheight=5
-set winminheight=5
+<p>deals with how windows are auto sized<br/>
+set winwidth=84<br/>
+set winheight=5<br/>
+set winminheight=5<br/>
 set winheight=999</p>
 
-<p>set no/list &ndash; view all tabs and line endings
-set guifont= &ndash; sets the font
-set guioptions= add options
-set guioptions-= remove options
-set number &ndash; set line numbers
-set visualbell &ndash; flash the screen over the bell
+<p>set no/list &ndash; view all tabs and line endings<br/>
+set guifont= &ndash; sets the font <br/>
+set guioptions= add options<br/>
+set guioptions-= remove options<br/>
+set number &ndash; set line numbers<br/>
+set visualbell &ndash; flash the screen over the bell<br/>
 set cursoline &ndash; highlight line your in</p>
 
-<p>set cc=80 &ndash; sets line at 80th column
-set background=dark
+<p>set cc=80 &ndash; sets line at 80th column<br/>
+set background=dark<br/>
 colorschmeme solarized</p>
 
 <p>au BufRead,BufNewFil *.ru setfiletype ruby</p>
