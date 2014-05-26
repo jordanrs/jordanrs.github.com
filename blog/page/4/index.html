@@ -7,7 +7,7 @@
 	<meta name="author" content="Jordan Rogers-Smith">
 
 	
-	<meta name="description" content="Dec 18th, 2010 Real Time Systems Piece 2 - PS3 Dualshock 3 as a Performance Controller Building on Submission 1 this performance piece use the PS3 &hellip;">
+	<meta name="description" content="Apr 30th, 2011 Algorithmic Comp. Piece 2 Research - Chaos Functions For my final year piece iv been researching chaotic functions and non-linear &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -87,6 +87,110 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-04-30T00:00:00+01:00" data-updated="true" itemprop="datePublished">Apr 30<span>th</span>, 2011</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2011/04/30/Algorithmic-Composition-Piece-2-Research---Choas-Functions/" itemprop="url">Algorithmic Comp. Piece 2 Research - Chaos Functions</a></h1>
+	<h2 class="sub_heading" itemprop="name"></h2>
+	<div class="entry-content" itemprop="articleBody">
+		<p>For my final year piece iv been researching chaotic functions and non-linear maps. Below is a selection of function iv ported into Lisp. Each function outputs a text file that can be imported into most graphing software (the corresponding pictures were all produced with MATLAB). I intend to implement these functions and use there output to drive a piece of music.</p>
+
+<p><strong>The Logistic Equation</strong></p>
+
+<p><img style="display: block; margin: 0px auto 10px; text-align: center; cursor: pointer; width: 302px; height: 298px;" src="http://4.bp.blogspot.com/-E1OToaCO-yg/TbxIpC3F1fI/AAAAAAAABU4/8soPQ8FU69Y/s320/logistic.jpg" alt="" id="BLOGGER_PHOTO_ID_5601431906521830898" border="0" /></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='common-lisp'><span class='line'><span class="p">(</span><span class="nb">with-open-file</span> <span class="p">(</span><span class="vg">*standard-output*</span> <span class="s">&quot;logistic.txt&quot;</span> <span class="ss">:direction</span> <span class="ss">:output</span>
+</span><span class='line'>                                  <span class="ss">:if-exists</span> <span class="ss">:supersede</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="k">let*</span>  <span class="p">((</span><span class="nv">x</span> <span class="mf">0.5</span><span class="p">)</span>
+</span><span class='line'> <span class="p">(</span><span class="nv">r-env</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">0</span> <span class="mi">1</span> <span class="mi">1000</span> <span class="mf">4.0</span><span class="p">))</span>
+</span><span class='line'> <span class="p">(</span><span class="nv">r</span> <span class="mf">0.0</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>   <span class="p">(</span><span class="nb">loop</span> <span class="nv">for</span> <span class="nv">i</span> <span class="nv">below</span> <span class="mi">1000</span> <span class="nb">do</span>
+</span><span class='line'>  <span class="p">(</span><span class="nb">setf</span> <span class="nv">r</span> <span class="p">(</span><span class="nv">envelope-interp</span> <span class="nv">i</span> <span class="nv">r-env</span><span class="p">)</span>
+</span><span class='line'>     <span class="nv">x</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">r</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">x</span> <span class="p">(</span><span class="nb">-</span> <span class="mi">1</span> <span class="nv">x</span><span class="p">))))</span>
+</span><span class='line'>  <span class="p">(</span><span class="nb">format</span> <span class="no">t</span> <span class="s">&quot;~D ~D~%&quot;</span> <span class="nv">r</span> <span class="nv">x</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">)))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>The Henon Map</strong></p>
+
+
+		
+		<a href="/blog/2011/04/30/Algorithmic-Composition-Piece-2-Research---Choas-Functions/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-12-19T00:00:00+00:00" data-updated="true" itemprop="datePublished">Dec 19<span>th</span>, 2010</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/12/19/Computer-Programming-for-Music-Technology---Quadraphonic-Delay-In-C-and-MaxMsp/" itemprop="url">Computer Programming for Music Technology - Quadraphonic Delay in C and Max/Msp</a></h1>
+	<h2 class="sub_heading" itemprop="name"></h2>
+	<div class="entry-content" itemprop="articleBody">
+		<p>The final piece of a course in C and its uses in building Max/Msp objects was to design and code a quadraphonic (four tap) delay in C for use as a Max/Msp object. The delay takes an incoming mono signal and allows the user to set four delay times which correspond to the the four outputs.</p>
+
+<p><strong>Source code and Object</strong>
+<a href="https://sites.google.com/site/jordanrsblog/cpmt/quaddelaysrc.zip">
+Download</a></p>
+
+<p>Built using Max/Msp SDK 5.1.6, tested on Windows 7 with Max/Msp 5.0.7</p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">

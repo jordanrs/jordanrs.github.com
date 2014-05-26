@@ -4,7 +4,7 @@
   <title><![CDATA[Category: hacker rank | Jordan Rogers-Smith]]></title>
   <link href="http://jordanrs.github.io/blog/categories/hacker-rank/atom.xml" rel="self"/>
   <link href="http://jordanrs.github.io/"/>
-  <updated>2014-05-26T19:06:15+01:00</updated>
+  <updated>2014-05-26T19:32:15+01:00</updated>
   <id>http://jordanrs.github.io/</id>
   <author>
     <name><![CDATA[Jordan Rogers-Smith]]></name>
@@ -188,6 +188,46 @@ end</p>
 
 <p>  end
 end</p>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hacker Rank Solutions: Gem Stones]]></title>
+    <link href="http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-gem-stones/"/>
+    <updated>2014-05-26T18:49:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-gem-stones</id>
+    <content type="html"><![CDATA[<p><a href="https://www.hackerrank.com/challenges/gem-stones">Hacker Rank Solutions: Gem Stones</a></p>
+
+<p>``` ruby</p>
+
+<p>lines = $stdin.gets.to_i</p>
+
+<p>char_counts = Hash.new</p>
+
+<p>lines.times do</p>
+
+<p>  visted_chars =  Hash.new</p>
+
+<p>  line = $stdin.gets.chomp
+  line.unpack(&lsquo;C*&rsquo;).each do |char|</p>
+
+<pre><code>if visted_chars[char].nil?
+  char_counts[char] = 0 if  char_counts[char].nil?
+  char_counts[char] += 1 
+  visted_chars[char] = true
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>end</p>
+
+<p>output = []
+char_counts.each { |key, value| output &lt;&lt; key if value == lines   }</p>
+
+<p>puts output.length</p>
 
 <p>```</p>
 ]]></content>

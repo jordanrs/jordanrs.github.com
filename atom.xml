@@ -4,7 +4,7 @@
   <title><![CDATA[Jordan Rogers-Smith]]></title>
   <link href="http://jordanrs.github.io/atom.xml" rel="self"/>
   <link href="http://jordanrs.github.io/"/>
-  <updated>2014-05-26T19:06:15+01:00</updated>
+  <updated>2014-05-26T19:32:15+01:00</updated>
   <id>http://jordanrs.github.io/</id>
   <author>
     <name><![CDATA[Jordan Rogers-Smith]]></name>
@@ -255,6 +255,120 @@
 </span><span class='line'>  <span class="k">else</span>
 </span><span class='line'>    <span class="nb">puts</span> <span class="s1">&#39;IsNotFibo&#39;</span>
 </span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hacker Rank Solutions: Gem Stones]]></title>
+    <link href="http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-gem-stones/"/>
+    <updated>2014-05-26T18:49:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-gem-stones</id>
+    <content type="html"><![CDATA[<p><a href="https://www.hackerrank.com/challenges/gem-stones">Hacker Rank Solutions: Gem Stones</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">lines</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">char_counts</span> <span class="o">=</span> <span class="no">Hash</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">lines</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">visted_chars</span> <span class="o">=</span>  <span class="no">Hash</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">line</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">chomp</span>
+</span><span class='line'>  <span class="n">line</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;C*&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">char</span><span class="o">|</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">visted_chars</span><span class="o">[</span><span class="n">char</span><span class="o">].</span><span class="n">nil?</span>
+</span><span class='line'>      <span class="n">char_counts</span><span class="o">[</span><span class="n">char</span><span class="o">]</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span>  <span class="n">char_counts</span><span class="o">[</span><span class="n">char</span><span class="o">].</span><span class="n">nil?</span>
+</span><span class='line'>      <span class="n">char_counts</span><span class="o">[</span><span class="n">char</span><span class="o">]</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>      <span class="n">visted_chars</span><span class="o">[</span><span class="n">char</span><span class="o">]</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">output</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'><span class="n">char_counts</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="o">|</span> <span class="n">output</span> <span class="o">&lt;&lt;</span> <span class="n">key</span> <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="n">lines</span>   <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">puts</span> <span class="n">output</span><span class="o">.</span><span class="n">length</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hacker Rank Solutions: Chocolate Feast]]></title>
+    <link href="http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-chocolate-feast/"/>
+    <updated>2014-05-26T18:49:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-chocolate-feast</id>
+    <content type="html"><![CDATA[<p><a href="https://www.hackerrank.com/challenges/chocolate-feast">Hacker Rank Solutions: Chocolate Feast</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">exchange</span><span class="p">(</span><span class="n">wrappers</span><span class="p">,</span> <span class="n">number_for_free</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">return</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">wrappers</span> <span class="o">&lt;</span> <span class="n">number_for_free</span>
+</span><span class='line'>  <span class="n">free_sweets</span> <span class="o">=</span> <span class="n">wrappers</span> <span class="o">/</span> <span class="n">number_for_free</span>
+</span><span class='line'>  <span class="n">left_over</span> <span class="o">=</span>  <span class="n">wrappers</span> <span class="o">%</span> <span class="n">number_for_free</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="n">left_over</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">free_sweets</span> <span class="o">&lt;</span> <span class="n">number_for_free</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">free_sweets</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">free_sweets</span> <span class="o">+</span> <span class="n">exchange</span><span class="p">(</span><span class="n">free_sweets</span> <span class="o">+</span> <span class="n">left_over</span><span class="p">,</span> <span class="n">number_for_free</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">test_cases</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">test_cases</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">money</span><span class="p">,</span> <span class="n">chocolate_price</span><span class="p">,</span> <span class="n">number_for_free</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span><span class="o">.</span><span class="n">to_i</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">bought_sweets</span> <span class="o">=</span> <span class="n">money</span><span class="o">/</span><span class="n">chocolate_price</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="vg">$stdout</span><span class="o">.</span><span class="n">puts</span>  <span class="n">bought_sweets</span> <span class="o">+</span> <span class="n">exchange</span><span class="p">(</span><span class="n">bought_sweets</span><span class="p">,</span> <span class="n">number_for_free</span><span class="p">)</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -2364,102 +2478,6 @@ With this class its then easily to make a test_user factory as you would a rails
 
 <pre><code>$ rvm reinstall 1.9.3
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Multiple Test Environments in Rails]]></title>
-    <link href="http://jordanrs.github.io/blog/2013/04/23/multiple-test-enviroments/"/>
-    <updated>2013-04-23T00:00:00+01:00</updated>
-    <id>http://jordanrs.github.io/blog/2013/04/23/multiple-test-enviroments</id>
-    <content type="html"><![CDATA[<p>Multiple test enviorments allow for developers with different DB settings, gem desires to be able to setup and run the same test suite independently of one another.</p>
-
-<!-- more -->
-
-
-<p>Create the file <code>config/enviroments/jordan_test.rd</code> and copy into it the contents of <code>config/enviroments/test.rb</code>
-Via command line from application root:  <code>cp config/environments/test.rb config/environments/jordan_test.rb</code></p>
-
-<p>in config/database.yml add your DB settings (assumes using Postgres)</p>
-
-<figure class='code'><figcaption><span>database.yml </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">jordan_test</span><span class="p">:</span>
-</span><span class='line'>  <span class="ss">adapter</span><span class="p">:</span> <span class="n">postgresql</span>
-</span><span class='line'>  <span class="ss">encoding</span><span class="p">:</span> <span class="n">utf8</span>
-</span><span class='line'>  <span class="ss">host</span><span class="p">:</span> <span class="n">localhost</span>
-</span><span class='line'>  <span class="ss">database</span><span class="p">:</span> <span class="o">[</span><span class="n">project_name</span><span class="o">]</span><span class="n">_jordan_test</span>
-</span><span class='line'>  <span class="ss">username</span><span class="p">:</span>
-</span><span class='line'>  <span class="ss">password</span><span class="p">:</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Create the new database</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake db:create:all
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>add environment to any :test specific gems or gem groups in your gem file</p>
-
-<figure class='code'><figcaption><span>Gemfile</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">group</span> <span class="ss">:test</span><span class="p">,</span> <span class="ss">:jordan_test</span> <span class="k">do</span>
-</span><span class='line'>    <span class="c1">#blaaaaa........</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-or make a bundler group in application.rb so others envs can be added easier.</p>
-
-<figure class='code'><figcaption><span>config/application.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">if</span> <span class="n">defined?</span><span class="p">(</span><span class="no">Bundler</span><span class="p">)</span>
-</span><span class='line'>  <span class="c1"># If you precompile assets before deploying to production, use this line</span>
-</span><span class='line'>  <span class="no">Bundler</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="o">*</span><span class="no">Rails</span><span class="o">.</span><span class="n">groups</span><span class="p">(</span><span class="ss">:assets</span> <span class="o">=&gt;</span> <span class="sx">%w(development test steve cronin sexyjordan_test)</span><span class="p">,</span> <span class="ss">:test_envs</span> <span class="o">=&gt;</span> <span class="sx">%w(test sexyjordan_test)</span><span class="p">))</span>
-</span><span class='line'>  <span class="c1"># If you want your assets lazily compiled in production, use this line</span>
-</span><span class='line'>  <span class="c1"># Bundler.require(:default, :assets, Rails.env)</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Usual run rake <code>db:test:prepare</code> or <code>db:test:clone</code> instead possible to run <code>rake db:migrate RAILS_ENV=jordan_test</code> perhaps make an alias for this in your .bash_profile</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Strong Parameters and Tolk Gem]]></title>
-    <link href="http://jordanrs.github.io/blog/2013/04/05/strong-parameters-and-tolk-gem/"/>
-    <updated>2013-04-05T00:00:00+01:00</updated>
-    <id>http://jordanrs.github.io/blog/2013/04/05/strong-parameters-and-tolk-gem</id>
-    <content type="html"><![CDATA[<p>To get the tolk gem to work along side the Strong Parameters gem we need to apply a monkey patch to tolk</p>
-
-<figure class='code'><figcaption><span>config/initalizers/tolk.rb    </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">Tolk</span><span class="p">:</span><span class="ss">:LocalesController</span><span class="o">.</span><span class="n">class_eval</span> <span class="k">do</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">create</span>
-</span><span class='line'>      <span class="ss">Tolk</span><span class="p">:</span><span class="ss">:Locale</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:tolk_locale</span><span class="o">].</span><span class="n">try</span><span class="p">(</span><span class="ss">:permit!</span><span class="p">))</span>
-</span><span class='line'>      <span class="n">redirect_to</span> <span class="ss">:action</span> <span class="o">=&gt;</span> <span class="ss">:index</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
   </entry>
   
