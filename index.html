@@ -7,7 +7,7 @@
 	<meta name="author" content="Jordan Rogers-Smith">
 
 	
-	<meta name="description" content="May 2nd, 2014 Ruby Algorithums in Ruby Greatest Common Divisor Implementation of Euclid&rsquo;s algorithm for finding the greatest common divisor &hellip;">
+	<meta name="description" content="May 26th, 2014 hacker rank, ruby Hacker Rank Solutions: Utopian Tree (Hacker Rank Solutions: Utopian Tree)[https://www.hackerrank.com/challenges/ &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -103,6 +103,172 @@
   
 
 
+<time datetime="2014-05-26T18:49:00+01:00" data-updated="true" itemprop="datePublished">May 26<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/hacker-rank/'>hacker rank</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/05/26/hacker-rank-solutions-utopian-tree/" itemprop="url">Hacker Rank Solutions: Utopian Tree</a></h1>
+	<h2 class="sub_heading" itemprop="name"></h2>
+	<div class="entry-content" itemprop="articleBody">
+		<p>(Hacker Rank Solutions: Utopian Tree)[<a href="https://www.hackerrank.com/challenges/utopian-tree">https://www.hackerrank.com/challenges/utopian-tree</a>]</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">test_cases</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">chomp</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">test_cases</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">years</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">chomp</span>
+</span><span class='line'>  <span class="n">sum</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="n">years</span><span class="o">.</span><span class="n">to_i</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>
+</span><span class='line'>      <span class="n">sum</span> <span class="o">*=</span> <span class="mi">2</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">sum</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="vg">$stdout</span><span class="o">.</span><span class="n">puts</span> <span class="n">sum</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-17T16:59:00+01:00" data-updated="true" itemprop="datePublished">May 17<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/algorithums/'>algorithums</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/05/17/quicksort-in-ruby/" itemprop="url">Inplace Quicksort in Ruby</a></h1>
+	<h2 class="sub_heading" itemprop="name"></h2>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Inplace quicksort algorithum implemented in Ruby</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">quicksort</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">first</span><span class="p">,</span> <span class="n">last</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">array</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">return</span> <span class="k">if</span> <span class="n">first</span> <span class="o">&gt;</span> <span class="n">last</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">pivot</span> <span class="o">=</span> <span class="n">array</span><span class="o">[</span><span class="p">(</span><span class="n">first</span> <span class="o">+</span> <span class="n">last</span><span class="p">)</span> <span class="o">*</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="o">]</span>
+</span><span class='line'>    <span class="n">left</span> <span class="o">=</span> <span class="n">first</span>
+</span><span class='line'>    <span class="n">right</span> <span class="o">=</span> <span class="n">last</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">while</span> <span class="n">left</span> <span class="o">&lt;=</span> <span class="n">right</span>
+</span><span class='line'>      <span class="k">while</span><span class="p">(</span><span class="n">array</span><span class="o">[</span><span class="n">left</span><span class="o">]</span> <span class="o">&lt;</span> <span class="n">pivot</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>        <span class="n">left</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>      <span class="k">while</span><span class="p">(</span><span class="n">array</span><span class="o">[</span><span class="n">right</span><span class="o">]</span> <span class="o">&gt;</span> <span class="n">pivot</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>        <span class="n">right</span> <span class="o">-=</span> <span class="mi">1</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">if</span> <span class="n">left</span> <span class="o">&lt;=</span> <span class="n">right</span>
+</span><span class='line'>        <span class="n">tmp</span> <span class="o">=</span> <span class="n">array</span><span class="o">[</span><span class="n">left</span><span class="o">]</span>
+</span><span class='line'>        <span class="n">array</span><span class="o">[</span><span class="n">left</span><span class="o">]</span> <span class="o">=</span> <span class="n">array</span><span class="o">[</span><span class="n">right</span><span class="o">]</span>
+</span><span class='line'>        <span class="n">array</span><span class="o">[</span><span class="n">right</span><span class="o">]</span> <span class="o">=</span> <span class="n">tmp</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">left</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>        <span class="n">right</span> <span class="o">-=</span> <span class="mi">1</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">quicksort</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">first</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">quicksort</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">last</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
 <time datetime="2014-05-02T08:05:00+01:00" data-updated="true" itemprop="datePublished">May 2<span>nd</span>, 2014</time></div>
 		<div class="tags">
 
@@ -118,7 +284,16 @@
 	<div class="entry-content" itemprop="articleBody">
 		<h2>Greatest Common Divisor</h2>
 
-<p>Implementation of Euclid&rsquo;s algorithm for finding the greatest common divisor between two numbers</p>
+<p>Ruby has a native implementation of the greatest common divisor.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="mi">20</span><span class="o">.</span><span class="n">gcd</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+</span><span class='line'>  <span class="o">=&gt;</span> <span class="mi">5</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>However as a pure academic exercise lets implement Euclid&rsquo;s algorithm for finding the greatest common divisor between any number of numbers in ruby!</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -167,6 +342,8 @@
 </span><span class='line'>    <span class="k">end</span>
 </span><span class='line'>  <span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
+
+
 
 
 		
@@ -597,82 +774,6 @@ F = fins the first occurance of a string backward</p>
 
 		
 		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-22T12:03:00+01:00" data-updated="true" itemprop="datePublished">Jul 22<span>nd</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/hackathons/'>hackathons</a>, <a class='category' href='/blog/categories/philips-hue/'>philips hue</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/07/22/hacked-2013/" itemprop="url">Hacked 2013</a></h1>
-	<h2 class="sub_heading" itemprop="name"></h2>
-	<div class="entry-content" itemprop="articleBody">
-		<p><a href="http://hacked.io">Hacked.oi</a> was utterly awesome. In the end myself, <a href="https://twitter.com/marcelloseri">Marcello Seri</a> and <a href="https://twitter.com/b3noxley">Ben Oxley</a> created <a href="https://www.hackerleague.org/hackathons/hacked/hacks/homeflux">homeFlux</a>, a realtime system for adapting light levels to match a desired intensity and also adjust colour values over time much like <a href="http://justgetflux.com/">flu.x</a>. Was awesome fun.</p>
-
-<iframe width="560" height="315" src="//www.youtube.com/embed/T_gPdTJkoM0" frameborder="0" allowfullscreen></iframe>
-
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-10T20:46:00+01:00" data-updated="true" itemprop="datePublished">Jul 10<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/active-admin/'>active admin</a>, <a class='category' href='/blog/categories/javascript/'>javascript</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/xhr/'>xhr</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/07/10/activeadmin-form-preview-with-javascript-formdata/" itemprop="url">ActiveAdmin Form Preview With Javascript FormData</a></h1>
-	<h2 class="sub_heading" itemprop="name"></h2>
-	<div class="entry-content" itemprop="articleBody">
-		<p>One of my recent tasks has been to build a preview of a form submission into an existing application. Having done something similar in the past involving changing the forms action with javascript, ajax posting the form (including images), generating a preview, changing the form back blaa blaa blaa blaa blaaaaa. I wanted to find a cleaner way to a) deal with the preview and b) ajaxing blob data (image/files) and thanks to not having to support IE implemented the following procedure using FormData and XMLHttpRequest 2.</p>
-
-
-		
-		<a href="/blog/2013/07/10/activeadmin-form-preview-with-javascript-formdata/" class="more-link">Read on &rarr;</a>
 	</div>
 
 </article>

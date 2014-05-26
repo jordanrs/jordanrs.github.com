@@ -4,7 +4,7 @@
   <title><![CDATA[Jordan Rogers-Smith]]></title>
   <link href="http://jordanrs.github.io/atom.xml" rel="self"/>
   <link href="http://jordanrs.github.io/"/>
-  <updated>2014-05-03T10:45:09+01:00</updated>
+  <updated>2014-05-26T18:51:45+01:00</updated>
   <id>http://jordanrs.github.io/</id>
   <author>
     <name><![CDATA[Jordan Rogers-Smith]]></name>
@@ -14,13 +14,134 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Hacker Rank Solutions: Utopian Tree]]></title>
+    <link href="http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-utopian-tree/"/>
+    <updated>2014-05-26T18:49:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-utopian-tree</id>
+    <content type="html"><![CDATA[<p>(Hacker Rank Solutions: Utopian Tree)[<a href="https://www.hackerrank.com/challenges/utopian-tree">https://www.hackerrank.com/challenges/utopian-tree</a>]</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">test_cases</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">chomp</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">test_cases</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">years</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">chomp</span>
+</span><span class='line'>  <span class="n">sum</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="n">years</span><span class="o">.</span><span class="n">to_i</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>
+</span><span class='line'>      <span class="n">sum</span> <span class="o">*=</span> <span class="mi">2</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">sum</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="vg">$stdout</span><span class="o">.</span><span class="n">puts</span> <span class="n">sum</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Inplace Quicksort In Ruby]]></title>
+    <link href="http://jordanrs.github.io/blog/2014/05/17/quicksort-in-ruby/"/>
+    <updated>2014-05-17T16:59:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2014/05/17/quicksort-in-ruby</id>
+    <content type="html"><![CDATA[<p>Inplace quicksort algorithum implemented in Ruby</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">quicksort</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">first</span><span class="p">,</span> <span class="n">last</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">array</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">return</span> <span class="k">if</span> <span class="n">first</span> <span class="o">&gt;</span> <span class="n">last</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">pivot</span> <span class="o">=</span> <span class="n">array</span><span class="o">[</span><span class="p">(</span><span class="n">first</span> <span class="o">+</span> <span class="n">last</span><span class="p">)</span> <span class="o">*</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="o">]</span>
+</span><span class='line'>    <span class="n">left</span> <span class="o">=</span> <span class="n">first</span>
+</span><span class='line'>    <span class="n">right</span> <span class="o">=</span> <span class="n">last</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">while</span> <span class="n">left</span> <span class="o">&lt;=</span> <span class="n">right</span>
+</span><span class='line'>      <span class="k">while</span><span class="p">(</span><span class="n">array</span><span class="o">[</span><span class="n">left</span><span class="o">]</span> <span class="o">&lt;</span> <span class="n">pivot</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>        <span class="n">left</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>      <span class="k">while</span><span class="p">(</span><span class="n">array</span><span class="o">[</span><span class="n">right</span><span class="o">]</span> <span class="o">&gt;</span> <span class="n">pivot</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>        <span class="n">right</span> <span class="o">-=</span> <span class="mi">1</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">if</span> <span class="n">left</span> <span class="o">&lt;=</span> <span class="n">right</span>
+</span><span class='line'>        <span class="n">tmp</span> <span class="o">=</span> <span class="n">array</span><span class="o">[</span><span class="n">left</span><span class="o">]</span>
+</span><span class='line'>        <span class="n">array</span><span class="o">[</span><span class="n">left</span><span class="o">]</span> <span class="o">=</span> <span class="n">array</span><span class="o">[</span><span class="n">right</span><span class="o">]</span>
+</span><span class='line'>        <span class="n">array</span><span class="o">[</span><span class="n">right</span><span class="o">]</span> <span class="o">=</span> <span class="n">tmp</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">left</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>        <span class="n">right</span> <span class="o">-=</span> <span class="mi">1</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">quicksort</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">first</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">quicksort</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">last</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Algorithums in Ruby]]></title>
     <link href="http://jordanrs.github.io/blog/2014/05/02/algorithums-in-ruby/"/>
     <updated>2014-05-02T08:05:00+01:00</updated>
     <id>http://jordanrs.github.io/blog/2014/05/02/algorithums-in-ruby</id>
     <content type="html"><![CDATA[<h2>Greatest Common Divisor</h2>
 
-<p>Implementation of Euclid&rsquo;s algorithm for finding the greatest common divisor between two numbers</p>
+<p>Ruby has a native implementation of the greatest common divisor.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="mi">20</span><span class="o">.</span><span class="n">gcd</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+</span><span class='line'>  <span class="o">=&gt;</span> <span class="mi">5</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>However as a pure academic exercise lets implement Euclid&rsquo;s algorithm for finding the greatest common divisor between any number of numbers in ruby!</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -69,6 +190,8 @@
 </span><span class='line'>    <span class="k">end</span>
 </span><span class='line'>  <span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
+
+
 
 ]]></content>
   </entry>
@@ -2284,292 +2407,6 @@ or make a bundler group in application.rb so others envs can be added easier.</p
 
 <p>
 The only thing that can be changed is the BUCKET-NAME, leave all other aspects of the policy the same.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Heroku Optimisations - Unicorn, S3 and Cloudfront]]></title>
-    <link href="http://jordanrs.github.io/blog/2013/02/10/heroku-optimisations---unicorn-s3-and-cloudfront/"/>
-    <updated>2013-02-10T00:00:00+00:00</updated>
-    <id>http://jordanrs.github.io/blog/2013/02/10/heroku-optimisations&#8212;unicorn-s3-and-cloudfront</id>
-    <content type="html"><![CDATA[<p>As part of my continued learnings as a rails developer I had some free time during the week and looked into optimising heroku to make my rails apps far more efficient and effective. When i tested unicorn it showed itself to be a awesomely efficient application server giving you far more bang for your buck on heroku. Heres a quick guide of how I set up unicorn and some additional optimisations using s3 and cloudfront to serve my files that will now become my default set up to get the most out of my dynos.</p>
-
-<!-- more -->
-
-
-<p><strong>Setting up Unicorn</strong></p>
-
-<p><a href="https://github.com/defunkt/unicorn">Unicorn</a> is a HTTP server available for rails and other ruby frameworks that increase concurrency and the performance of your apps without having to increase the number of dynos (for a better explanation on the fundamentals of concurrency see this <a href="http://merbist.com/2011/02/22/concurrency-in-ruby-explained/">excellent post</a>). It does this by spawning extra processes to deal with incoming requests. It rocks, and showed itself to out perform the other popular ruby HTTP servers by a significant margin.</p>
-
-<p>1) Install the Unicorn gem into your gem file</p>
-
-<figure class='code'><figcaption><span>Gemfile</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">.</span><span class="n">.</span><span class="o">.</span>
-</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;unicorn&#39;</span>
-</span><span class='line'><span class="o">.</span><span class="n">.</span><span class="o">.</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>2) replace the current <code>web:</code> line in your procfile with</p>
-
-<figure class='code'><figcaption><span>Procfile</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">web</span><span class="p">:</span> <span class="n">bundle</span> <span class="nb">exec</span> <span class="n">unicorn_rails</span> <span class="o">-</span><span class="nb">p</span> <span class="vg">$PORT</span> <span class="o">-</span><span class="n">c</span> <span class="o">.</span><span class="n">/config</span><span class="o">/</span><span class="n">unicorn</span><span class="o">.</span><span class="n">rb</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>3) create a unicorn.rb file in the config directory with the following contents</p>
-
-<figure class='code'><figcaption><span>config/unicorn.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># If you have a very small app you may be able to</span>
-</span><span class='line'><span class="c1"># increase this, but in general 3 workers seems to</span>
-</span><span class='line'><span class="c1"># work best</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">worker_processes</span> <span class="mi">3</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># Load your app into the master before forking</span>
-</span><span class='line'><span class="c1"># workers for super-fast worker spawn times</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">preload_app</span> <span class="kp">true</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># Immediately restart any workers that</span>
-</span><span class='line'><span class="c1"># haven&#39;t responded within 30 seconds</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">timeout</span> <span class="mi">30</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">before_fork</span> <span class="k">do</span> <span class="o">|</span><span class="n">server</span><span class="p">,</span> <span class="n">worker</span><span class="o">|</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># Replace with MongoDB or whatever</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">if</span> <span class="n">defined?</span><span class="p">(</span><span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span><span class="p">)</span>
-</span><span class='line'>    <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">disconnect!</span>
-</span><span class='line'>    <span class="no">Rails</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Disconnected from ActiveRecord&#39;</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># If you are using Redis but not Resque, change this</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">if</span> <span class="n">defined?</span><span class="p">(</span><span class="no">Resque</span><span class="p">)</span>
-</span><span class='line'>    <span class="no">Resque</span><span class="o">.</span><span class="n">redis</span><span class="o">.</span><span class="n">quit</span>
-</span><span class='line'>    <span class="no">Rails</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Disconnected from Redis&#39;</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="nb">sleep</span> <span class="mi">1</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">after_fork</span> <span class="k">do</span> <span class="o">|</span><span class="n">server</span><span class="p">,</span> <span class="n">worker</span><span class="o">|</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># Replace with MongoDB or whatever</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">if</span> <span class="n">defined?</span><span class="p">(</span><span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span><span class="p">)</span>
-</span><span class='line'>    <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span><span class="o">.</span><span class="n">establish_connection</span>
-</span><span class='line'>    <span class="no">Rails</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Connected to ActiveRecord&#39;</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># If you are using Redis but not Resque, change this</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">if</span> <span class="n">defined?</span><span class="p">(</span><span class="no">Resque</span><span class="p">)</span>
-</span><span class='line'>    <span class="no">Resque</span><span class="o">.</span><span class="n">redis</span> <span class="o">=</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;REDIS_URI&#39;</span><span class="o">]</span>
-</span><span class='line'>    <span class="no">Rails</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Connected to Redis&#39;</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>4) finally set up logging so it use STDOUT in the application class of config/application.rb</p>
-
-<figure class='code'><figcaption><span>config/application.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="no">Logger</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">STDOUT</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The additions of the config file and logger changes fix a few issues that can happen when workers are being spawned/terminated, when adding certain gems like new relic or redis and making sure we get logging information reported correctly.</p>
-
-<p>Thats all there is to setting up unicorn on heroku. On the next deployment to heroku it should start the application running on unicorn with however many workers you specified. To check its working you can see it launch the unicorn server and spawn workers by doing <code>heroku logs --tail</code> whilst deploying.</p>
-
-<p>Iv found that 3 workers works best as any higher you risk breaching heroku&rsquo;s 512mb memory limit per dyno, but you can experiment depending on your application size.</p>
-
-<p><strong>Setting up s3 assets</strong></p>
-
-<p>The easiest way to serve your assets from the cloud is to use the [asset sync gem] (<a href="https://github.com/rumblelabs/asset_sync">https://github.com/rumblelabs/asset_sync</a>). It simplifies dumping your assets to the cloud, when you run <code>rake assets:precompile</code> (done by default when pushing to heroku) your compiled assets will automatically sent over to the cloud, whether thats Amazon S3, Google Storage or Rackspace. The good news is its also very easy to set up. For this setup I am using S3 and assume you have already set up a bucket and added the correct group policy</p>
-
-<p>1) Add the asset sync gem to your gem file</p>
-
-<figure class='code'><figcaption><span>Gemfile</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">group</span> <span class="ss">:assets</span> <span class="k">do</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span><span class="o">.</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;asset_sync&#39;</span>
-</span><span class='line'><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span><span class="o">.</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>2) in <code>production.rb</code> add our asset host</p>
-
-<figure class='code'><figcaption><span>config/environments/production.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">action_controller</span><span class="o">.</span><span class="n">asset_host</span> <span class="o">=</span> <span class="s2">&quot;//</span><span class="si">#{</span><span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;FOG_DIRECTORY&#39;</span><span class="o">]</span><span class="si">}</span><span class="s2">.s3.amazonaws.com&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We chose this url over the other style <code>//s3.amazonaws.com/#{ENV['FOG_DIRECTORY']}</code> as we can then have our bucket in any region &ndash; using the second style results in a 301 moved permanently due to reasons explained <a href="https://forums.aws.amazon.com/thread.jspa?threadID=17989">here</a>. There is one caveat however and that is that the bucket name cannot contain any periods (.&rsquo;s) as this will break the ssl certificates over https.</p>
-
-<p>3) make sure the following are set in <code>production.rb</code></p>
-
-<figure class='code'><figcaption><span>config/environments/production.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">assets</span><span class="o">.</span><span class="n">digest</span> <span class="o">=</span> <span class="kp">true</span><span class="o">.</span>
-</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">assets</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="kp">true</span><span class="o">.</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>4) One thing that we do is serve out staging assets and production assets from the same bucket. To do this we can add a asset prefix to our environments config file that declares the place the files should be stored within the bucket.</p>
-
-<figure class='code'><figcaption><span>config/environments/production.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">assets</span><span class="o">.</span><span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;/production/assets&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>5) add in the following environment variables on heroku</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku config:add <span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span>xxxx
-</span><span class='line'>heroku config:add <span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span>xxxx
-</span><span class='line'>heroku config:add <span class="nv">FOG_DIRECTORY</span><span class="o">=</span>xxxx  <span class="c"># ( this is the bucket name )</span>
-</span><span class='line'>heroku config:add <span class="nv">FOG_PROVIDER</span><span class="o">=</span>AWS
-</span><span class='line'>
-</span><span class='line'><span class="c"># and optionally:</span>
-</span><span class='line'>
-</span><span class='line'>heroku config:add <span class="nv">FOG_REGION</span><span class="o">=</span>eu-west-1
-</span><span class='line'>heroku config:add <span class="nv">ASSET_SYNC_GZIP_COMPRESSION</span><span class="o">=</span><span class="nb">true</span>
-</span><span class='line'>heroku config:add <span class="nv">ASSET_SYNC_MANIFEST</span><span class="o">=</span><span class="nb">true</span>
-</span><span class='line'>heroku config:add <span class="nv">ASSET_SYNC_EXISTING_REMOTE_FILES</span><span class="o">=</span>keep
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>6) finally we need to make sure these variables are available to heroku at asset compilation time so run this from the console in your app root directory</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku labs:enable user-env-compile -a myapp
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>Setting up CloudFront to serve our files even faster</strong></p>
-
-<p>Using a CDN to serve our assets instead of S3 or even the app itself will help improve load times and decrease requests to our app as assets get delivered from a data centre closer to the end users location. Setting up a CloudFront distribution for use with our rails app requires no special configuration options so selecting our bucket and using all the default options will be fine. If you&rsquo;ve used a CDN before you may have had problems expiring files once you&rsquo;ve made changes to them. Thanks to the asset pipeline that comes with rails we don&rsquo;t need to worry about this due to the unique identifier hash that gets appended onto the end of the file name before its extension.</p>
-
-<p>So after our distribution has completed downloading the assets from the bucket we will be given a CloudFront url. All we need to do once we have this url is change our asset host to point to this url</p>
-
-<figure class='code'><figcaption><span>config/environments/production.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">action_controller</span><span class="o">.</span><span class="n">asset_host</span> <span class="o">=</span> <span class="s2">&quot;d1aa907b1q1s7qd.cloudfront.net&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>  <br/>
-Now when you make any changes to files and push them to heroku these new files with there unique hashes will get pushed to over to S3 and be different than the previous version. When the first user requests this new file from the CDN it wont be present so amazon is clever enough to attempt to fetch it from the bucket and save it to the CDN ready for the next person</p>
-
-<p><strong>Setting up paperclip to use CloudFront</strong></p>
-
-<p><a href="https://github.com/thoughtbot/paperclip">Paperclip</a> is great for dealing with file attachments and automatically saving things onto S3, but we could optimise this to use CloudFront instead. Its very easy to implement. Once your bucket is set up and files are being saved by paperclip to it, all thats needed is to change the following settings</p>
-
-<p>1) Add in an :s3_host_alias</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">:s3_host_alias</span> <span class="o">=&gt;</span> <span class="s1">&#39;d1aa907b1q1s7qd.cloudfront.net&#39;</span><span class="p">,</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>2) Change :url property to use &ldquo;:s3_alias_url&rdquo;</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">:url</span> <span class="o">=&gt;</span> <span class="s2">&quot;:s3_alias_url&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>notice the symbol is wrapped in a string</p>
-
-<p>And thats it, your uploaded content will now be served over CloudFront and not directly from s3</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Final Year Project Video Demonstration]]></title>
-    <link href="http://jordanrs.github.io/blog/2012/04/09/final-year-project-video-demonstration/"/>
-    <updated>2012-04-09T00:00:00+01:00</updated>
-    <id>http://jordanrs.github.io/blog/2012/04/09/final-year-project-video-demonstration</id>
-    <content type="html"><![CDATA[<p>For any one who wishes to know what Music Technology at Edinburgh actually means? well this is what i created for my final year project, a literal creative fusion of music and technology! Enjoy!</p>
-
-<iframe width="560" height="315" src="http://www.youtube.com/embed/DMitUrW-OXI" frameborder="0" > </iframe>
-
 ]]></content>
   </entry>
   

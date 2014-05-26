@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: algorithums | Jordan Rogers-Smith]]></title>
+  <link href="http://jordanrs.github.io/blog/categories/algorithums/atom.xml" rel="self"/>
+  <link href="http://jordanrs.github.io/"/>
+  <updated>2014-05-26T18:51:45+01:00</updated>
+  <id>http://jordanrs.github.io/</id>
+  <author>
+    <name><![CDATA[Jordan Rogers-Smith]]></name>
+    <email><![CDATA[jordanrs2k1@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Inplace Quicksort In Ruby]]></title>
+    <link href="http://jordanrs.github.io/blog/2014/05/17/quicksort-in-ruby/"/>
+    <updated>2014-05-17T16:59:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2014/05/17/quicksort-in-ruby</id>
+    <content type="html"><![CDATA[<p>Inplace quicksort algorithum implemented in Ruby</p>
+
+<p>``` ruby
+def quicksort(array, first, last)
+  if array.length > 1</p>
+
+<pre><code>return if first &gt; last
+
+pivot = array[(first + last) * 0.5]
+left = first
+right = last
+
+while left &lt;= right
+  while(array[left] &lt; pivot) do
+    left += 1 
+  end
+  while(array[right] &gt; pivot) do 
+    right -= 1
+  end
+
+  if left &lt;= right
+    tmp = array[left]
+    array[left] = array[right]
+    array[right] = tmp
+
+    left += 1
+    right -= 1
+  end
+end
+
+quicksort(array, first, right)
+quicksort(array, left, last)
+</code></pre>
+
+<p>  end
+end
+```</p>
+]]></content>
+  </entry>
+  
+</feed>

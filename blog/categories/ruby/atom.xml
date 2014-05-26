@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | Jordan Rogers-Smith]]></title>
   <link href="http://jordanrs.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://jordanrs.github.io/"/>
-  <updated>2014-05-03T10:45:09+01:00</updated>
+  <updated>2014-05-26T18:51:45+01:00</updated>
   <id>http://jordanrs.github.io/</id>
   <author>
     <name><![CDATA[Jordan Rogers-Smith]]></name>
@@ -20,7 +20,14 @@
     <id>http://jordanrs.github.io/blog/2014/05/02/algorithums-in-ruby</id>
     <content type="html"><![CDATA[<h2>Greatest Common Divisor</h2>
 
-<p>Implementation of Euclid&rsquo;s algorithm for finding the greatest common divisor between two numbers</p>
+<p>Ruby has a native implementation of the greatest common divisor.</p>
+
+<p><code>ruby
+  20.gcd(15)
+  =&gt; 5
+</code></p>
+
+<p>However as a pure academic exercise lets implement Euclid&rsquo;s algorithm for finding the greatest common divisor between any number of numbers in ruby!</p>
 
 <p>```ruby
   def gcd(u, v)</p>
