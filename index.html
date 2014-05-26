@@ -284,6 +284,99 @@
 </div>
 		
 	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/05/26/hacker-rank-solutions-sherlock-and-the-beast/" itemprop="url">Hacker Rank Solutions: Sherlock and the Beast</a></h1>
+	<h2 class="sub_heading" itemprop="name"></h2>
+	<div class="entry-content" itemprop="articleBody">
+		<p><a href="https://www.hackerrank.com/challenges/sherlock-and-the-beast">Hacker Rank Solutions: Sherlock and The Beast</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">largest_decent_number</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">return</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">||</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">2</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="kp">loop</span> <span class="k">do</span>
+</span><span class='line'>    <span class="k">break</span> <span class="k">if</span> <span class="n">n</span> <span class="o">-</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="mi">2</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span>
+</span><span class='line'>      <span class="k">return</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="s1">&#39;5&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span> <span class="si">}#{</span><span class="s1">&#39;3&#39;</span> <span class="o">*</span>  <span class="n">j</span> <span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="n">j</span> <span class="o">+=</span> <span class="mi">5</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>    <span class="s1">&#39;3&#39;</span> <span class="o">*</span> <span class="n">n</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="o">-</span><span class="mi">1</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">test_cases</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">test_cases</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">value</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="vg">$stdout</span><span class="o">.</span><span class="n">puts</span> <span class="n">largest_decent_number</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-26T18:49:00+01:00" data-updated="true" itemprop="datePublished">May 26<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/hacker-rank/'>hacker rank</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+		
+	</div>
 	<h1 class="title" itemprop="name"><a href="/blog/2014/05/26/hacker-rank-solutions-is-fibo%3F/" itemprop="url">Hacker Rank Solutions: Is Fibo?</a></h1>
 	<h2 class="sub_heading" itemprop="name"></h2>
 	<div class="entry-content" itemprop="articleBody">
@@ -797,45 +890,6 @@ F = fins the first occurance of a string backward</p>
 
 		
 		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-21T07:26:00+01:00" data-updated="true" itemprop="datePublished">Aug 21<span>st</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/chef/'>chef</a>, <a class='category' href='/blog/categories/ci/'>ci</a>, <a class='category' href='/blog/categories/ec2/'>ec2</a>, <a class='category' href='/blog/categories/jenkins/'>jenkins</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/08/21/setting-up-jenkins-with-chef-for-rails-project/" itemprop="url">Setting Up Jenkins With Chef for Rails Project</a></h1>
-	<h2 class="sub_heading" itemprop="name"></h2>
-	<div class="entry-content" itemprop="articleBody">
-		<p>There are numerous guides available on line for setting up a fresh install of Jenkins with numerous different configurations but i wanted to create a chef recipe that would give me a clean Jenkins install with my required project dependencies (excluding rvm) at the click of a button.</p>
-
-<p>The reasons the excluding RVM in the chef process, even though the chef-rvm cookback is fantastic having used it before in the creation of a Rails stack is that i just could get system level RVM to play nice with Jenkins and user specific RVM (to the Jenkins user) to automatically install without asking for the Jenkins password. Better minds will probably be able to solve this issue but i opted for a different approach.</p>
-
-
-		
-		<a href="/blog/2013/08/21/setting-up-jenkins-with-chef-for-rails-project/" class="more-link">Read on &rarr;</a>
 	</div>
 
 </article>

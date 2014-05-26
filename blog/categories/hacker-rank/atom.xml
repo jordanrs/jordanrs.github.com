@@ -4,7 +4,7 @@
   <title><![CDATA[Category: hacker rank | Jordan Rogers-Smith]]></title>
   <link href="http://jordanrs.github.io/blog/categories/hacker-rank/atom.xml" rel="self"/>
   <link href="http://jordanrs.github.io/"/>
-  <updated>2014-05-26T19:01:08+01:00</updated>
+  <updated>2014-05-26T19:06:15+01:00</updated>
   <id>http://jordanrs.github.io/</id>
   <author>
     <name><![CDATA[Jordan Rogers-Smith]]></name>
@@ -81,6 +81,56 @@ end
 
 <p>  end
   $stdout.puts sum
+end</p>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hacker Rank Solutions: Sherlock and The Beast]]></title>
+    <link href="http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-sherlock-and-the-beast/"/>
+    <updated>2014-05-26T18:49:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-sherlock-and-the-beast</id>
+    <content type="html"><![CDATA[<p><a href="https://www.hackerrank.com/challenges/sherlock-and-the-beast">Hacker Rank Solutions: Sherlock and The Beast</a></p>
+
+<p>``` ruby</p>
+
+<p>def largest_decent_number(n)
+  return -1 if n == 1 || n == 2</p>
+
+<p>  j = 0
+  loop do</p>
+
+<pre><code>break if n - j &lt;= 2 
+
+if (n - j) % 3 == 0
+  return "#{'5' * (n - j) }#{'3' *  j }"
+end
+j += 5
+</code></pre>
+
+<p>  end</p>
+
+<p>  if (n % 5 == 0)</p>
+
+<pre><code>'3' * n  
+</code></pre>
+
+<p>  else</p>
+
+<pre><code>-1
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>test_cases = $stdin.gets.to_i</p>
+
+<p>test_cases.times do
+  value = $stdin.gets.to_i</p>
+
+<p>  $stdout.puts largest_decent_number(value)
 end</p>
 
 <p>```</p>

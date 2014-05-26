@@ -4,7 +4,7 @@
   <title><![CDATA[Jordan Rogers-Smith]]></title>
   <link href="http://jordanrs.github.io/atom.xml" rel="self"/>
   <link href="http://jordanrs.github.io/"/>
-  <updated>2014-05-26T19:01:08+01:00</updated>
+  <updated>2014-05-26T19:06:15+01:00</updated>
   <id>http://jordanrs.github.io/</id>
   <author>
     <name><![CDATA[Jordan Rogers-Smith]]></name>
@@ -109,6 +109,72 @@
 </span><span class='line'>    <span class="k">end</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'>  <span class="vg">$stdout</span><span class="o">.</span><span class="n">puts</span> <span class="n">sum</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hacker Rank Solutions: Sherlock and The Beast]]></title>
+    <link href="http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-sherlock-and-the-beast/"/>
+    <updated>2014-05-26T18:49:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-sherlock-and-the-beast</id>
+    <content type="html"><![CDATA[<p><a href="https://www.hackerrank.com/challenges/sherlock-and-the-beast">Hacker Rank Solutions: Sherlock and The Beast</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">largest_decent_number</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">return</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">||</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">2</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="kp">loop</span> <span class="k">do</span>
+</span><span class='line'>    <span class="k">break</span> <span class="k">if</span> <span class="n">n</span> <span class="o">-</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="mi">2</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span>
+</span><span class='line'>      <span class="k">return</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="s1">&#39;5&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span> <span class="si">}#{</span><span class="s1">&#39;3&#39;</span> <span class="o">*</span>  <span class="n">j</span> <span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="n">j</span> <span class="o">+=</span> <span class="mi">5</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>    <span class="s1">&#39;3&#39;</span> <span class="o">*</span> <span class="n">n</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="o">-</span><span class="mi">1</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">test_cases</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">test_cases</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">value</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="vg">$stdout</span><span class="o">.</span><span class="n">puts</span> <span class="n">largest_decent_number</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -2394,69 +2460,6 @@ or make a bundler group in application.rb so others envs can be added easier.</p
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Making a gem]]></title>
-    <link href="http://jordanrs.github.io/blog/2013/02/21/making-a-gem/"/>
-    <updated>2013-02-21T00:00:00+00:00</updated>
-    <id>http://jordanrs.github.io/blog/2013/02/21/making-a-gem</id>
-    <content type="html"><![CDATA[<p>As to not forget the process of packaging up a gem and putting it on my own hosting just follow these simple tests :&ndash;</p>
-
-<!-- more -->
-
-
-<p>1) Firstly make sure the <code>PROJECT_NAME.gemspec</code> file is up to date and you have updated the <code>version.rb</code> file to the correct version.</p>
-
-<p>2) run the command</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>gem build mention-tagger.gemspec
-</span><span class='line'><span class="c"># or</span>
-</span><span class='line'>rake build
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>that should put a gem file in the root directory with the name <code>PROJECT_NAME-VERSION.gem</code> or in <code>pkg/PROJECT_NAME-VERSION.gem</code></p>
-
-<p>To publish to your own gem host</p>
-
-<p>1) First set up geminabox as per these <a href="https://github.com/cwninja/geminabox">instructions</a></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>gem install geminabox
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>2) then gem inabox <code>PROJECT_NAME-VERSION.gem</code></p>
-
-<p>it&rsquo;ll ask for url</p>
-
-<p>3) put in your gem host</p>
-
-<p>and away she goes</p>
-
-<h2>Get it straight from git</h2>
-
-<p>Two ways</p>
-
-<figure class='code'><figcaption><span>Gemfile</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">1</span><span class="o">.</span> <span class="n">gem</span> <span class="s1">&#39;rails&#39;</span><span class="p">,</span> <span class="ss">:git</span> <span class="o">=&gt;</span> <span class="s1">&#39;git://github.com/rails/rails.git&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># or equivalently</span>
-</span><span class='line'>
-</span><span class='line'><span class="mi">2</span><span class="o">.</span> <span class="n">gem</span> <span class="s1">&#39;rails&#39;</span><span class="p">,</span> <span class="ss">:githib</span> <span class="o">=&gt;</span> <span class="s1">&#39;rails/rails&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>which is just <em>USERNAME/PROJECT_NAME</em></p>
 ]]></content>
   </entry>
   
