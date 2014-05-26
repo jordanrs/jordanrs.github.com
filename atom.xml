@@ -4,7 +4,7 @@
   <title><![CDATA[Jordan Rogers-Smith]]></title>
   <link href="http://jordanrs.github.io/atom.xml" rel="self"/>
   <link href="http://jordanrs.github.io/"/>
-  <updated>2014-05-26T19:32:15+01:00</updated>
+  <updated>2014-05-26T19:57:36+01:00</updated>
   <id>http://jordanrs.github.io/</id>
   <author>
     <name><![CDATA[Jordan Rogers-Smith]]></name>
@@ -12,6 +12,192 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Hacker Rank Solutions: Missing Numbers]]></title>
+    <link href="http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-missing-numbers/"/>
+    <updated>2014-05-26T18:55:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-missing-numbers</id>
+    <content type="html"><![CDATA[<p><a href="https://www.hackerrank.com/challenges/missing-numbers">Hacker Rank Solutions: Missing Numbers</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">list_1_length</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">list1</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">chomp</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">list_2_length</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">list2</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">chomp</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">list1hash</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'><span class="n">list2hash</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">times</span> <span class="o">=</span> <span class="n">list_1_length</span> <span class="o">&gt;</span> <span class="n">list_2_length</span> <span class="p">?</span> <span class="n">list_1_length</span> <span class="p">:</span> <span class="n">list_2_length</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">times</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">list1</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">!=</span> <span class="kp">nil</span>
+</span><span class='line'>    <span class="n">n</span> <span class="o">=</span> <span class="n">list1</span><span class="o">[</span><span class="n">i</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">list1hash</span><span class="o">[</span><span class="n">n</span><span class="o">]</span> <span class="o">==</span> <span class="kp">nil</span>
+</span><span class='line'>      <span class="n">list1hash</span><span class="o">[</span><span class="n">n</span><span class="o">]</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">list1hash</span><span class="o">[</span><span class="n">n</span><span class="o">]</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="n">list2</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">!=</span> <span class="kp">nil</span>
+</span><span class='line'>    <span class="n">n</span> <span class="o">=</span> <span class="n">list2</span><span class="o">[</span><span class="n">i</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">list2hash</span><span class="o">[</span><span class="n">n</span><span class="o">]</span> <span class="o">==</span> <span class="kp">nil</span>
+</span><span class='line'>      <span class="n">list2hash</span><span class="o">[</span><span class="n">n</span><span class="o">]</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">list2hash</span><span class="o">[</span><span class="n">n</span><span class="o">]</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="n">list1hash</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="n">list2hash</span><span class="o">.</span><span class="n">length</span>
+</span><span class='line'>  <span class="n">biggest</span> <span class="o">=</span> <span class="n">list1hash</span>
+</span><span class='line'>  <span class="n">smallest</span> <span class="o">=</span> <span class="n">list2hash</span>
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'>  <span class="n">smallest</span> <span class="o">=</span> <span class="n">list1hash</span>
+</span><span class='line'>  <span class="n">biggest</span> <span class="o">=</span> <span class="n">list2hash</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">arr</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'><span class="n">biggest</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">arr</span> <span class="o">&lt;&lt;</span> <span class="n">k</span><span class="o">.</span><span class="n">to_i</span> <span class="k">if</span> <span class="n">smallest</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">!=</span> <span class="n">v</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">puts</span> <span class="n">arr</span><span class="o">.</span><span class="n">sort</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hacker Rank Solutions: Lonely Integer]]></title>
+    <link href="http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-lonely-integer/"/>
+    <updated>2014-05-26T18:55:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-lonely-integer</id>
+    <content type="html"><![CDATA[<p><a href="https://www.hackerrank.com/challenges/lonely-integer">Hacker Rank Solutions: Lonely Integer</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">lonelyinteger</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">found</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">array</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">found</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">==</span> <span class="kp">nil</span>
+</span><span class='line'>      <span class="n">found</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">elsif</span> <span class="n">found</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">==</span> <span class="mi">1</span>
+</span><span class='line'>      <span class="n">found</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">found</span><span class="o">.</span><span class="n">first</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="nb">gets</span><span class="o">.</span><span class="n">strip</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'><span class="n">b</span> <span class="o">=</span> <span class="nb">gets</span><span class="o">.</span><span class="n">strip</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">map!</span> <span class="p">{</span><span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">i</span><span class="o">.</span><span class="n">to_i</span><span class="p">}</span>
+</span><span class='line'><span class="nb">print</span> <span class="n">lonelyinteger</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hacker Rank Solutions: Filling Jars]]></title>
+    <link href="http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-filling-jars/"/>
+    <updated>2014-05-26T18:55:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-filling-jars</id>
+    <content type="html"><![CDATA[<p><a href="https://www.hackerrank.com/challenges/filling-jars">Hacker Rank Solutions: Filling Jars</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">jars</span><span class="p">,</span> <span class="n">moves</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">chomp</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span><span class="o">.</span><span class="n">to_i</span><span class="p">}</span>
+</span><span class='line'><span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'><span class="n">moves</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">jar1</span><span class="p">,</span> <span class="n">jar2</span><span class="p">,</span> <span class="n">ammount</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">chomp</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span><span class="o">.</span><span class="n">to_i</span> <span class="p">}</span>
+</span><span class='line'>  <span class="n">no_of_jars</span> <span class="o">=</span> <span class="p">(</span><span class="n">jar2</span> <span class="o">-</span> <span class="n">jar1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">total</span> <span class="o">=</span> <span class="n">total</span> <span class="o">+</span> <span class="p">(</span> <span class="n">no_of_jars</span> <span class="o">*</span> <span class="n">ammount</span> <span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">puts</span> <span class="p">(</span><span class="n">total</span> <span class="o">/</span> <span class="n">jars</span><span class="p">)</span><span class="o">.</span><span class="n">floor</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Hacker Rank Solutions: Angry Children]]></title>
@@ -262,11 +448,11 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Hacker Rank Solutions: Gem Stones]]></title>
+    <title type="html"><![CDATA[Hacker Rank Solutions: Anagram]]></title>
     <link href="http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-gem-stones/"/>
     <updated>2014-05-26T18:49:00+01:00</updated>
     <id>http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-gem-stones</id>
-    <content type="html"><![CDATA[<p><a href="https://www.hackerrank.com/challenges/gem-stones">Hacker Rank Solutions: Gem Stones</a></p>
+    <content type="html"><![CDATA[<p><a href="https://www.hackerrank.com/challenges/anagram">Hacker Rank Solutions: Anagram</a></p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -291,29 +477,39 @@
 <span class='line-number'>21</span>
 <span class='line-number'>22</span>
 <span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">lines</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">to_i</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">tests</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">to_i</span>
 </span><span class='line'>
-</span><span class='line'><span class="n">char_counts</span> <span class="o">=</span> <span class="no">Hash</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">tests</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span>
 </span><span class='line'>
-</span><span class='line'><span class="n">lines</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">string</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">chomp</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">string</span><span class="o">.</span><span class="n">length</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="n">middle</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">length</span> <span class="o">/</span> <span class="mi">2</span>
 </span><span class='line'>
-</span><span class='line'>  <span class="n">visted_chars</span> <span class="o">=</span>  <span class="no">Hash</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>    <span class="n">left</span> <span class="o">=</span> <span class="n">string</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="p">(</span><span class="n">middle</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">]</span>
+</span><span class='line'>    <span class="n">right</span> <span class="o">=</span> <span class="n">string</span><span class="o">[</span><span class="n">middle</span><span class="o">.</span><span class="n">.</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">]</span>
 </span><span class='line'>
-</span><span class='line'>  <span class="n">line</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">chomp</span>
-</span><span class='line'>  <span class="n">line</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;C*&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">char</span><span class="o">|</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">visted_chars</span><span class="o">[</span><span class="n">char</span><span class="o">].</span><span class="n">nil?</span>
-</span><span class='line'>      <span class="n">char_counts</span><span class="o">[</span><span class="n">char</span><span class="o">]</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span>  <span class="n">char_counts</span><span class="o">[</span><span class="n">char</span><span class="o">].</span><span class="n">nil?</span>
-</span><span class='line'>      <span class="n">char_counts</span><span class="o">[</span><span class="n">char</span><span class="o">]</span> <span class="o">+=</span> <span class="mi">1</span>
-</span><span class='line'>      <span class="n">visted_chars</span><span class="o">[</span><span class="n">char</span><span class="o">]</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>    <span class="n">left_sort</span> <span class="o">=</span> <span class="n">left</span><span class="o">.</span><span class="n">chars</span><span class="o">.</span><span class="n">sort</span>
+</span><span class='line'>    <span class="n">right_sort</span> <span class="o">=</span> <span class="n">right</span><span class="o">.</span><span class="n">chars</span><span class="o">.</span><span class="n">sort</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="n">left_sort</span> <span class="o">==</span> <span class="n">right_sort</span>
+</span><span class='line'>      <span class="k">return</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">left_sort</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span>
+</span><span class='line'>        <span class="n">index</span> <span class="o">=</span> <span class="n">right_sort</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">right_sort</span><span class="o">.</span><span class="n">delete_at</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="k">unless</span> <span class="n">index</span><span class="o">.</span><span class="n">nil?</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="n">right_sort</span><span class="o">.</span><span class="n">length</span>
 </span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="o">-</span><span class="mi">1</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'>
 </span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">output</span> <span class="o">=</span> <span class="o">[]</span>
-</span><span class='line'><span class="n">char_counts</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="o">|</span> <span class="n">output</span> <span class="o">&lt;&lt;</span> <span class="n">key</span> <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="n">lines</span>   <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">puts</span> <span class="n">output</span><span class="o">.</span><span class="n">length</span>
 </span></code></pre></td></tr></table></div></figure>
 
 ]]></content>
@@ -370,6 +566,64 @@
 </span><span class='line'>
 </span><span class='line'>  <span class="vg">$stdout</span><span class="o">.</span><span class="n">puts</span>  <span class="n">bought_sweets</span> <span class="o">+</span> <span class="n">exchange</span><span class="p">(</span><span class="n">bought_sweets</span><span class="p">,</span> <span class="n">number_for_free</span><span class="p">)</span>
 </span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hacker Rank Solutions: Gem Stones]]></title>
+    <link href="http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-anagram/"/>
+    <updated>2014-05-26T18:49:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-anagram</id>
+    <content type="html"><![CDATA[<p><a href="https://www.hackerrank.com/challenges/gem-stones">Hacker Rank Solutions: Gem Stones</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">lines</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">char_counts</span> <span class="o">=</span> <span class="no">Hash</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">lines</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">visted_chars</span> <span class="o">=</span>  <span class="no">Hash</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">line</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">chomp</span>
+</span><span class='line'>  <span class="n">line</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;C*&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">char</span><span class="o">|</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">visted_chars</span><span class="o">[</span><span class="n">char</span><span class="o">].</span><span class="n">nil?</span>
+</span><span class='line'>      <span class="n">char_counts</span><span class="o">[</span><span class="n">char</span><span class="o">]</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span>  <span class="n">char_counts</span><span class="o">[</span><span class="n">char</span><span class="o">].</span><span class="n">nil?</span>
+</span><span class='line'>      <span class="n">char_counts</span><span class="o">[</span><span class="n">char</span><span class="o">]</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>      <span class="n">visted_chars</span><span class="o">[</span><span class="n">char</span><span class="o">]</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">output</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'><span class="n">char_counts</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="o">|</span> <span class="n">output</span> <span class="o">&lt;&lt;</span> <span class="n">key</span> <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="n">lines</span>   <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">puts</span> <span class="n">output</span><span class="o">.</span><span class="n">length</span>
 </span></code></pre></td></tr></table></div></figure>
 
 ]]></content>
@@ -1492,992 +1746,6 @@ The best way to get the correct formatted output is to set up rake task using <c
 
 <iframe width="560" height="315" src="http://jordanrs.github.io//www.youtube.com/embed/T_gPdTJkoM0" frameborder="0" allowfullscreen></iframe>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ActiveAdmin Form Preview with Javascript FormData]]></title>
-    <link href="http://jordanrs.github.io/blog/2013/07/10/activeadmin-form-preview-with-javascript-formdata/"/>
-    <updated>2013-07-10T20:46:00+01:00</updated>
-    <id>http://jordanrs.github.io/blog/2013/07/10/activeadmin-form-preview-with-javascript-formdata</id>
-    <content type="html"><![CDATA[<p>One of my recent tasks has been to build a preview of a form submission into an existing application. Having done something similar in the past involving changing the forms action with javascript, ajax posting the form (including images), generating a preview, changing the form back blaa blaa blaa blaa blaaaaa. I wanted to find a cleaner way to a) deal with the preview and b) ajaxing blob data (image/files) and thanks to not having to support IE implemented the following procedure using FormData and XMLHttpRequest 2.</p>
-
-<!-- more -->
-
-
-<p>FormData is awesome, give it a form including blob data and it&rsquo;ll return an object that can be attached to $.ajax or standard XMLHttpRequest.send and all the caveats and nuiances of ajax forms disappear in the blink of an eye.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// something like</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">fd</span> <span class="o">=</span> <span class="nx">FormData</span><span class="p">.</span><span class="k">new</span><span class="p">(</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
-</span><span class='line'>  <span class="p">...</span>
-</span><span class='line'>  <span class="nx">url</span><span class="o">:</span> <span class="s1">&#39;/iwantdata&#39;</span><span class="p">,</span>
-</span><span class='line'>  <span class="nx">data</span><span class="o">:</span> <span class="nx">fd</span><span class="p">,</span>
-</span><span class='line'>  <span class="p">...</span>
-</span><span class='line'><span class="p">})</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// or</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">var</span> <span class="nx">ajax</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XMLHttpRequest</span><span class="p">();</span>
-</span><span class='line'><span class="nx">ajax</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="s2">&quot;/iwantdata&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="nx">ajax</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">fd</span><span class="p">));</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>My stratergy then was simple, take more fieldset, clone it, wrap it in a formtag (all in memory), create the formdata object and away we go images and all. So my first attempt looked as follows.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">buildFormData</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$fieldset</span><span class="p">){</span>
-</span><span class='line'>  <span class="kd">var</span> <span class="nx">$clone</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#fieldset&#39;</span><span class="p">).</span><span class="nx">clone</span><span class="p">({</span> <span class="nx">deepWithDataAndEvents</span><span class="o">:</span> <span class="kc">true</span><span class="p">});</span>
-</span><span class='line'>  <span class="kd">var</span> <span class="nx">$form</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="err">&#39;</span><span class="o">&lt;</span><span class="nx">form</span> <span class="o">/&gt;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">$clone</span><span class="p">);</span>
-</span><span class='line'>  <span class="kd">var</span> <span class="nx">fd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FormData</span><span class="p">(</span><span class="nx">$form</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nx">fd</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">var</span> <span class="nx">sendPreview</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">formData</span><span class="p">){</span>
-</span><span class='line'>  <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
-</span><span class='line'>   <span class="nx">url</span><span class="o">:</span> <span class="s2">&quot;/iwantdata&quot;</span><span class="p">,</span>
-</span><span class='line'>   <span class="nx">type</span><span class="o">:</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span>
-</span><span class='line'>   <span class="nx">data</span><span class="o">:</span> <span class="nx">formData</span><span class="p">,</span>
-</span><span class='line'>   <span class="nx">processData</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
-</span><span class='line'>   <span class="nx">contentType</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
-</span><span class='line'>  <span class="p">}).</span><span class="nx">done</span><span class="p">(</span><span class="nx">weDidIt</span><span class="p">);</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>This worked great at first all the data was being submitted correctly excpet file fields. These werent being copied over at all due to the caveats of browser security and cloning file fields it seems. So instead of doing it all in memory, which would have been the ideal, I had to use the file fields in the DOM but didnt want to have to pull the form apart and put it back together. Even though the html specification has a big NO NO when it comes to nested form tags it is possible to create them with javascript and this is what i did to build my in place subsection FormData.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">buildFormData</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$fieldset</span><span class="p">){</span>
-</span><span class='line'>  <span class="kd">var</span> <span class="nx">$form</span> <span class="o">=</span> <span class="nx">$fieldset</span><span class="p">.</span><span class="nx">wrap</span><span class="p">(</span><span class="s1">&#39;&lt;form /&gt;&#39;</span><span class="p">).</span><span class="nx">closest</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">);</span>
-</span><span class='line'>  <span class="kd">var</span> <span class="nx">fd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FormData</span><span class="p">(</span><span class="nx">$form</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-</span><span class='line'>  <span class="nx">$fieldset</span><span class="p">.</span><span class="nx">unwrap</span><span class="p">();</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nx">fd</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">var</span> <span class="nx">sendPreview</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">formData</span><span class="p">){</span>
-</span><span class='line'>  <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
-</span><span class='line'>   <span class="nx">url</span><span class="o">:</span> <span class="s2">&quot;/iwantdata&quot;</span><span class="p">,</span>
-</span><span class='line'>   <span class="nx">type</span><span class="o">:</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span>
-</span><span class='line'>   <span class="nx">data</span><span class="o">:</span> <span class="nx">formData</span><span class="p">,</span>
-</span><span class='line'>   <span class="nx">processData</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
-</span><span class='line'>   <span class="nx">contentType</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
-</span><span class='line'>  <span class="p">}).</span><span class="nx">done</span><span class="p">(</span><span class="nx">weDidIt</span><span class="p">);</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Not ideal but this solution was a simple way to create a FormData from a subset of fields on the fly which includes all the file field information also.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Testing Facebook login and permissions with Capybara]]></title>
-    <link href="http://jordanrs.github.io/blog/2013/06/01/testing-facebook-login-and-permissions-with-capybara/"/>
-    <updated>2013-06-01T10:27:00+01:00</updated>
-    <id>http://jordanrs.github.io/blog/2013/06/01/testing-facebook-login-and-permissions-with-capybara</id>
-    <content type="html"><![CDATA[<p>Having begun to use Capybara and Rspec quiet heavily there have been a few challenges that need to be overcome. One of these is that the applications I develop day to day are heavily intertwined with Facebook and user flow relies heavily on Facebook login and accepting permissions at various points throughout the application.</p>
-
-<!-- more -->
-
-
-<p>Outside of the Facebook chrome (the non iframed version of the application) its quite easy interact with these events as if we were a normal user.</p>
-
-<p><strong>Use Facebook Test Users</strong></p>
-
-<p>First go to your Facebook applications roles dashboard at <a href="https://developers.facebook.com/apps/">https://developers.facebook.com/apps/</a>[APPID]/roles and create some test users and if needed make them friends with one another. Take a note of there email, fbid and create a password for them.</p>
-
-<p><strong>Capybara Settings</strong></p>
-
-<p>Since Facebook is an external service we need to extend Capybaras default wait time incase its being slow and also change the host that the specs run under so that it matches the settings for our Facebook app.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Capybara</span><span class="o">.</span><span class="n">default</span><span class="p">\</span><span class="n">_wait</span><span class="p">\</span><span class="n">_time</span> <span class="o">=</span> <span class="mi">10</span>
-</span><span class='line'><span class="no">Capybara</span><span class="o">.</span><span class="n">app_host</span> <span class="o">=</span> <span class="s1">&#39;http://&#39;</span> <span class="o">+</span> <span class="no">Settings</span><span class="o">.</span><span class="n">host</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>Test User Factory</strong></p>
-
-<p>The FactoryGirl gem provides a great way to create and manage test data based on rails models. FactoryGirl can even be used with things other than models so to keep my actual user model separate from my test users data I created a special TestUser class. By placing it in a subfolder of the support folder the default installation will load all files and sub folders at initialisations allowing us access to this special class in our tests.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># spec/support/models/test_user.rb</span>
-</span><span class='line'><span class="k">class</span> <span class="nc">TestUser</span>
-</span><span class='line'>   <span class="kp">attr_accessor</span>  <span class="ss">:email</span><span class="p">,</span> <span class="ss">:password</span><span class="p">,</span> <span class="ss">:fbid</span><span class="p">,</span> <span class="ss">:name</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>  <br/>
-With this class its then easily to make a test_user factory as you would a rails model factory. In this instance iv used a nested factory for additional test users with different states.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'> <span class="no">FactoryGirl</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
-</span><span class='line'>   <span class="n">factory</span> <span class="ss">:test_user</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span>
-</span><span class='line'>     <span class="nb">name</span> <span class="s1">&#39;Bob Ameibdcaahgd Liangman&#39;</span>
-</span><span class='line'>     <span class="n">fbid</span> <span class="s1">&#39;100005892102238&#39;</span>
-</span><span class='line'>     <span class="n">email</span> <span class="s1">&#39;oyncoeh_liangman_1368123301@tfbnw.net&#39;</span>
-</span><span class='line'>     <span class="n">password</span> <span class="s1">&#39;XXXX&#39;</span>
-</span><span class='line'>
-</span><span class='line'>     <span class="n">factory</span> <span class="ss">:test_user_mark</span> <span class="k">do</span>
-</span><span class='line'>       <span class="nb">name</span> <span class="s1">&#39;Mark Ameiehbaakf Wisemanstein&#39;</span>
-</span><span class='line'>       <span class="n">fbid</span> <span class="s1">&#39;100005958231006&#39;</span>
-</span><span class='line'>       <span class="n">email</span> <span class="s1">&#39;dqfaoxm_wisemanstein_13684123@tfbnw.net&#39;</span>
-</span><span class='line'>       <span class="n">password</span> <span class="s1">&#39;XXXX&#39;</span>
-</span><span class='line'>     <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>     <span class="n">factory</span> <span class="ss">:test_user_arabic</span> <span class="k">do</span>
-</span><span class='line'>       <span class="nb">name</span> <span class="s1">&#39;Richard Amehgghdihei Changescu&#39;</span>
-</span><span class='line'>       <span class="n">fbid</span> <span class="s1">&#39;100005877823859&#39;</span>
-</span><span class='line'>       <span class="n">email</span> <span class="s1">&#39;lifczou_changescu_1368123920@tfbnw.net&#39;</span>
-</span><span class='line'>       <span class="n">password</span> <span class="s1">&#39;XXXX&#39;</span>
-</span><span class='line'>     <span class="k">end</span>
-</span><span class='line'>   <span class="k">end</span>
-</span><span class='line'> <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Using these tests users in a capybara spec only has one caveat. They must be created in memory using build since there isn&rsquo;t a database table for them to be saved to</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span><span class="p">(</span><span class="ss">:test_user_mark</span><span class="p">)</span> <span class="k">do</span>
-</span><span class='line'>  <span class="no">FactoryGirl</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="ss">:test_user_mark</span><span class="p">)</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>Automating Facebook</strong></p>
-
-<p>The following module is a collection of macros that take care of the Facebook login and permissions dialogues. It attempts to deal with the various possible flows that can happen when using login with Facebook depending on wether the user has logging in and is being asked for permissions in the same sequence or if the permission are taken at a different point. There is also some javascript macros for login the user out of Facebook and removing the app permissions</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># spec/support/facebook_macros</span>
-</span><span class='line'><span class="k">module</span> <span class="nn">FacebookMacros</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">complete_facebook_dialogues_on_click</span><span class="p">(</span><span class="n">selector</span><span class="p">,</span> <span class="n">test_user</span><span class="p">)</span>
-</span><span class='line'>    <span class="c1"># until bookface version bumped to latest we have no way to know its ready so delay, not ideal</span>
-</span><span class='line'>    <span class="nb">sleep</span> <span class="mi">1</span>
-</span><span class='line'>    <span class="n">find</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">selector</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span>
-</span><span class='line'>    <span class="k">return</span> <span class="k">if</span> <span class="n">page</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">browser</span><span class="o">.</span><span class="n">window_handles</span><span class="o">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">1</span>
-</span><span class='line'>    <span class="n">within_window</span><span class="p">(</span><span class="s1">&#39;Facebook&#39;</span><span class="p">)</span> <span class="k">do</span>
-</span><span class='line'>      <span class="n">fill_in_facebook_form</span><span class="p">(</span><span class="n">test_user</span><span class="p">)</span> <span class="k">if</span> <span class="n">page</span><span class="o">.</span><span class="n">has_css?</span><span class="p">(</span><span class="s1">&#39;#loginbutton&#39;</span><span class="p">)</span>
-</span><span class='line'>      <span class="n">accept_permissions_outside_facebook</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">fill_in_facebook_form</span><span class="p">(</span><span class="n">test_user</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">fill_in</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">test_user</span><span class="o">.</span><span class="n">email</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">fill_in</span><span class="p">(</span><span class="s1">&#39;pass&#39;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">test_user</span><span class="o">.</span><span class="n">password</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">find</span><span class="p">(</span><span class="s1">&#39;#loginbutton&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">accept_additional_permissions</span>
-</span><span class='line'>    <span class="k">return</span> <span class="k">if</span> <span class="n">page</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">browser</span><span class="o">.</span><span class="n">window_handles</span><span class="o">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">1</span>
-</span><span class='line'>    <span class="n">within_window</span><span class="p">(</span><span class="s1">&#39;Facebook&#39;</span><span class="p">)</span> <span class="k">do</span>
-</span><span class='line'>      <span class="n">accept_permissions_outside_facebook</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">accept_permissions_outside_facebook</span>
-</span><span class='line'>    <span class="n">find</span><span class="p">(</span><span class="ss">:xpath</span><span class="p">,</span> <span class="s2">&quot;//button[@name=&#39;__CONFIRM__&#39;]&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span> <span class="k">if</span> <span class="n">page</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">browser</span><span class="o">.</span><span class="n">window_handles</span><span class="o">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">2</span>
-</span><span class='line'>    <span class="n">find</span><span class="p">(</span><span class="ss">:xpath</span><span class="p">,</span> <span class="s2">&quot;//button[@name=&#39;__CONFIRM__&#39;]&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span> <span class="k">if</span> <span class="n">page</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">browser</span><span class="o">.</span><span class="n">window_handles</span><span class="o">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">2</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">deauth_app</span>
-</span><span class='line'>    <span class="nb">sleep</span> <span class="mi">1</span>
-</span><span class='line'>    <span class="n">page</span><span class="o">.</span><span class="n">execute_script</span> <span class="sx">%Q{</span>
-</span><span class='line'><span class="sx">       FB.api(&quot;/me/permissions&quot;,&quot;DELETE&quot;, function(response){</span>
-</span><span class='line'><span class="sx">         console.log(response)</span>
-</span><span class='line'><span class="sx">       });</span>
-</span><span class='line'><span class="sx">     }</span>
-</span><span class='line'>    <span class="nb">sleep</span> <span class="mi">1</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">logout</span>
-</span><span class='line'>    <span class="nb">sleep</span> <span class="mi">1</span>
-</span><span class='line'>    <span class="n">page</span><span class="o">.</span><span class="n">execute_script</span> <span class="sx">%Q{</span>
-</span><span class='line'><span class="sx">      FB.logout(function(response) {</span>
-</span><span class='line'><span class="sx">        // user is now logged out</span>
-</span><span class='line'><span class="sx">      });</span>
-</span><span class='line'><span class="sx">     }</span>
-</span><span class='line'>    <span class="nb">sleep</span> <span class="mi">1</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The above module can be easily included in Rspec&rsquo;s configure block with the config.includes command</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">RSpec</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">include</span> <span class="no">FacebookMacros</span>
-</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>An example scenario using these macros. Its important that they are run with javascript enabled.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">scenario</span> <span class="s1">&#39;user import friends&#39;</span><span class="p">,</span> <span class="ss">:js</span> <span class="o">=&gt;</span> <span class="kp">true</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">visit</span> <span class="n">root_path</span>
-</span><span class='line'>  <span class="n">complete_facebook_dialogues_on_click</span><span class="p">(</span><span class="s1">&#39;#auth_me&#39;</span><span class="p">,</span> <span class="n">test_user</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">page</span><span class="o">.</span><span class="n">should</span> <span class="n">have_css</span><span class="p">(</span><span class="s1">&#39;#entry_step_1&#39;</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">visit</span> <span class="n">home_dashboard_path</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">expect</span><span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nb">sleep</span> <span class="mi">2</span>
-</span><span class='line'>    <span class="n">find</span><span class="p">(</span><span class="s1">&#39;#add_events&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">accept_additional_permissions</span>
-</span><span class='line'>    <span class="nb">sleep</span> <span class="mi">2</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">page</span><span class="o">.</span><span class="n">should_not</span> <span class="n">have_css</span><span class="p">(</span><span class="s1">&#39;#add_events&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">page</span><span class="o">.</span><span class="n">should</span> <span class="n">have_css</span><span class="p">(</span><span class="s1">&#39;.events_item&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="c1"># deal with additional perms</span>
-</span><span class='line'>  <span class="p">}</span><span class="o">.</span><span class="n">to</span> <span class="n">change</span><span class="p">(</span><span class="no">Event</span><span class="p">,</span> <span class="ss">:count</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">logout</span>
-</span><span class='line'>  <span class="no">Capybara</span><span class="o">.</span><span class="n">reset_session!</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Learning Chef From Scratch - Building a EC2 backed Rails Stack Part 1]]></title>
-    <link href="http://jordanrs.github.io/blog/2013/05/26/Learning-Chef-From-Scratch---Building-a-EC2-backed-Rails-Stack-Part-1/"/>
-    <updated>2013-05-26T00:00:00+01:00</updated>
-    <id>http://jordanrs.github.io/blog/2013/05/26/Learning-Chef-From-Scratch&#8212;Building-a-EC2-backed-Rails-Stack-Part-1</id>
-    <content type="html"><![CDATA[<p>Chef is a fantastic tool for automating the process bootstrapping a fresh server so that once you have got it running how you want, replicating that configuration and setup requires very little effort what so ever.</p>
-
-<p>Chef has two different use cases, Chef server (wether that be hosted or private) or Chef Solo. Chef solo allows you to interact directly with the machine your wanting to administrate and is very useful for bootstrapping a vagrant image for instance. Chef Server offers a centralised place for you to push your configurations and recipes so that when working with multiple servers (known as nodes or chef clients) you don&rsquo;t have to update each one individually as each client can be set to poll to server for any updates.</p>
-
-<p>For my first time using chef i through myself straight in at the deep end in that i wanted to put together a full working EC2 instance that would run my usual heroku stack (nginx, unicorn, ruby, rails and postgres). I opted for using Opscodes free Chef hosted plan for my Chef server and got straight to it.</p>
-
-<!-- more -->
-
-
-<h1>Getting Set Up</h1>
-
-<p>First of head over to <a href="http://www.opscode.com">www.opscode.com</a> and sign up for a free account. There will be three files to download. Your user key, your organisation key and your preconfigured knife.rb file. Download these files and keep them safe for now, we will use them in just a second.</p>
-
-<p>Next we need to get our bootstrapped Chef Repository, this is our blank slate to begin building up our server and its configuration. Grab a empty <a href="http://github.com/opscode/chef-repo/">Chef Repo</a> from opscodes git hub and clone it to where ever you desire.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>git clone git@github.com:opscode/chef-repo.git
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Next we need to move our .pem and knife.rb files into a .chef folder in this repository. You will most likely have to make the .chef folder.</p>
-
-<p><img src="http://jordanrs.github.io/images/post_images/23-05-26-chef/folder_layout.png" alt="Folder Layout" /></p>
-
-<h1>Gem Time</h1>
-
-<p>Now we have our directory structure in place we should install the gems we need to make the magic happen. A complete guide to setting up chef can be found <a href="http://docs.opscode.com/install_workstation.html">here</a> as I wont go into the details of installing ruby, rvm, bundler etc to enable the installation of gems.</p>
-
-<p>The main gems needed are the <code>chef</code> and <code>knife-ec2</code> gems.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>gem install chef
-</span><span class='line'>gem install kinfe-ec2
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>Creating a EC2 instance with knife</h1>
-
-<p>A few prerequisites are needed before we can create instances with knife. First you will need a AWS account which is free and comes with a <a href="http://aws.amazon.com/free/">free usage tier for the first year</a>. Once setup you will need to include your amazon API key and secret into your knife.rb file</p>
-
-<figure class='code'><figcaption><span>knife.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">knife</span><span class="o">[</span><span class="ss">:aws_access_key_id</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;AAAAAAAAAAAAAAAAAAA&quot;</span>
-</span><span class='line'><span class="n">knife</span><span class="o">[</span><span class="ss">:aws_secret_access_key</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Next set up your default security policy or an alternative one which we can specify when creating the instance, to allow access to port 22, 80 and 443. This is so HTTP, HTTPS and SSH can all be accessed on the created instance.</p>
-
-<p>In the same dashboard go to key pairs panel and create a new security key. The file will automatically download and should be moved into your ~/.ssh folder and the permissions changed to 600 (chmod 600 ~/.ssh/AWS-KEY.pem)</p>
-
-<p>Finally decided what operating system, location, storage and instance size you want. All of these factor into which AMI will be installed on our instance. For instance <a href="http://cloud-images.ubuntu.com/locator/ec2/">this site</a> put together by ubuntu gives you a list of all the different AMIs for the numerous combination of these factors with ubuntu as your base OS.</p>
-
-<p>In my case i went for ami-7962730d which is a eu-west 32bit version of Ubuntu 12.04 for a micro instance.</p>
-
-<p>We are now ready to create our instance using knife, the command to do that is quite large but I shall show you a few things you can move into the knife folder as defaults to make it more manageable</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># run this command to begin boot strapping our server.</span>
-</span><span class='line'>
-</span><span class='line'>knife ec2 server create -I ami-7962730d -f t1.micro -S knife -i ~/.ssh/AWS-KEY.pem --ssh-user ubuntu --region eu-west-1 -Z eu-west-1a
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If you chose a different security group other than the default you can specify it here with the -G &lsquo;group&rsquo; argument and the &mdash;ssh-user argument is ubuntu as that is the default user that comes with the AMI and is needed for us to be able to ssh in with.</p>
-
-<p>All that happens now is a new instance is created and the OS is installed once complete chef automatically SSHs in to the new machine and install chef-client on the server, registers it on on chef server and checks to see if we have specified any roles or recipes, in this instance we haven&rsquo;t.</p>
-
-<h2>Shortening the creation command</h2>
-
-<p>Add the <strong>AWS-KEY.pem</strong> to your ssh agent means you can remove the <code>-i ~/.ssh/AWS-KEY.pem</code> from the command</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>ssh-add ~/.ssh/AWS-KEY.pem
-</span><span class='line'>
-</span><span class='line'><span class="c"># Command now becomes</span>
-</span><span class='line'>knife ec2 server create -I ami-7962730d -f t1.micro -S knife --ssh-user ubuntu --region eu-west-1 -Z eu-west-1a
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Add <code>knife[:aws_ssh_key_id] = "AWS-KEY"</code> to knife.rb and we can remove -S knife</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>knife ec2 server create -I ami-7962730d -f t1.micro --ssh-user ubuntu --region eu-west-1 -Z eu-west-1a
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And finally add availability_zone and region to knife.rb</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>knife<span class="o">[</span>:availability_zone<span class="o">]</span>     <span class="o">=</span> <span class="s1">&#39;eu-west-1a&#39;</span>
-</span><span class='line'>knife<span class="o">[</span>:region<span class="o">]</span>                <span class="o">=</span> <span class="s1">&#39;eu-west-1&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>to produce the final command</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>knife ec2 server create -I ami-7962730d -f t1.micro --ssh-user ubuntu
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>After all its installation is done you should see a read out like so, make a note of the <strong>Instance ID</strong> as this is what chef uses to identify this node.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>Instance ID: i-XXXXXXXX
-</span><span class='line'>Flavor: t1.micro
-</span><span class='line'>Image: ami-7962730d
-</span><span class='line'>Region: eu-west-1
-</span><span class='line'>Availability Zone: eu-west-1a
-</span><span class='line'>Security Groups: default
-</span><span class='line'>Tags: <span class="o">{</span><span class="s2">&quot;Name&quot;</span><span class="o">=</span>&gt;<span class="s2">&quot;i-XXXXXXXX&quot;</span><span class="o">}</span>
-</span><span class='line'>SSH Key: chef-test
-</span><span class='line'>
-</span><span class='line'>Waiting <span class="k">for </span>instance..............................................
-</span><span class='line'>Public DNS Name: ecX-XX-XXX-XXX-X.eu-west-1.compute.amazonaws.com
-</span><span class='line'>Public IP Address: XX.XXX.XXX.X
-</span><span class='line'>Private DNS Name: ip-XX-XX-XXX-XXX.eu-west-1.compute.internal
-</span><span class='line'>Private IP Address: XX.XX.XXX.XXX
-</span><span class='line'>
-</span><span class='line'>Waiting <span class="k">for </span>sshd....done
-</span><span class='line'>Bootstrapping Chef on ec2-XX-XXX-XXX-X.eu-west-1.compute.amazonaws.com
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So now we have a node/client associated with our chef server we can begin building up our cookbooks to install our stack which i shall cover in <a href="http://jordanrs.github.io/blog/2013/06/18/learning-chef-from-scratch-building-a-ec2-backed-rails-stack-part-2/">Part 2</a>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Installing Guard & Spork for auto running of specs]]></title>
-    <link href="http://jordanrs.github.io/blog/2013/04/25/installing-guard-and-spork-for-auto-running-of-tests/"/>
-    <updated>2013-04-25T00:00:00+01:00</updated>
-    <id>http://jordanrs.github.io/blog/2013/04/25/installing-guard-and-spork-for-auto-running-of-tests</id>
-    <content type="html"><![CDATA[<h2>Gemfile</h2>
-
-<p>Install the following gems with <code>bundle install</code></p>
-
-<figure class='code'><figcaption><span>Gemfile</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span><span class="o">.</span>
-</span><span class='line'><span class="n">group</span> <span class="ss">:test_envs</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;rspec-rails&#39;</span><span class="p">,</span> <span class="s2">&quot;~&gt; 2.0&quot;</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;factory_girl_rails&#39;</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;faker&#39;</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;capybara&#39;</span><span class="p">,</span> <span class="s2">&quot;~&gt; 2.0.2&quot;</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;database_cleaner&#39;</span><span class="p">,</span> <span class="s2">&quot;~&gt; 0.9.1&quot;</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;launchy&#39;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># file system event triggers for ruby. See note at end about RVM </span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;rb-fsevent&#39;</span><span class="p">,</span> <span class="s1">&#39;0.9.3&#39;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># Notifications of test states, Requires Growl and growlnotify to be installed</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;growl&#39;</span><span class="p">,</span> <span class="s1">&#39;1.0.3&#39;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># Automated test running and speed imporvements</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;guard-rspec&#39;</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;guard-spork&#39;</span><span class="p">,</span> <span class="s1">&#39;1.2.0&#39;</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;childprocess&#39;</span><span class="p">,</span> <span class="s1">&#39;0.3.6&#39;</span><span class="c1"># this was due to errors appearing in 0.3.7 and higher</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;spork&#39;</span><span class="p">,</span> <span class="s1">&#39;0.9.2&#39;</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;debugger&#39;</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span><span class="o">.</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>spec/spec_helper</h2>
-
-<!-- more -->
-
-
-<p>Edit spec/spec_helper.rb to look below.</p>
-
-<figure class='code'><figcaption><span>spec/spec_helper.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;rubygems&#39;</span>
-</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;spork&#39;</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;RAILS_ENV&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="p">(</span><span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;RAILS_ENV&quot;</span><span class="o">]</span> <span class="o">==</span> <span class="s1">&#39;development&#39;</span> <span class="p">?</span> <span class="s1">&#39;test&#39;</span> <span class="p">:</span> <span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;RAILS_ENV&quot;</span><span class="o">]</span> <span class="o">+</span> <span class="s1">&#39;_test&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="nb">require</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s2">&quot;../../config/environment&quot;</span><span class="p">,</span> <span class="bp">__FILE__</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;rspec/rails&#39;</span>
-</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;rspec/autorun&#39;</span>
-</span><span class='line'><span class="nb">require</span> <span class="s2">&quot;capybara/rspec&quot;</span>
-</span><span class='line'><span class="c1">#uncomment the following line to use spork with the debugger</span>
-</span><span class='line'><span class="c1"># require &#39;spork/ext/ruby-debug&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Spork</span><span class="o">.</span><span class="n">prefork</span> <span class="k">do</span>
-</span><span class='line'>  <span class="nb">require</span> <span class="s1">&#39;database_cleaner&#39;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># if defined? Capybara::Webkit</span>
-</span><span class='line'>  <span class="c1">#   Capybara.javascript_driver = :webkit</span>
-</span><span class='line'>  <span class="c1"># end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="no">Capybara</span><span class="o">.</span><span class="n">default_wait_time</span> <span class="o">=</span> <span class="mi">10</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="no">Capybara</span><span class="o">.</span><span class="n">app_host</span> <span class="o">=</span> <span class="s1">&#39;http://&#39;</span> <span class="o">+</span> <span class="no">Settings</span><span class="o">.</span><span class="n">host</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
-</span><span class='line'>  <span class="no">Capybara</span><span class="o">.</span><span class="n">always_include_port</span> <span class="o">=</span> <span class="kp">true</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># if defined? Delayed</span>
-</span><span class='line'>  <span class="c1">#   Delayed::Worker.delay_jobs = false</span>
-</span><span class='line'>  <span class="c1"># end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># Requires supporting ruby files with custom matchers and macros, etc,</span>
-</span><span class='line'>  <span class="c1"># in spec/support/ and its subdirectories.</span>
-</span><span class='line'>  <span class="no">Dir</span><span class="o">[</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;spec/support/**/*.rb&quot;</span><span class="p">)</span><span class="o">].</span><span class="n">each</span> <span class="p">{</span><span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="nb">require</span> <span class="n">f</span><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="no">RSpec</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">config</span><span class="o">.</span><span class="n">include</span> <span class="ss">FactoryGirl</span><span class="p">:</span><span class="ss">:Syntax</span><span class="o">::</span><span class="no">Methods</span>
-</span><span class='line'>    <span class="n">config</span><span class="o">.</span><span class="n">extend</span> <span class="no">PaperclipMacros</span>
-</span><span class='line'>    <span class="n">config</span><span class="o">.</span><span class="n">include</span> <span class="no">FacebookMacros</span>
-</span><span class='line'>    <span class="n">config</span><span class="o">.</span><span class="n">include</span> <span class="no">FriendcareBootstrapMacros</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1"># ## Mock Framework</span>
-</span><span class='line'>    <span class="c1">#</span>
-</span><span class='line'>    <span class="c1"># If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:</span>
-</span><span class='line'>    <span class="c1">#</span>
-</span><span class='line'>    <span class="c1"># config.mock_with :mocha</span>
-</span><span class='line'>    <span class="c1"># config.mock_with :flexmock</span>
-</span><span class='line'>    <span class="c1"># config.mock_with :rr</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1"># Remove this line if you&#39;re not using ActiveRecord or ActiveRecord fixtures</span>
-</span><span class='line'>    <span class="n">config</span><span class="o">.</span><span class="n">fixture_path</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="o">::</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="si">}</span><span class="s2">/spec/fixtures&quot;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1"># If true, the base class of anonymous controllers will be inferred</span>
-</span><span class='line'>    <span class="c1"># automatically. This will be the default behavior in future versions of</span>
-</span><span class='line'>    <span class="c1"># rspec-rails.</span>
-</span><span class='line'>    <span class="n">config</span><span class="o">.</span><span class="n">infer_base_class_for_anonymous_controllers</span> <span class="o">=</span> <span class="kp">false</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1"># Run specs in random order to surface order dependencies. If you find an</span>
-</span><span class='line'>    <span class="c1"># order dependency and want to debug it, you can fix the order by providing</span>
-</span><span class='line'>    <span class="c1"># the seed, which is printed after each run.</span>
-</span><span class='line'>    <span class="c1">#     --seed 1234</span>
-</span><span class='line'>    <span class="n">config</span><span class="o">.</span><span class="n">order</span> <span class="o">=</span> <span class="s2">&quot;random&quot;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1"># If you&#39;re not using ActiveRecord, or you&#39;d prefer not to run each of your</span>
-</span><span class='line'>    <span class="c1"># examples within a transaction, remove the following line or assign false</span>
-</span><span class='line'>    <span class="c1"># instead of true.</span>
-</span><span class='line'>    <span class="n">config</span><span class="o">.</span><span class="n">use_transactional_fixtures</span> <span class="o">=</span> <span class="kp">false</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1"># to make sure that each time the test suite is run it is done so against a new </span>
-</span><span class='line'>    <span class="c1"># database i use the database_cleaner gem. so add that to your test group in the gem file</span>
-</span><span class='line'>    <span class="c1"># add set it up like so</span>
-</span><span class='line'>    <span class="n">config</span><span class="o">.</span><span class="n">before</span><span class="p">(</span><span class="ss">:suite</span><span class="p">)</span> <span class="k">do</span>
-</span><span class='line'>      <span class="no">DatabaseCleaner</span><span class="o">.</span><span class="n">strategy</span> <span class="o">=</span> <span class="ss">:truncation</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">config</span><span class="o">.</span><span class="n">before</span><span class="p">(</span><span class="ss">:each</span><span class="p">)</span> <span class="k">do</span>
-</span><span class='line'>      <span class="no">DatabaseCleaner</span><span class="o">.</span><span class="n">start</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">config</span><span class="o">.</span><span class="n">after</span><span class="p">(</span><span class="ss">:each</span><span class="p">)</span> <span class="k">do</span>
-</span><span class='line'>      <span class="no">DatabaseCleaner</span><span class="o">.</span><span class="n">clean</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Spork</span><span class="o">.</span><span class="n">each_run</span> <span class="k">do</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">if</span> <span class="n">defined?</span> <span class="no">QC</span>
-</span><span class='line'>    <span class="ss">QC</span><span class="p">:</span><span class="ss">:Conn</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">raw_connection</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>.rspec</h2>
-
-<figure class='code'><figcaption><span>.rspec</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">--</span><span class="nb">format</span> <span class="n">documentation</span> <span class="o">--</span><span class="n">color</span> <span class="o">--</span><span class="n">drb</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Guardfile</h2>
-
-<p>Running run <code>guard init rspec</code> and <code>guard init spork</code> will produce a Guardfile similar to the one below. Not the additions of <code>cucumber: false,  test_unit: false, :wait =&gt; 45</code> to the spork call as leaving them out without test unit or cucumber configured can result in errors.</p>
-
-<p>We also make an addition to the rspec guard call <code>:cli =&gt; '--drb'</code> so that it runs through spoke using distributed ruby</p>
-
-<figure class='code'><figcaption><span>Guardfile</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># A sample Guardfile</span>
-</span><span class='line'><span class="c1"># More info at https://github.com/guard/guard#readme</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;active_support/core_ext&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">guard</span> <span class="s1">&#39;spork&#39;</span><span class="p">,</span> <span class="ss">:rspec_env</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="s1">&#39;RAILS_ENV&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;sexyjordan_test&#39;</span> <span class="p">},</span> <span class="ss">cucumber</span><span class="p">:</span> <span class="kp">false</span><span class="p">,</span>  <span class="n">test_unit</span><span class="p">:</span> <span class="kp">false</span><span class="p">,</span> <span class="ss">:wait</span> <span class="o">=&gt;</span> <span class="mi">45</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">watch</span><span class="p">(</span><span class="s1">&#39;config/application.rb&#39;</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">watch</span><span class="p">(</span><span class="s1">&#39;config/environment.rb&#39;</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">watch</span><span class="p">(</span><span class="sr">%r{^config/environments/.+\.rb$}</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">watch</span><span class="p">(</span><span class="sr">%r{^config/initializers/.+\.rb$}</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">watch</span><span class="p">(</span><span class="s1">&#39;Gemfile&#39;</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">watch</span><span class="p">(</span><span class="s1">&#39;Gemfile.lock&#39;</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">watch</span><span class="p">(</span><span class="s1">&#39;spec/spec_helper.rb&#39;</span><span class="p">)</span>
-</span><span class='line'>  <span class="c1"># watch(&#39;test/test_helper.rb&#39;)</span>
-</span><span class='line'>  <span class="n">watch</span><span class="p">(</span><span class="s1">&#39;spec/support/&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">guard</span> <span class="s1">&#39;rspec&#39;</span><span class="p">,</span> <span class="ss">:all_after_pass</span> <span class="o">=&gt;</span> <span class="kp">false</span><span class="p">,</span> <span class="ss">:cli</span> <span class="o">=&gt;</span> <span class="s1">&#39;--drb&#39;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">watch</span><span class="p">(</span><span class="sr">%r{^spec/.+_spec\.rb$}</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">watch</span><span class="p">(</span><span class="sr">%r{^lib/(.+)\.rb$}</span><span class="p">)</span>     <span class="p">{</span> <span class="o">|</span><span class="n">m</span><span class="o">|</span> <span class="s2">&quot;spec/lib/</span><span class="si">#{</span><span class="n">m</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="si">}</span><span class="s2">_spec.rb&quot;</span> <span class="p">}</span>
-</span><span class='line'>  <span class="n">watch</span><span class="p">(</span><span class="s1">&#39;spec/spec_helper.rb&#39;</span><span class="p">)</span>  <span class="p">{</span> <span class="s2">&quot;spec&quot;</span> <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># Rails example</span>
-</span><span class='line'>  <span class="n">watch</span><span class="p">(</span><span class="sr">%r{^app/(.+)\.rb$}</span><span class="p">)</span>                           <span class="p">{</span> <span class="o">|</span><span class="n">m</span><span class="o">|</span> <span class="s2">&quot;spec/</span><span class="si">#{</span><span class="n">m</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="si">}</span><span class="s2">_spec.rb&quot;</span> <span class="p">}</span>
-</span><span class='line'>  <span class="n">watch</span><span class="p">(</span><span class="sr">%r{^app/(.*)(\.erb|\.haml)$}</span><span class="p">)</span>                 <span class="p">{</span> <span class="o">|</span><span class="n">m</span><span class="o">|</span> <span class="s2">&quot;spec/</span><span class="si">#{</span><span class="n">m</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="si">}#{</span><span class="n">m</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span><span class="si">}</span><span class="s2">_spec.rb&quot;</span> <span class="p">}</span>
-</span><span class='line'>  <span class="n">watch</span><span class="p">(</span><span class="sr">%r{^app/controllers/(.+)_(controller)\.rb$}</span><span class="p">)</span>  <span class="p">{</span> <span class="o">|</span><span class="n">m</span><span class="o">|</span> <span class="o">[</span><span class="s2">&quot;spec/routing/</span><span class="si">#{</span><span class="n">m</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="si">}</span><span class="s2">_routing_spec.rb&quot;</span><span class="p">,</span> <span class="s2">&quot;spec/</span><span class="si">#{</span><span class="n">m</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span><span class="si">}</span><span class="s2">s/</span><span class="si">#{</span><span class="n">m</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="si">}</span><span class="s2">_</span><span class="si">#{</span><span class="n">m</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span><span class="si">}</span><span class="s2">_spec.rb&quot;</span><span class="p">,</span> <span class="s2">&quot;spec/acceptance/</span><span class="si">#{</span><span class="n">m</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="si">}</span><span class="s2">_spec.rb&quot;</span><span class="o">]</span> <span class="p">}</span>
-</span><span class='line'>  <span class="n">watch</span><span class="p">(</span><span class="sr">%r{^spec/support/(.+)\.rb$}</span><span class="p">)</span>                  <span class="p">{</span> <span class="s2">&quot;spec&quot;</span> <span class="p">}</span>
-</span><span class='line'>  <span class="n">watch</span><span class="p">(</span><span class="s1">&#39;config/routes.rb&#39;</span><span class="p">)</span>                           <span class="p">{</span> <span class="s2">&quot;spec/routing&quot;</span> <span class="p">}</span>
-</span><span class='line'>  <span class="n">watch</span><span class="p">(</span><span class="s1">&#39;app/controllers/application_controller.rb&#39;</span><span class="p">)</span>  <span class="p">{</span> <span class="s2">&quot;spec/controllers&quot;</span> <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">watch</span><span class="p">(</span><span class="sr">%r{^app/models/(.+)\.rb$}</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">m</span><span class="o">|</span> <span class="s2">&quot;spec/models/</span><span class="si">#{</span><span class="n">m</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="si">}</span><span class="s2">_spec.rb&quot;</span> <span class="p">}</span>
-</span><span class='line'>  <span class="n">watch</span><span class="p">(</span><span class="sr">%r{^app/services/(.+)\.rb$}</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">m</span><span class="o">|</span> <span class="s2">&quot;spec/services/</span><span class="si">#{</span><span class="n">m</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="si">}</span><span class="s2">_spec.rb&quot;</span> <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># Capybara features specs</span>
-</span><span class='line'>  <span class="n">watch</span><span class="p">(</span><span class="sr">%r{^app/views/(.+)/.*\.(erb|haml)$}</span><span class="p">)</span>          <span class="p">{</span> <span class="o">|</span><span class="n">m</span><span class="o">|</span> <span class="s2">&quot;spec/features/</span><span class="si">#{</span><span class="n">m</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="si">}</span><span class="s2">_spec.rb&quot;</span> <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<h1>Testing with queue classic</h1>
-
-<p>Using queue classic, spork and rspec. If the QC setup shares the rails connection to the database we need to add this to the each run command in spork</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Spork</span><span class="o">.</span><span class="n">each_run</span> <span class="k">do</span>
-</span><span class='line'>  <span class="k">if</span> <span class="n">defined?</span> <span class="no">QC</span>
-</span><span class='line'>    <span class="ss">QC</span><span class="p">:</span><span class="ss">:Conn</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">raw_connection</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>FactoryGirl Cleaner Syntax</h1>
-
-<p>Adding</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">RSpec</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">include</span> <span class="ss">FactoryGirl</span><span class="p">:</span><span class="ss">:Syntax</span><span class="o">::</span><span class="no">Methods</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Means we can now call build, create, createlist, withouth FactoryGirl infront</p>
-
-<h1>Paperclip and factory girl together</h1>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">FactoryGirl</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">factory</span> <span class="ss">:timeline_memory</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span>
-</span><span class='line'>     <span class="n">image</span> <span class="p">{</span> <span class="ss">Rack</span><span class="p">:</span><span class="ss">:Test</span><span class="o">::</span><span class="no">UploadedFile</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;spec&#39;</span><span class="p">,</span> <span class="s1">&#39;assets&#39;</span><span class="p">,</span> <span class="s1">&#39;test_memory.jpg&#39;</span><span class="p">),</span> <span class="s1">&#39;image/jpg&#39;</span><span class="p">)</span> <span class="p">}</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<h1>Notes</h1>
-
-<p>Auto detection didnt work with rvm and 1.9.2 straight away. Ruby had to be recompiled with an additional flag to deal with file system events the way we want. The fix is taken from <a href="https://github.com/guard/guard/wiki/Add-proper-Readline-support-to-Ruby-on-Mac-OS-X">here</a></p>
-
-<h2>Using RVM</h2>
-
-<p>You can use RVM to build your Ruby with GNU readline support. First install the readline package with RVM:</p>
-
-<pre><code>$ rvm pkg install readline --verify-downloads 1
-</code></pre>
-
-<p>Then configure RVM to use the readline package by adding</p>
-
-<pre><code>ruby_configure_flags=--with-readline-dir="$rvm_path/usr"
-</code></pre>
-
-<p>to <code>~/.rvm/user/db</code>. Finally you need to reinstall your Ruby of choice:</p>
-
-<pre><code>$ rvm reinstall 1.9.3
-</code></pre>
 ]]></content>
   </entry>
   

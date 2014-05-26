@@ -7,9 +7,22 @@
 	<meta name="author" content="Jordan Rogers-Smith">
 
 	
-	<meta name="description" content="Sep 23rd, 2013 vim Vim Cheat Sheet Basic Commands i = insert mode h,j,k,l = move left, up, down, left
-w = move from word to word
-b = move back word &hellip;">
+	<meta name="description" content="May 17th, 2014 algorithums, ruby Inplace Quicksort in Ruby Inplace quicksort algorithum implemented in Ruby 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16 &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,6 +102,330 @@ b = move back word &hellip;">
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-17T16:59:00+01:00" data-updated="true" itemprop="datePublished">May 17<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/algorithums/'>algorithums</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/05/17/quicksort-in-ruby/" itemprop="url">Inplace Quicksort in Ruby</a></h1>
+	<h2 class="sub_heading" itemprop="name"></h2>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Inplace quicksort algorithum implemented in Ruby</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">quicksort</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">first</span><span class="p">,</span> <span class="n">last</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">array</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">return</span> <span class="k">if</span> <span class="n">first</span> <span class="o">&gt;</span> <span class="n">last</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">pivot</span> <span class="o">=</span> <span class="n">array</span><span class="o">[</span><span class="p">(</span><span class="n">first</span> <span class="o">+</span> <span class="n">last</span><span class="p">)</span> <span class="o">*</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="o">]</span>
+</span><span class='line'>    <span class="n">left</span> <span class="o">=</span> <span class="n">first</span>
+</span><span class='line'>    <span class="n">right</span> <span class="o">=</span> <span class="n">last</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">while</span> <span class="n">left</span> <span class="o">&lt;=</span> <span class="n">right</span>
+</span><span class='line'>      <span class="k">while</span><span class="p">(</span><span class="n">array</span><span class="o">[</span><span class="n">left</span><span class="o">]</span> <span class="o">&lt;</span> <span class="n">pivot</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>        <span class="n">left</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>      <span class="k">while</span><span class="p">(</span><span class="n">array</span><span class="o">[</span><span class="n">right</span><span class="o">]</span> <span class="o">&gt;</span> <span class="n">pivot</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>        <span class="n">right</span> <span class="o">-=</span> <span class="mi">1</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">if</span> <span class="n">left</span> <span class="o">&lt;=</span> <span class="n">right</span>
+</span><span class='line'>        <span class="n">tmp</span> <span class="o">=</span> <span class="n">array</span><span class="o">[</span><span class="n">left</span><span class="o">]</span>
+</span><span class='line'>        <span class="n">array</span><span class="o">[</span><span class="n">left</span><span class="o">]</span> <span class="o">=</span> <span class="n">array</span><span class="o">[</span><span class="n">right</span><span class="o">]</span>
+</span><span class='line'>        <span class="n">array</span><span class="o">[</span><span class="n">right</span><span class="o">]</span> <span class="o">=</span> <span class="n">tmp</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">left</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>        <span class="n">right</span> <span class="o">-=</span> <span class="mi">1</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">quicksort</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">first</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">quicksort</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">last</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-02T08:05:00+01:00" data-updated="true" itemprop="datePublished">May 2<span>nd</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ruby/'>Ruby</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/05/02/algorithums-in-ruby/" itemprop="url">Algorithums in Ruby</a></h1>
+	<h2 class="sub_heading" itemprop="name"></h2>
+	<div class="entry-content" itemprop="articleBody">
+		<h2>Greatest Common Divisor</h2>
+
+<p>Ruby has a native implementation of the greatest common divisor.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="mi">20</span><span class="o">.</span><span class="n">gcd</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+</span><span class='line'>  <span class="o">=&gt;</span> <span class="mi">5</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>However as a pure academic exercise lets implement Euclid&rsquo;s algorithm for finding the greatest common divisor between any number of numbers in ruby!</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">gcd</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">zero?</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">u</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">gcd</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">modulo</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Greatest Common Divisor for three numbers</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">gcdt</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">gcd</span><span class="p">(</span><span class="n">gcd</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">),</span> <span class="n">w</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Extending this to a generic algorithm that can take any number of numbers</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">gcd_any</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">raise</span> <span class="no">ArgumentError</span> <span class="s1">&#39;Need at least two numbers&#39;</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">length</span> <span class="o">&lt;</span> <span class="mi">2</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">start</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">shift</span>
+</span><span class='line'>    <span class="n">args</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="n">start</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="p">,</span> <span class="n">value</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">gcd</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-30T17:54:00+01:00" data-updated="true" itemprop="datePublished">Apr 30<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/postgres/'>postgres</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/04/30/dblink/" itemprop="url">Quick Way to Join Across Two Databases</a></h1>
+	<h2 class="sub_heading" itemprop="name"></h2>
+	<div class="entry-content" itemprop="articleBody">
+		<p>A recent hack / sketchy 1st product draft required datasets that live in two different database to be joined together to do some analysis on. Initially thoughts of denormalization or key/value lookup crossed peoples minds but wanting a quick win to try and get the idea validated as quickly as possible, I kept on digging.</p>
+
+<p>As always <a href="http://stackoverflow.com/questions/9493332/postgres-how-to-create-a-select-query-that-would-join-two-databases">stackoverflow</a> provided the start of the journey of discovery with something called dblink.</p>
+
+<h2>dblink to the rescue!</h2>
+
+<p><a href="http://www.postgresql.org/docs/current/interactive/contrib-dblink-function.html">dblink</a> is a hidden gem of a extension that made doing a join across two databases (weather there local or remote) a total breeze. Firstly the extension needs to be installed on the database with the following command.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'>  <span class="k">CREATE</span> <span class="n">EXTENSION</span> <span class="n">dblink</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>Once added to your database using it requires three pieces of information</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'>  <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">dblink</span><span class="p">(</span><span class="s1">&#39;CONNECTION STRING&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s1">&#39;QUERY STRING&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">AS</span> <span class="n">t</span><span class="p">(</span> <span class="n">CASTING</span> <span class="n">RESTULS</span> <span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Connection String</h2>
+
+<p>I personally use this format of string as it allows easy access to both local and remote DBs.</p>
+
+<pre><code>postgres://PG_USER:PG_PASSWORD@HOST:PORT/DATABSE_NAME'
+
+eg
+
+postgres://pguser:abcd@127.0.0.1:5432/test_db'
+</code></pre>
+
+
+		
+		<a href="/blog/2014/04/30/dblink/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-11T08:12:00+00:00" data-updated="true" itemprop="datePublished">Mar 11<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/refactoring/'>refactoring</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/03/11/refractoring-ruby/" itemprop="url">When to Refractor - Bad Smells in Code</a></h1>
+	<h2 class="sub_heading" itemprop="name"></h2>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Notes from Refactoring Ruby by Jay Fields, Shane Harvie, Martin Fowler &amp; Kent Beck.</p>
+
+<p><strong>Duplicated Code</strong></p>
+
+<p>Problem &ndash; This stinks, when you have the same expression in two different methods in the same class</p>
+
+<p>Solution &ndash; Extract the method to a new method in the class and use in place</p>
+
+<p><strong>Duplication in Sibling Classes</strong></p>
+
+<p>Problem &ndash; Two methods in sibling class that that have the same expression.</p>
+
+<p>Solution &ndash; Extract the method into one on the shared base class and use this instead.</p>
+
+<p><strong>Duplication across unrelated classes</strong></p>
+
+<p>Problem &ndash; The same method or expression across two unrelated classes</p>
+
+<p>Solution &ndash; Extract the method into a new class or module and then use either inheritance or composition to give the class the new method.</p>
+
+
+		
+		<a href="/blog/2014/03/11/refractoring-ruby/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -424,203 +761,6 @@ F = fins the first occurance of a string backward</p>
 
 		
 		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-10T20:46:00+01:00" data-updated="true" itemprop="datePublished">Jul 10<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/active-admin/'>active admin</a>, <a class='category' href='/blog/categories/javascript/'>javascript</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/xhr/'>xhr</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/07/10/activeadmin-form-preview-with-javascript-formdata/" itemprop="url">ActiveAdmin Form Preview With Javascript FormData</a></h1>
-	<h2 class="sub_heading" itemprop="name"></h2>
-	<div class="entry-content" itemprop="articleBody">
-		<p>One of my recent tasks has been to build a preview of a form submission into an existing application. Having done something similar in the past involving changing the forms action with javascript, ajax posting the form (including images), generating a preview, changing the form back blaa blaa blaa blaa blaaaaa. I wanted to find a cleaner way to a) deal with the preview and b) ajaxing blob data (image/files) and thanks to not having to support IE implemented the following procedure using FormData and XMLHttpRequest 2.</p>
-
-
-		
-		<a href="/blog/2013/07/10/activeadmin-form-preview-with-javascript-formdata/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-01T10:27:00+01:00" data-updated="true" itemprop="datePublished">Jun 1<span>st</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/capybara/'>capybara</a>, <a class='category' href='/blog/categories/facebook/'>facebook</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/testing/'>testing</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/06/01/testing-facebook-login-and-permissions-with-capybara/" itemprop="url">Testing Facebook Login and Permissions With Capybara</a></h1>
-	<h2 class="sub_heading" itemprop="name"></h2>
-	<div class="entry-content" itemprop="articleBody">
-		<p>Having begun to use Capybara and Rspec quiet heavily there have been a few challenges that need to be overcome. One of these is that the applications I develop day to day are heavily intertwined with Facebook and user flow relies heavily on Facebook login and accepting permissions at various points throughout the application.</p>
-
-
-		
-		<a href="/blog/2013/06/01/testing-facebook-login-and-permissions-with-capybara/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-05-26T00:00:00+01:00" data-updated="true" itemprop="datePublished">May 26<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/05/26/Learning-Chef-From-Scratch---Building-a-EC2-backed-Rails-Stack-Part-1/" itemprop="url">Learning Chef From Scratch - Building a EC2 Backed Rails Stack Part 1</a></h1>
-	<h2 class="sub_heading" itemprop="name">Setup Chef and Creating a EC2 instance</h2>
-	<div class="entry-content" itemprop="articleBody">
-		<p>Chef is a fantastic tool for automating the process bootstrapping a fresh server so that once you have got it running how you want, replicating that configuration and setup requires very little effort what so ever.</p>
-
-<p>Chef has two different use cases, Chef server (wether that be hosted or private) or Chef Solo. Chef solo allows you to interact directly with the machine your wanting to administrate and is very useful for bootstrapping a vagrant image for instance. Chef Server offers a centralised place for you to push your configurations and recipes so that when working with multiple servers (known as nodes or chef clients) you don&rsquo;t have to update each one individually as each client can be set to poll to server for any updates.</p>
-
-<p>For my first time using chef i through myself straight in at the deep end in that i wanted to put together a full working EC2 instance that would run my usual heroku stack (nginx, unicorn, ruby, rails and postgres). I opted for using Opscodes free Chef hosted plan for my Chef server and got straight to it.</p>
-
-
-		
-		<a href="/blog/2013/05/26/Learning-Chef-From-Scratch---Building-a-EC2-backed-Rails-Stack-Part-1/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-25T00:00:00+01:00" data-updated="true" itemprop="datePublished">Apr 25<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/04/25/installing-guard-and-spork-for-auto-running-of-tests/" itemprop="url">Installing Guard & Spork for Auto Running of Specs</a></h1>
-	<h2 class="sub_heading" itemprop="name"></h2>
-	<div class="entry-content" itemprop="articleBody">
-		<h2>Gemfile</h2>
-
-<p>Install the following gems with <code>bundle install</code></p>
-
-<figure class='code'><figcaption><span>Gemfile</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span><span class="o">.</span>
-</span><span class='line'><span class="n">group</span> <span class="ss">:test_envs</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;rspec-rails&#39;</span><span class="p">,</span> <span class="s2">&quot;~&gt; 2.0&quot;</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;factory_girl_rails&#39;</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;faker&#39;</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;capybara&#39;</span><span class="p">,</span> <span class="s2">&quot;~&gt; 2.0.2&quot;</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;database_cleaner&#39;</span><span class="p">,</span> <span class="s2">&quot;~&gt; 0.9.1&quot;</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;launchy&#39;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># file system event triggers for ruby. See note at end about RVM </span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;rb-fsevent&#39;</span><span class="p">,</span> <span class="s1">&#39;0.9.3&#39;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># Notifications of test states, Requires Growl and growlnotify to be installed</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;growl&#39;</span><span class="p">,</span> <span class="s1">&#39;1.0.3&#39;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># Automated test running and speed imporvements</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;guard-rspec&#39;</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;guard-spork&#39;</span><span class="p">,</span> <span class="s1">&#39;1.2.0&#39;</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;childprocess&#39;</span><span class="p">,</span> <span class="s1">&#39;0.3.6&#39;</span><span class="c1"># this was due to errors appearing in 0.3.7 and higher</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;spork&#39;</span><span class="p">,</span> <span class="s1">&#39;0.9.2&#39;</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;debugger&#39;</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span><span class="o">.</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>spec/spec_helper</h2>
-
-
-		
-		<a href="/blog/2013/04/25/installing-guard-and-spork-for-auto-running-of-tests/" class="more-link">Read on &rarr;</a>
 	</div>
 
 </article>

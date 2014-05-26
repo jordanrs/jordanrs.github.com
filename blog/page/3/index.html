@@ -7,7 +7,7 @@
 	<meta name="author" content="Jordan Rogers-Smith">
 
 	
-	<meta name="description" content="Apr 23rd, 2013 Multiple Test Environments in Rails Multiple test enviorments allow for developers with different DB settings, gem desires to be able &hellip;">
+	<meta name="description" content="Jul 10th, 2013 active admin, javascript, ruby, xhr ActiveAdmin Form Preview With Javascript FormData One of my recent tasks has been to build a &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -87,6 +87,203 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-10T20:46:00+01:00" data-updated="true" itemprop="datePublished">Jul 10<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/active-admin/'>active admin</a>, <a class='category' href='/blog/categories/javascript/'>javascript</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/xhr/'>xhr</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/07/10/activeadmin-form-preview-with-javascript-formdata/" itemprop="url">ActiveAdmin Form Preview With Javascript FormData</a></h1>
+	<h2 class="sub_heading" itemprop="name"></h2>
+	<div class="entry-content" itemprop="articleBody">
+		<p>One of my recent tasks has been to build a preview of a form submission into an existing application. Having done something similar in the past involving changing the forms action with javascript, ajax posting the form (including images), generating a preview, changing the form back blaa blaa blaa blaa blaaaaa. I wanted to find a cleaner way to a) deal with the preview and b) ajaxing blob data (image/files) and thanks to not having to support IE implemented the following procedure using FormData and XMLHttpRequest 2.</p>
+
+
+		
+		<a href="/blog/2013/07/10/activeadmin-form-preview-with-javascript-formdata/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-01T10:27:00+01:00" data-updated="true" itemprop="datePublished">Jun 1<span>st</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/capybara/'>capybara</a>, <a class='category' href='/blog/categories/facebook/'>facebook</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/testing/'>testing</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/06/01/testing-facebook-login-and-permissions-with-capybara/" itemprop="url">Testing Facebook Login and Permissions With Capybara</a></h1>
+	<h2 class="sub_heading" itemprop="name"></h2>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Having begun to use Capybara and Rspec quiet heavily there have been a few challenges that need to be overcome. One of these is that the applications I develop day to day are heavily intertwined with Facebook and user flow relies heavily on Facebook login and accepting permissions at various points throughout the application.</p>
+
+
+		
+		<a href="/blog/2013/06/01/testing-facebook-login-and-permissions-with-capybara/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-26T00:00:00+01:00" data-updated="true" itemprop="datePublished">May 26<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/05/26/Learning-Chef-From-Scratch---Building-a-EC2-backed-Rails-Stack-Part-1/" itemprop="url">Learning Chef From Scratch - Building a EC2 Backed Rails Stack Part 1</a></h1>
+	<h2 class="sub_heading" itemprop="name">Setup Chef and Creating a EC2 instance</h2>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Chef is a fantastic tool for automating the process bootstrapping a fresh server so that once you have got it running how you want, replicating that configuration and setup requires very little effort what so ever.</p>
+
+<p>Chef has two different use cases, Chef server (wether that be hosted or private) or Chef Solo. Chef solo allows you to interact directly with the machine your wanting to administrate and is very useful for bootstrapping a vagrant image for instance. Chef Server offers a centralised place for you to push your configurations and recipes so that when working with multiple servers (known as nodes or chef clients) you don&rsquo;t have to update each one individually as each client can be set to poll to server for any updates.</p>
+
+<p>For my first time using chef i through myself straight in at the deep end in that i wanted to put together a full working EC2 instance that would run my usual heroku stack (nginx, unicorn, ruby, rails and postgres). I opted for using Opscodes free Chef hosted plan for my Chef server and got straight to it.</p>
+
+
+		
+		<a href="/blog/2013/05/26/Learning-Chef-From-Scratch---Building-a-EC2-backed-Rails-Stack-Part-1/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-25T00:00:00+01:00" data-updated="true" itemprop="datePublished">Apr 25<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/04/25/installing-guard-and-spork-for-auto-running-of-tests/" itemprop="url">Installing Guard & Spork for Auto Running of Specs</a></h1>
+	<h2 class="sub_heading" itemprop="name"></h2>
+	<div class="entry-content" itemprop="articleBody">
+		<h2>Gemfile</h2>
+
+<p>Install the following gems with <code>bundle install</code></p>
+
+<figure class='code'><figcaption><span>Gemfile</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'><span class="n">group</span> <span class="ss">:test_envs</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;rspec-rails&#39;</span><span class="p">,</span> <span class="s2">&quot;~&gt; 2.0&quot;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;factory_girl_rails&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;faker&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;capybara&#39;</span><span class="p">,</span> <span class="s2">&quot;~&gt; 2.0.2&quot;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;database_cleaner&#39;</span><span class="p">,</span> <span class="s2">&quot;~&gt; 0.9.1&quot;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;launchy&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># file system event triggers for ruby. See note at end about RVM </span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;rb-fsevent&#39;</span><span class="p">,</span> <span class="s1">&#39;0.9.3&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Notifications of test states, Requires Growl and growlnotify to be installed</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;growl&#39;</span><span class="p">,</span> <span class="s1">&#39;1.0.3&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Automated test running and speed imporvements</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;guard-rspec&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;guard-spork&#39;</span><span class="p">,</span> <span class="s1">&#39;1.2.0&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;childprocess&#39;</span><span class="p">,</span> <span class="s1">&#39;0.3.6&#39;</span><span class="c1"># this was due to errors appearing in 0.3.7 and higher</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;spork&#39;</span><span class="p">,</span> <span class="s1">&#39;0.9.2&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;debugger&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>spec/spec_helper</h2>
+
+
+		
+		<a href="/blog/2013/04/25/installing-guard-and-spork-for-auto-running-of-tests/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -380,169 +577,6 @@ The only thing that can be changed is the BUCKET-NAME, leave all other aspects o
 
 		
 		<a href="/blog/2013/02/10/heroku-optimisations---unicorn-s3-and-cloudfront/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-04-09T00:00:00+01:00" data-updated="true" itemprop="datePublished">Apr 9<span>th</span>, 2012</time></div>
-		<div class="tags">
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2012/04/09/final-year-project-video-demonstration/" itemprop="url">Final Year Project Video Demonstration</a></h1>
-	<h2 class="sub_heading" itemprop="name"></h2>
-	<div class="entry-content" itemprop="articleBody">
-		<p>For any one who wishes to know what Music Technology at Edinburgh actually means? well this is what i created for my final year project, a literal creative fusion of music and technology! Enjoy!</p>
-
-<iframe width="560" height="315" src="http://www.youtube.com/embed/DMitUrW-OXI" frameborder="0" > </iframe>
-
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-11-21T00:00:00+00:00" data-updated="true" itemprop="datePublished">Nov 21<span>st</span>, 2011</time></div>
-		<div class="tags">
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2011/11/21/3D-kinect---kinect-SDK-XNA-maxmsp-and-voice-control/" itemprop="url">3D Kinect - Kinect SDK, XNA, Max/Msp and Voice Control</a></h1>
-	<h2 class="sub_heading" itemprop="name"></h2>
-	<div class="entry-content" itemprop="articleBody">
-		<p>Its been a little quiet on the blog front, but many things have been programmed and I just haven&rsquo;t had the time to update this.</p>
-
-<p>I just wanted to post a recent Kinect based development which is using the Kinect in a 3D environment</p>
-
-<p>Check out the video below. Any questions or if you want the source just let me know</p>
-
-<iframe width="420" height="315" src="http://www.youtube.com/embed/KS_6sXLS788" frameborder="0"> </iframe>
-
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-08-25T00:00:00+01:00" data-updated="true" itemprop="datePublished">Aug 25<span>th</span>, 2011</time></div>
-		<div class="tags">
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2011/08/25/MaxMsp-to-Kinect-Via-OSC-for-Offical-Microsoft-SDK/" itemprop="url">Max/Msp to Kinect via OSC for Offical Microsoft SDK</a></h1>
-	<h2 class="sub_heading" itemprop="name"></h2>
-	<div class="entry-content" itemprop="articleBody">
-		<p><img style="display: block; margin: 0px auto 10px; text-align: center; cursor: pointer; width: 400px; height: 160px;" src="http://4.bp.blogspot.com/-N6x0K1PfpZ4/TlZYCw94AKI/AAAAAAAABYg/UZbQXeWYNKk/s400/screenshot.jpg" alt="" id="BLOGGER_PHOTO_ID_5644795987482902690" border="0" /></p>
-
-<p>Today I finished the very first stages of my 4th year research project which was finding a way to take data from the Xbox Kinect and send it to Max/Msp. By using the <a href="http://opensoundcontrol.org/implementation/osc-net-v1-2">Ventuz OSC</a> C# wrapper i was able to pack all the X, Y, Z data for all the skeletal points into an OSC bundle and send that to Max where it was unpacked in the patch.</p>
-
-<p>The data sent from the Kinect is the unchanged co-ordinate system of values in metres rangeing from -1 to 1.</p>
-
-<p>That being said the data sent from Kinect to Max can be used by any device that is capable of reading OSC packets .The format of the OSC message is</p>
-
-<p><code>/joint/skeleton_[1/2]/[joint] x, y, z</code></p>
-
-<p>This is a simple implementation allows quick and easy access to the full power of the kinects skeletal tracking in windows for users of the offical SDK over OSC. I hope it can be of some use.</p>
-
-<p><a href="https://sites.google.com/site/jordanrsblog/KinecttoMax.zip?attredirects=0&amp;d=1">Download Location 1</a></p>
-
-<p><a href="http://www.mediafire.com/?ljoxdh01fdorgmd">MediaFire Mirror</a></p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-04-30T00:00:00+01:00" data-updated="true" itemprop="datePublished">Apr 30<span>th</span>, 2011</time></div>
-		<div class="tags">
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2011/04/30/Chaos-Music---The-Final-Piece/" itemprop="url">Chaos Music - the Final Piece</a></h1>
-	<h2 class="sub_heading" itemprop="name"></h2>
-	<div class="entry-content" itemprop="articleBody">
-		<p>Chaos music is a composition based on my research and programming of the functions documented in <a href="http://jordanrs.blogspot.com/2011/04/algorithmic-comp-piece-2-research-choas.html">my previous post.</a>  The piece uses the output data from the chaotic functions to drive musical synthesis with the built in functions of CLM, more explanation about methodology can be found in the attached report.</p>
-
-<p><strong>Final Piece</strong></p>
-
-<iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F102117823&amp;color=ff6600&amp;auto_play=false&amp;show_artwork=false"></iframe>
-
-
-<p><strong>Download Source and Report</strong></p>
-
-<p><img style="display: block; margin: 0px auto 10px; text-align: center; cursor: pointer; width: 287px; height: 400px;" src="http://2.bp.blogspot.com/-PqHESAb3dX0/TbxzzLXTW6I/AAAAAAAABXI/ZIrSRy9qfPU/s400/algocomp.jpg" alt="" id="BLOGGER_PHOTO_ID_5601479359603104674" border="0" /></p>
-
-<p><a href="https://sites.google.com/site/jordanrsblog/algorithmiccomp/Project2.zip"><br />Download</a></p>
-
-		
-		
 	</div>
 
 </article>

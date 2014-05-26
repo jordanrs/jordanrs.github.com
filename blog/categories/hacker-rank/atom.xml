@@ -4,7 +4,7 @@
   <title><![CDATA[Category: hacker rank | Jordan Rogers-Smith]]></title>
   <link href="http://jordanrs.github.io/blog/categories/hacker-rank/atom.xml" rel="self"/>
   <link href="http://jordanrs.github.io/"/>
-  <updated>2014-05-26T19:32:15+01:00</updated>
+  <updated>2014-05-26T19:57:36+01:00</updated>
   <id>http://jordanrs.github.io/</id>
   <author>
     <name><![CDATA[Jordan Rogers-Smith]]></name>
@@ -12,6 +12,126 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Hacker Rank Solutions: Missing Numbers]]></title>
+    <link href="http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-missing-numbers/"/>
+    <updated>2014-05-26T18:55:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-missing-numbers</id>
+    <content type="html"><![CDATA[<p><a href="https://www.hackerrank.com/challenges/missing-numbers">Hacker Rank Solutions: Missing Numbers</a></p>
+
+<p>``` ruby
+list_1_length = $stdin.gets.to_i</p>
+
+<p>list1 = $stdin.gets.chomp.split(&lsquo; &rsquo;)</p>
+
+<p>list_2_length = $stdin.gets.to_i</p>
+
+<p>list2 = $stdin.gets.chomp.split(&lsquo; &rsquo;)</p>
+
+<p>list1hash = {}
+list2hash = {}</p>
+
+<p>times = list_1_length > list_2_length ? list_1_length : list_2_length</p>
+
+<p>times.times do |i|
+  if list1[i] != nil</p>
+
+<pre><code>n = list1[i]
+if list1hash[n] == nil
+  list1hash[n] = 1
+else
+  list1hash[n] += 1
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>  if list2[i] != nil</p>
+
+<pre><code>n = list2[i]
+if list2hash[n] == nil
+  list2hash[n] = 1
+else
+  list2hash[n] += 1
+end
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>if list1hash.length > list2hash.length
+  biggest = list1hash
+  smallest = list2hash
+else
+  smallest = list1hash
+  biggest = list2hash
+end</p>
+
+<p>arr = []
+biggest.each do |k, v|
+  arr &lt;&lt; k.to_i if smallest[k] != v
+end</p>
+
+<p>puts arr.sort.join(&lsquo; &rsquo;)</p>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hacker Rank Solutions: Lonely Integer]]></title>
+    <link href="http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-lonely-integer/"/>
+    <updated>2014-05-26T18:55:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-lonely-integer</id>
+    <content type="html"><![CDATA[<p><a href="https://www.hackerrank.com/challenges/lonely-integer">Hacker Rank Solutions: Lonely Integer</a></p>
+
+<p>``` ruby
+def lonelyinteger(array)
+  found = []</p>
+
+<p>  array.each do |i|</p>
+
+<pre><code>if found[i] == nil
+  found[i] = 1
+elsif found[i] == 1
+  found.delete(i)
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>  puts found.first
+end</p>
+
+<p>a = gets.strip.to_i
+b = gets.strip.split(&ldquo; &rdquo;).map! {|i| i.to_i}
+print lonelyinteger(b)
+```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hacker Rank Solutions: Filling Jars]]></title>
+    <link href="http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-filling-jars/"/>
+    <updated>2014-05-26T18:55:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-filling-jars</id>
+    <content type="html"><![CDATA[<p><a href="https://www.hackerrank.com/challenges/filling-jars">Hacker Rank Solutions: Filling Jars</a></p>
+
+<p>``` ruby
+jars, moves = $stdin.gets.chomp.split(&lsquo; &rsquo;).collect { |x| x.to_i}
+total = 0
+moves.times do |x|
+  jar1, jar2, ammount = $stdin.gets.chomp.split(&lsquo; &rsquo;).collect { |x| x.to_i }
+  no_of_jars = (jar2 &ndash; jar1) + 1</p>
+
+<p>  total = total + ( no_of_jars * ammount )
+end</p>
+
+<p>puts (total / jars).floor
+```</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Hacker Rank Solutions: Angry Children]]></title>
@@ -82,152 +202,6 @@ end
 <p>  end
   $stdout.puts sum
 end</p>
-
-<p>```</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Hacker Rank Solutions: Sherlock and The Beast]]></title>
-    <link href="http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-sherlock-and-the-beast/"/>
-    <updated>2014-05-26T18:49:00+01:00</updated>
-    <id>http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-sherlock-and-the-beast</id>
-    <content type="html"><![CDATA[<p><a href="https://www.hackerrank.com/challenges/sherlock-and-the-beast">Hacker Rank Solutions: Sherlock and The Beast</a></p>
-
-<p>``` ruby</p>
-
-<p>def largest_decent_number(n)
-  return -1 if n == 1 || n == 2</p>
-
-<p>  j = 0
-  loop do</p>
-
-<pre><code>break if n - j &lt;= 2 
-
-if (n - j) % 3 == 0
-  return "#{'5' * (n - j) }#{'3' *  j }"
-end
-j += 5
-</code></pre>
-
-<p>  end</p>
-
-<p>  if (n % 5 == 0)</p>
-
-<pre><code>'3' * n  
-</code></pre>
-
-<p>  else</p>
-
-<pre><code>-1
-</code></pre>
-
-<p>  end
-end</p>
-
-<p>test_cases = $stdin.gets.to_i</p>
-
-<p>test_cases.times do
-  value = $stdin.gets.to_i</p>
-
-<p>  $stdout.puts largest_decent_number(value)
-end</p>
-
-<p>```</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Hacker Rank Solutions: Is Fibo?]]></title>
-    <link href="http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-is-fibo%3F/"/>
-    <updated>2014-05-26T18:49:00+01:00</updated>
-    <id>http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-is-fibo?</id>
-    <content type="html"><![CDATA[<p><a href="https://www.hackerrank.com/challenges/is-fibo">Hacker Rank Solutions: Is Fibo?</a></p>
-
-<p>``` ruby</p>
-
-<p>def fibonachi_upto(n)
-  return 0 if n == 0
-  return 1 if n == 1
-  return 1 if n == 2
-  prev2 = 1
-  prev1 = 1</p>
-
-<p>  a = [0, 1, 1]
-  i = 3</p>
-
-<p>  while prev1 &lt;= n do</p>
-
-<pre><code>tmp = prev1 + prev2
-a &lt;&lt; tmp if tmp &lt;= n
-prev2 = prev1
-prev1 = tmp
-i += 1
-</code></pre>
-
-<p>  end</p>
-
-<p>  return a
-end</p>
-
-<p>fibos = fibonachi_upto(10000000000)</p>
-
-<p>test_cases = $stdin.gets.to_i</p>
-
-<p>test_cases.times do
-  value = $stdin.gets.to_i
-  if fibos.include?(value)</p>
-
-<pre><code>puts 'IsFibo'
-</code></pre>
-
-<p>  else</p>
-
-<pre><code>puts 'IsNotFibo'
-</code></pre>
-
-<p>  end
-end</p>
-
-<p>```</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Hacker Rank Solutions: Gem Stones]]></title>
-    <link href="http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-gem-stones/"/>
-    <updated>2014-05-26T18:49:00+01:00</updated>
-    <id>http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-gem-stones</id>
-    <content type="html"><![CDATA[<p><a href="https://www.hackerrank.com/challenges/gem-stones">Hacker Rank Solutions: Gem Stones</a></p>
-
-<p>``` ruby</p>
-
-<p>lines = $stdin.gets.to_i</p>
-
-<p>char_counts = Hash.new</p>
-
-<p>lines.times do</p>
-
-<p>  visted_chars =  Hash.new</p>
-
-<p>  line = $stdin.gets.chomp
-  line.unpack(&lsquo;C*&rsquo;).each do |char|</p>
-
-<pre><code>if visted_chars[char].nil?
-  char_counts[char] = 0 if  char_counts[char].nil?
-  char_counts[char] += 1 
-  visted_chars[char] = true
-end
-</code></pre>
-
-<p>  end</p>
-
-<p>end</p>
-
-<p>output = []
-char_counts.each { |key, value| output &lt;&lt; key if value == lines   }</p>
-
-<p>puts output.length</p>
 
 <p>```</p>
 ]]></content>

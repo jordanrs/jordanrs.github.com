@@ -7,7 +7,7 @@
 	<meta name="author" content="Jordan Rogers-Smith">
 
 	
-	<meta name="description" content="May 26th, 2014 hacker rank, ruby Hacker Rank Solutions: Angry Children Hacker Rank Solutions: Angry Children 1
+	<meta name="description" content="May 26th, 2014 hacker rank, ruby Hacker Rank Solutions: Missing Numbers Hacker Rank Solutions: Missing Numbers 1
 2
 3
 4
@@ -21,8 +21,7 @@
 12
 13
 14
-15
-16 &hellip;">
+15 &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -102,6 +101,273 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-26T18:55:00+01:00" data-updated="true" itemprop="datePublished">May 26<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/hacker-rank/'>hacker rank</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/05/26/hacker-rank-solutions-missing-numbers/" itemprop="url">Hacker Rank Solutions: Missing Numbers</a></h1>
+	<h2 class="sub_heading" itemprop="name"></h2>
+	<div class="entry-content" itemprop="articleBody">
+		<p><a href="https://www.hackerrank.com/challenges/missing-numbers">Hacker Rank Solutions: Missing Numbers</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">list_1_length</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">list1</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">chomp</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">list_2_length</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">list2</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">chomp</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">list1hash</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'><span class="n">list2hash</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">times</span> <span class="o">=</span> <span class="n">list_1_length</span> <span class="o">&gt;</span> <span class="n">list_2_length</span> <span class="p">?</span> <span class="n">list_1_length</span> <span class="p">:</span> <span class="n">list_2_length</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">times</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">list1</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">!=</span> <span class="kp">nil</span>
+</span><span class='line'>    <span class="n">n</span> <span class="o">=</span> <span class="n">list1</span><span class="o">[</span><span class="n">i</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">list1hash</span><span class="o">[</span><span class="n">n</span><span class="o">]</span> <span class="o">==</span> <span class="kp">nil</span>
+</span><span class='line'>      <span class="n">list1hash</span><span class="o">[</span><span class="n">n</span><span class="o">]</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">list1hash</span><span class="o">[</span><span class="n">n</span><span class="o">]</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="n">list2</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">!=</span> <span class="kp">nil</span>
+</span><span class='line'>    <span class="n">n</span> <span class="o">=</span> <span class="n">list2</span><span class="o">[</span><span class="n">i</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">list2hash</span><span class="o">[</span><span class="n">n</span><span class="o">]</span> <span class="o">==</span> <span class="kp">nil</span>
+</span><span class='line'>      <span class="n">list2hash</span><span class="o">[</span><span class="n">n</span><span class="o">]</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">list2hash</span><span class="o">[</span><span class="n">n</span><span class="o">]</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="n">list1hash</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="n">list2hash</span><span class="o">.</span><span class="n">length</span>
+</span><span class='line'>  <span class="n">biggest</span> <span class="o">=</span> <span class="n">list1hash</span>
+</span><span class='line'>  <span class="n">smallest</span> <span class="o">=</span> <span class="n">list2hash</span>
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'>  <span class="n">smallest</span> <span class="o">=</span> <span class="n">list1hash</span>
+</span><span class='line'>  <span class="n">biggest</span> <span class="o">=</span> <span class="n">list2hash</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">arr</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'><span class="n">biggest</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">arr</span> <span class="o">&lt;&lt;</span> <span class="n">k</span><span class="o">.</span><span class="n">to_i</span> <span class="k">if</span> <span class="n">smallest</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">!=</span> <span class="n">v</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">puts</span> <span class="n">arr</span><span class="o">.</span><span class="n">sort</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-26T18:55:00+01:00" data-updated="true" itemprop="datePublished">May 26<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/hacker-rank/'>hacker rank</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/05/26/hacker-rank-solutions-lonely-integer/" itemprop="url">Hacker Rank Solutions: Lonely Integer</a></h1>
+	<h2 class="sub_heading" itemprop="name"></h2>
+	<div class="entry-content" itemprop="articleBody">
+		<p><a href="https://www.hackerrank.com/challenges/lonely-integer">Hacker Rank Solutions: Lonely Integer</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">lonelyinteger</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">found</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">array</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">found</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">==</span> <span class="kp">nil</span>
+</span><span class='line'>      <span class="n">found</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">elsif</span> <span class="n">found</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">==</span> <span class="mi">1</span>
+</span><span class='line'>      <span class="n">found</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">found</span><span class="o">.</span><span class="n">first</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="nb">gets</span><span class="o">.</span><span class="n">strip</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'><span class="n">b</span> <span class="o">=</span> <span class="nb">gets</span><span class="o">.</span><span class="n">strip</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">map!</span> <span class="p">{</span><span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">i</span><span class="o">.</span><span class="n">to_i</span><span class="p">}</span>
+</span><span class='line'><span class="nb">print</span> <span class="n">lonelyinteger</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-26T18:55:00+01:00" data-updated="true" itemprop="datePublished">May 26<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/hacker-rank/'>hacker rank</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/05/26/hacker-rank-solutions-filling-jars/" itemprop="url">Hacker Rank Solutions: Filling Jars</a></h1>
+	<h2 class="sub_heading" itemprop="name"></h2>
+	<div class="entry-content" itemprop="articleBody">
+		<p><a href="https://www.hackerrank.com/challenges/filling-jars">Hacker Rank Solutions: Filling Jars</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">jars</span><span class="p">,</span> <span class="n">moves</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">chomp</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span><span class="o">.</span><span class="n">to_i</span><span class="p">}</span>
+</span><span class='line'><span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'><span class="n">moves</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">jar1</span><span class="p">,</span> <span class="n">jar2</span><span class="p">,</span> <span class="n">ammount</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">chomp</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span><span class="o">.</span><span class="n">to_i</span> <span class="p">}</span>
+</span><span class='line'>  <span class="n">no_of_jars</span> <span class="o">=</span> <span class="p">(</span><span class="n">jar2</span> <span class="o">-</span> <span class="n">jar1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">total</span> <span class="o">=</span> <span class="n">total</span> <span class="o">+</span> <span class="p">(</span> <span class="n">no_of_jars</span> <span class="o">*</span> <span class="n">ammount</span> <span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">puts</span> <span class="p">(</span><span class="n">total</span> <span class="o">/</span> <span class="n">jars</span><span class="p">)</span><span class="o">.</span><span class="n">floor</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -484,10 +750,10 @@
 </div>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/05/26/hacker-rank-solutions-gem-stones/" itemprop="url">Hacker Rank Solutions: Gem Stones</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/05/26/hacker-rank-solutions-gem-stones/" itemprop="url">Hacker Rank Solutions: Anagram</a></h1>
 	<h2 class="sub_heading" itemprop="name"></h2>
 	<div class="entry-content" itemprop="articleBody">
-		<p><a href="https://www.hackerrank.com/challenges/gem-stones">Hacker Rank Solutions: Gem Stones</a></p>
+		<p><a href="https://www.hackerrank.com/challenges/anagram">Hacker Rank Solutions: Anagram</a></p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -512,29 +778,39 @@
 <span class='line-number'>21</span>
 <span class='line-number'>22</span>
 <span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">lines</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">to_i</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">tests</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">to_i</span>
 </span><span class='line'>
-</span><span class='line'><span class="n">char_counts</span> <span class="o">=</span> <span class="no">Hash</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">tests</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span>
 </span><span class='line'>
-</span><span class='line'><span class="n">lines</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">string</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">chomp</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">string</span><span class="o">.</span><span class="n">length</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="n">middle</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">length</span> <span class="o">/</span> <span class="mi">2</span>
 </span><span class='line'>
-</span><span class='line'>  <span class="n">visted_chars</span> <span class="o">=</span>  <span class="no">Hash</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>    <span class="n">left</span> <span class="o">=</span> <span class="n">string</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="p">(</span><span class="n">middle</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">]</span>
+</span><span class='line'>    <span class="n">right</span> <span class="o">=</span> <span class="n">string</span><span class="o">[</span><span class="n">middle</span><span class="o">.</span><span class="n">.</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">]</span>
 </span><span class='line'>
-</span><span class='line'>  <span class="n">line</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">chomp</span>
-</span><span class='line'>  <span class="n">line</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;C*&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">char</span><span class="o">|</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">visted_chars</span><span class="o">[</span><span class="n">char</span><span class="o">].</span><span class="n">nil?</span>
-</span><span class='line'>      <span class="n">char_counts</span><span class="o">[</span><span class="n">char</span><span class="o">]</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span>  <span class="n">char_counts</span><span class="o">[</span><span class="n">char</span><span class="o">].</span><span class="n">nil?</span>
-</span><span class='line'>      <span class="n">char_counts</span><span class="o">[</span><span class="n">char</span><span class="o">]</span> <span class="o">+=</span> <span class="mi">1</span>
-</span><span class='line'>      <span class="n">visted_chars</span><span class="o">[</span><span class="n">char</span><span class="o">]</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>    <span class="n">left_sort</span> <span class="o">=</span> <span class="n">left</span><span class="o">.</span><span class="n">chars</span><span class="o">.</span><span class="n">sort</span>
+</span><span class='line'>    <span class="n">right_sort</span> <span class="o">=</span> <span class="n">right</span><span class="o">.</span><span class="n">chars</span><span class="o">.</span><span class="n">sort</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="n">left_sort</span> <span class="o">==</span> <span class="n">right_sort</span>
+</span><span class='line'>      <span class="k">return</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">left_sort</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span>
+</span><span class='line'>        <span class="n">index</span> <span class="o">=</span> <span class="n">right_sort</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">right_sort</span><span class="o">.</span><span class="n">delete_at</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="k">unless</span> <span class="n">index</span><span class="o">.</span><span class="n">nil?</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="n">right_sort</span><span class="o">.</span><span class="n">length</span>
 </span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="o">-</span><span class="mi">1</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'>
 </span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">output</span> <span class="o">=</span> <span class="o">[]</span>
-</span><span class='line'><span class="n">char_counts</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="o">|</span> <span class="n">output</span> <span class="o">&lt;&lt;</span> <span class="n">key</span> <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="n">lines</span>   <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">puts</span> <span class="n">output</span><span class="o">.</span><span class="n">length</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -642,20 +918,20 @@
   
 
 
-<time datetime="2014-05-17T16:59:00+01:00" data-updated="true" itemprop="datePublished">May 17<span>th</span>, 2014</time></div>
+<time datetime="2014-05-26T18:49:00+01:00" data-updated="true" itemprop="datePublished">May 26<span>th</span>, 2014</time></div>
 		<div class="tags">
 
 
-	<a class='category' href='/blog/categories/algorithums/'>algorithums</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+	<a class='category' href='/blog/categories/hacker-rank/'>hacker rank</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
 
 
 </div>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/05/17/quicksort-in-ruby/" itemprop="url">Inplace Quicksort in Ruby</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/05/26/hacker-rank-solutions-anagram/" itemprop="url">Hacker Rank Solutions: Gem Stones</a></h1>
 	<h2 class="sub_heading" itemprop="name"></h2>
 	<div class="entry-content" itemprop="articleBody">
-		<p>Inplace quicksort algorithum implemented in Ruby</p>
+		<p><a href="https://www.hackerrank.com/challenges/gem-stones">Hacker Rank Solutions: Gem Stones</a></p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -680,273 +956,34 @@
 <span class='line-number'>21</span>
 <span class='line-number'>22</span>
 <span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">quicksort</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">first</span><span class="p">,</span> <span class="n">last</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">if</span> <span class="n">array</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">1</span>
-</span><span class='line'>    <span class="k">return</span> <span class="k">if</span> <span class="n">first</span> <span class="o">&gt;</span> <span class="n">last</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">lines</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">to_i</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="n">pivot</span> <span class="o">=</span> <span class="n">array</span><span class="o">[</span><span class="p">(</span><span class="n">first</span> <span class="o">+</span> <span class="n">last</span><span class="p">)</span> <span class="o">*</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="o">]</span>
-</span><span class='line'>    <span class="n">left</span> <span class="o">=</span> <span class="n">first</span>
-</span><span class='line'>    <span class="n">right</span> <span class="o">=</span> <span class="n">last</span>
+</span><span class='line'><span class="n">char_counts</span> <span class="o">=</span> <span class="no">Hash</span><span class="o">.</span><span class="n">new</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="k">while</span> <span class="n">left</span> <span class="o">&lt;=</span> <span class="n">right</span>
-</span><span class='line'>      <span class="k">while</span><span class="p">(</span><span class="n">array</span><span class="o">[</span><span class="n">left</span><span class="o">]</span> <span class="o">&lt;</span> <span class="n">pivot</span><span class="p">)</span> <span class="k">do</span>
-</span><span class='line'>        <span class="n">left</span> <span class="o">+=</span> <span class="mi">1</span>
-</span><span class='line'>      <span class="k">end</span>
-</span><span class='line'>      <span class="k">while</span><span class="p">(</span><span class="n">array</span><span class="o">[</span><span class="n">right</span><span class="o">]</span> <span class="o">&gt;</span> <span class="n">pivot</span><span class="p">)</span> <span class="k">do</span>
-</span><span class='line'>        <span class="n">right</span> <span class="o">-=</span> <span class="mi">1</span>
-</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'><span class="n">lines</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span>
 </span><span class='line'>
-</span><span class='line'>      <span class="k">if</span> <span class="n">left</span> <span class="o">&lt;=</span> <span class="n">right</span>
-</span><span class='line'>        <span class="n">tmp</span> <span class="o">=</span> <span class="n">array</span><span class="o">[</span><span class="n">left</span><span class="o">]</span>
-</span><span class='line'>        <span class="n">array</span><span class="o">[</span><span class="n">left</span><span class="o">]</span> <span class="o">=</span> <span class="n">array</span><span class="o">[</span><span class="n">right</span><span class="o">]</span>
-</span><span class='line'>        <span class="n">array</span><span class="o">[</span><span class="n">right</span><span class="o">]</span> <span class="o">=</span> <span class="n">tmp</span>
+</span><span class='line'>  <span class="n">visted_chars</span> <span class="o">=</span>  <span class="no">Hash</span><span class="o">.</span><span class="n">new</span>
 </span><span class='line'>
-</span><span class='line'>        <span class="n">left</span> <span class="o">+=</span> <span class="mi">1</span>
-</span><span class='line'>        <span class="n">right</span> <span class="o">-=</span> <span class="mi">1</span>
-</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>  <span class="n">line</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">chomp</span>
+</span><span class='line'>  <span class="n">line</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;C*&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">char</span><span class="o">|</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">visted_chars</span><span class="o">[</span><span class="n">char</span><span class="o">].</span><span class="n">nil?</span>
+</span><span class='line'>      <span class="n">char_counts</span><span class="o">[</span><span class="n">char</span><span class="o">]</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span>  <span class="n">char_counts</span><span class="o">[</span><span class="n">char</span><span class="o">].</span><span class="n">nil?</span>
+</span><span class='line'>      <span class="n">char_counts</span><span class="o">[</span><span class="n">char</span><span class="o">]</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>      <span class="n">visted_chars</span><span class="o">[</span><span class="n">char</span><span class="o">]</span> <span class="o">=</span> <span class="kp">true</span>
 </span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">quicksort</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">first</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">quicksort</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">last</span><span class="p">)</span>
 </span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
 </span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-02T08:05:00+01:00" data-updated="true" itemprop="datePublished">May 2<span>nd</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ruby/'>Ruby</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/05/02/algorithums-in-ruby/" itemprop="url">Algorithums in Ruby</a></h1>
-	<h2 class="sub_heading" itemprop="name"></h2>
-	<div class="entry-content" itemprop="articleBody">
-		<h2>Greatest Common Divisor</h2>
-
-<p>Ruby has a native implementation of the greatest common divisor.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="mi">20</span><span class="o">.</span><span class="n">gcd</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
-</span><span class='line'>  <span class="o">=&gt;</span> <span class="mi">5</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>However as a pure academic exercise lets implement Euclid&rsquo;s algorithm for finding the greatest common divisor between any number of numbers in ruby!</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">gcd</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">zero?</span>
-</span><span class='line'>      <span class="k">return</span> <span class="n">u</span>
-</span><span class='line'>    <span class="k">else</span>
-</span><span class='line'>      <span class="n">gcd</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">modulo</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Greatest Common Divisor for three numbers</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">gcdt</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">gcd</span><span class="p">(</span><span class="n">gcd</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">),</span> <span class="n">w</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Extending this to a generic algorithm that can take any number of numbers</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">gcd_any</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">raise</span> <span class="no">ArgumentError</span> <span class="s1">&#39;Need at least two numbers&#39;</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">length</span> <span class="o">&lt;</span> <span class="mi">2</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="n">start</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">shift</span>
-</span><span class='line'>    <span class="n">args</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="n">start</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="p">,</span> <span class="n">value</span><span class="o">|</span>
-</span><span class='line'>      <span class="n">gcd</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="n">output</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'><span class="n">char_counts</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="o">|</span> <span class="n">output</span> <span class="o">&lt;&lt;</span> <span class="n">key</span> <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="n">lines</span>   <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">puts</span> <span class="n">output</span><span class="o">.</span><span class="n">length</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-
-
 		
 		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-04-30T17:54:00+01:00" data-updated="true" itemprop="datePublished">Apr 30<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/postgres/'>postgres</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/04/30/dblink/" itemprop="url">Quick Way to Join Across Two Databases</a></h1>
-	<h2 class="sub_heading" itemprop="name"></h2>
-	<div class="entry-content" itemprop="articleBody">
-		<p>A recent hack / sketchy 1st product draft required datasets that live in two different database to be joined together to do some analysis on. Initially thoughts of denormalization or key/value lookup crossed peoples minds but wanting a quick win to try and get the idea validated as quickly as possible, I kept on digging.</p>
-
-<p>As always <a href="http://stackoverflow.com/questions/9493332/postgres-how-to-create-a-select-query-that-would-join-two-databases">stackoverflow</a> provided the start of the journey of discovery with something called dblink.</p>
-
-<h2>dblink to the rescue!</h2>
-
-<p><a href="http://www.postgresql.org/docs/current/interactive/contrib-dblink-function.html">dblink</a> is a hidden gem of a extension that made doing a join across two databases (weather there local or remote) a total breeze. Firstly the extension needs to be installed on the database with the following command.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sql'><span class='line'>  <span class="k">CREATE</span> <span class="n">EXTENSION</span> <span class="n">dblink</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>Once added to your database using it requires three pieces of information</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='sql'><span class='line'>  <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">dblink</span><span class="p">(</span><span class="s1">&#39;CONNECTION STRING&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="s1">&#39;QUERY STRING&#39;</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">AS</span> <span class="n">t</span><span class="p">(</span> <span class="n">CASTING</span> <span class="n">RESTULS</span> <span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Connection String</h2>
-
-<p>I personally use this format of string as it allows easy access to both local and remote DBs.</p>
-
-<pre><code>postgres://PG_USER:PG_PASSWORD@HOST:PORT/DATABSE_NAME'
-
-eg
-
-postgres://pguser:abcd@127.0.0.1:5432/test_db'
-</code></pre>
-
-
-		
-		<a href="/blog/2014/04/30/dblink/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-11T08:12:00+00:00" data-updated="true" itemprop="datePublished">Mar 11<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/refactoring/'>refactoring</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/03/11/refractoring-ruby/" itemprop="url">When to Refractor - Bad Smells in Code</a></h1>
-	<h2 class="sub_heading" itemprop="name"></h2>
-	<div class="entry-content" itemprop="articleBody">
-		<p>Notes from Refactoring Ruby by Jay Fields, Shane Harvie, Martin Fowler &amp; Kent Beck.</p>
-
-<p><strong>Duplicated Code</strong></p>
-
-<p>Problem &ndash; This stinks, when you have the same expression in two different methods in the same class</p>
-
-<p>Solution &ndash; Extract the method to a new method in the class and use in place</p>
-
-<p><strong>Duplication in Sibling Classes</strong></p>
-
-<p>Problem &ndash; Two methods in sibling class that that have the same expression.</p>
-
-<p>Solution &ndash; Extract the method into one on the shared base class and use this instead.</p>
-
-<p><strong>Duplication across unrelated classes</strong></p>
-
-<p>Problem &ndash; The same method or expression across two unrelated classes</p>
-
-<p>Solution &ndash; Extract the method into a new class or module and then use either inheritance or composition to give the class the new method.</p>
-
-
-		
-		<a href="/blog/2014/03/11/refractoring-ruby/" class="more-link">Read on &rarr;</a>
 	</div>
 
 </article>
