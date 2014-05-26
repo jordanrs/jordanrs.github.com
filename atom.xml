@@ -4,7 +4,7 @@
   <title><![CDATA[Jordan Rogers-Smith]]></title>
   <link href="http://jordanrs.github.io/atom.xml" rel="self"/>
   <link href="http://jordanrs.github.io/"/>
-  <updated>2014-05-26T19:57:36+01:00</updated>
+  <updated>2014-05-26T20:06:36+01:00</updated>
   <id>http://jordanrs.github.io/</id>
   <author>
     <name><![CDATA[Jordan Rogers-Smith]]></name>
@@ -12,6 +12,36 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Hacker Rank Solutions: Service Lane]]></title>
+    <link href="http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-service-lane/"/>
+    <updated>2014-05-26T18:55:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-service-lane</id>
+    <content type="html"><![CDATA[<p><a href="https://www.hackerrank.com/challenges/service-lane">Hacker Rank Solutions: Service Lane</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">freeway_length</span><span class="p">,</span> <span class="n">test_cases</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">chomp</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span><span class="o">.</span><span class="n">to_i</span> <span class="p">}</span>
+</span><span class='line'><span class="n">freeway_segments</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">chomp</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span><span class="o">.</span><span class="n">to_i</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">test_cases</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">startpos</span><span class="p">,</span> <span class="n">endpos</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">chomp</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span><span class="o">.</span><span class="n">to_i</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">freeway_segments</span><span class="o">[</span><span class="n">startpos</span><span class="o">.</span><span class="n">.endpos</span><span class="o">].</span><span class="n">min</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Hacker Rank Solutions: Missing Numbers]]></title>
@@ -162,6 +192,104 @@
 </span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="nb">gets</span><span class="o">.</span><span class="n">strip</span><span class="o">.</span><span class="n">to_i</span>
 </span><span class='line'><span class="n">b</span> <span class="o">=</span> <span class="nb">gets</span><span class="o">.</span><span class="n">strip</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">map!</span> <span class="p">{</span><span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">i</span><span class="o">.</span><span class="n">to_i</span><span class="p">}</span>
 </span><span class='line'><span class="nb">print</span> <span class="n">lonelyinteger</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hacker Rank Solutions: Halloween Party]]></title>
+    <link href="http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-halloween-party/"/>
+    <updated>2014-05-26T18:55:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-halloween-party</id>
+    <content type="html"><![CDATA[<p><a href="https://www.hackerrank.com/challenges/halloween-party">Hacker Rank Solutions: Halloween Party</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">test_cases</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">chomp</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">test_cases</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">cuts</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">chomp</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'>  <span class="n">h</span> <span class="o">=</span> <span class="n">cuts</span> <span class="o">/</span> <span class="mi">2</span>
+</span><span class='line'>  <span class="n">v</span> <span class="o">=</span> <span class="n">cuts</span> <span class="o">-</span> <span class="n">h</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">h</span> <span class="o">*</span> <span class="n">v</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hacker Rank Solutions: Game of Thrones]]></title>
+    <link href="http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-game-of-thrones/"/>
+    <updated>2014-05-26T18:55:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-game-of-thrones</id>
+    <content type="html"><![CDATA[<p><a href="https://www.hackerrank.com/submissions/code/1544486">Hacker Rank Solutions: Game of Thrones</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">palindrome?</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">hash</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">string</span><span class="o">.</span><span class="n">each_char</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+</span><span class='line'>    <span class="k">if</span> <span class="nb">hash</span><span class="o">[</span><span class="n">c</span><span class="o">]</span> <span class="o">==</span> <span class="kp">nil</span>
+</span><span class='line'>      <span class="nb">hash</span><span class="o">[</span><span class="n">c</span><span class="o">]</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="nb">hash</span><span class="o">[</span><span class="n">c</span><span class="o">]</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">odd_chars</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nb">hash</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="o">|</span>
+</span><span class='line'>    <span class="k">unless</span> <span class="n">v</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>
+</span><span class='line'>      <span class="n">odd_chars</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">odd_chars</span> <span class="o">&gt;=</span> <span class="mi">2</span>
+</span><span class='line'>        <span class="nb">puts</span> <span class="s1">&#39;NO&#39;</span>
+</span><span class='line'>        <span class="k">return</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s1">&#39;YES&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">string</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">chomp</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">palindrome?</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 ]]></content>
@@ -1638,113 +1766,6 @@ The best way to get the correct formatted output is to set up rake task using <c
 <li>Publish RCov Report</li>
 <li>Send Email Notifications</li>
 </ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Serilisation, Preloading and SimpleCov]]></title>
-    <link href="http://jordanrs.github.io/blog/2013/08/09/serilisation-preloading-and-simplecov/"/>
-    <updated>2013-08-09T16:32:00+01:00</updated>
-    <id>http://jordanrs.github.io/blog/2013/08/09/serilisation-preloading-and-simplecov</id>
-    <content type="html"><![CDATA[<p><a href="http://alisdair.mcdiarmid.org/2013/02/02/fixing-rails-auto-loading-for-serialized-objects.html">Alisdair McDiarmid</a>  has a great write up on solving the problems of serialising and deserializing custom objects to yaml in rails whilst in development and getting around the <code>ArgumentError: undefined class/module UnknownClass</code> error that are thrown due to classes not being loaded.</p>
-
-<p>The solution is to eager load classes and reload them each request to make sure that when YAML deserialization occurs the classes are present as usually this process doesnt trigger the default lazy loading of classes in development.</p>
-
-<figure class='code'><figcaption><span>The solution looks like this</span><a href='http://alisdair.mcdiarmid.org/2013/02/02/fixing-rails-auto-loading-for-serialized-objects.html'>Source</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Eager load all value objects, as they may be instantiated from</span>
-</span><span class='line'><span class="c1"># YAML before the symbol is referenced</span>
-</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">before_initialize</span> <span class="k">do</span> <span class="o">|</span><span class="n">app</span><span class="o">|</span>
-</span><span class='line'>    <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">paths</span><span class="o">.</span><span class="n">add</span> <span class="s1">&#39;app/values&#39;</span><span class="p">,</span> <span class="ss">:eager_load</span> <span class="o">=&gt;</span> <span class="kp">true</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># Reload cached/serialized classes before every request (in development</span>
-</span><span class='line'><span class="c1"># mode) or on startup (in production mode)</span>
-</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">to_prepare</span> <span class="k">do</span>
-</span><span class='line'>    <span class="no">Dir</span><span class="o">[</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;app/values/*.rb&quot;</span><span class="p">))</span> <span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
-</span><span class='line'>        <span class="n">require_dependency</span> <span class="n">file</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>    <span class="n">require_dependency</span> <span class="s1">&#39;article_cache&#39;</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<h2>Testing, SimpleCov and Missed Coverage</h2>
-
-<p>This solution was great, it solves the loading issue but during development I noticed the lines of code covered by SimpleCov was reduced, looking into know issues on the SimpleCov <a href="https://github.com/colszowka/simplecov/issues/107">github one explained</a> the reason why files where missing. The above solution of preloading the classes for deserialization means that the files are already loaded in memory before SimpleCov initialises and thus cant be tracked by Ruby&rsquo;s built in coverage mechanism.</p>
-
-<h2>Solution</h2>
-
-<p>As of rails 3.1, objects can be serialised to JSON as well as YAML. While it requires the addition of two methods to the class in question it does mean the class doesn&rsquo;t need to be preloaded and thus allows the code coverage to be tracked.</p>
-
-<p>Adding the following two methods in your class and the additional JSON option to serialize in the model file allows for objects to be reinitialised based on the stored data parameters saved as JSON in the database.</p>
-
-<figure class='code'><figcaption><span>in the model file </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">serialize</span> <span class="ss">:column_name</span><span class="p">,</span> <span class="no">JSON</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>Serializing and Deserializing with JSON</span><a href='http://stackoverflow.com/questions/4569329/serialize-ruby-object-to-json-and-back'>source</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">json_create</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
-</span><span class='line'>  <span class="kp">new</span><span class="p">(</span><span class="o">*</span><span class="n">o</span><span class="o">[</span><span class="s1">&#39;data&#39;</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="o">*</span><span class="n">a</span><span class="p">)</span>
-</span><span class='line'>  <span class="p">{</span> <span class="s1">&#39;json_class&#39;</span> <span class="o">=&gt;</span> <span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="nb">id</span><span class="p">,</span> <span class="nb">name</span><span class="p">,</span> <span class="n">next_step</span><span class="o">]</span> <span class="p">}</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="o">*</span><span class="n">a</span><span class="p">)</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Royal Baby Catifier]]></title>
-    <link href="http://jordanrs.github.io/blog/2013/07/23/royal-baby-catifier/"/>
-    <updated>2013-07-23T09:54:00+01:00</updated>
-    <id>http://jordanrs.github.io/blog/2013/07/23/royal-baby-catifier</id>
-    <content type="html"><![CDATA[<p>A quick, fun evening hacking up a Chrome extension. Sick of seeing articles about the royal baby? This extension removes the container and replaces it with a cat.</p>
-
-<p><a href="https://chrome.google.com/webstore/detail/royal-baby-catifier/adjameoabcmbdobiafhhoclndepibfno">Chrome Web Store</a></p>
-
-<p><img src="https://lh3.googleusercontent.com/0BF16NBbShToYIB8sSp49sKdFZR6wlWAQl8H7KN5_kEftx_3yvhJNCyPMOSF0RaBecRzTWrE3Q=s640-h400-e365-rw" alt="Cats" /></p>
-
-<p><a href="https://github.com/jordanrs/royal-baby-catifier">Source</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Hacked 2013]]></title>
-    <link href="http://jordanrs.github.io/blog/2013/07/22/hacked-2013/"/>
-    <updated>2013-07-22T12:03:00+01:00</updated>
-    <id>http://jordanrs.github.io/blog/2013/07/22/hacked-2013</id>
-    <content type="html"><![CDATA[<p><a href="http://hacked.io">Hacked.oi</a> was utterly awesome. In the end myself, <a href="https://twitter.com/marcelloseri">Marcello Seri</a> and <a href="https://twitter.com/b3noxley">Ben Oxley</a> created <a href="https://www.hackerleague.org/hackathons/hacked/hacks/homeflux">homeFlux</a>, a realtime system for adapting light levels to match a desired intensity and also adjust colour values over time much like <a href="http://justgetflux.com/">flu.x</a>. Was awesome fun.</p>
-
-<iframe width="560" height="315" src="http://jordanrs.github.io//www.youtube.com/embed/T_gPdTJkoM0" frameborder="0" allowfullscreen></iframe>
 
 ]]></content>
   </entry>

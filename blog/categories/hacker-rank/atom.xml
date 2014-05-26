@@ -4,7 +4,7 @@
   <title><![CDATA[Category: hacker rank | Jordan Rogers-Smith]]></title>
   <link href="http://jordanrs.github.io/blog/categories/hacker-rank/atom.xml" rel="self"/>
   <link href="http://jordanrs.github.io/"/>
-  <updated>2014-05-26T19:57:36+01:00</updated>
+  <updated>2014-05-26T20:06:36+01:00</updated>
   <id>http://jordanrs.github.io/</id>
   <author>
     <name><![CDATA[Jordan Rogers-Smith]]></name>
@@ -12,6 +12,26 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Hacker Rank Solutions: Service Lane]]></title>
+    <link href="http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-service-lane/"/>
+    <updated>2014-05-26T18:55:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-service-lane</id>
+    <content type="html"><![CDATA[<p><a href="https://www.hackerrank.com/challenges/service-lane">Hacker Rank Solutions: Service Lane</a></p>
+
+<p>``` ruby
+freeway_length, test_cases = $stdin.gets.chomp.split(&lsquo; &rsquo;).collect{ |x| x.to_i }
+freeway_segments = $stdin.gets.chomp.split(&lsquo; &rsquo;).collect{ |x| x.to_i }</p>
+
+<p>test_cases.times do
+  startpos, endpos = $stdin.gets.chomp.split(&lsquo; &rsquo;).collect{ |x| x.to_i }</p>
+
+<p>  puts freeway_segments[startpos..endpos].min
+end
+```</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Hacker Rank Solutions: Missing Numbers]]></title>
@@ -112,98 +132,69 @@ print lonelyinteger(b)
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Hacker Rank Solutions: Filling Jars]]></title>
-    <link href="http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-filling-jars/"/>
+    <title type="html"><![CDATA[Hacker Rank Solutions: Halloween Party]]></title>
+    <link href="http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-halloween-party/"/>
     <updated>2014-05-26T18:55:00+01:00</updated>
-    <id>http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-filling-jars</id>
-    <content type="html"><![CDATA[<p><a href="https://www.hackerrank.com/challenges/filling-jars">Hacker Rank Solutions: Filling Jars</a></p>
-
-<p>``` ruby
-jars, moves = $stdin.gets.chomp.split(&lsquo; &rsquo;).collect { |x| x.to_i}
-total = 0
-moves.times do |x|
-  jar1, jar2, ammount = $stdin.gets.chomp.split(&lsquo; &rsquo;).collect { |x| x.to_i }
-  no_of_jars = (jar2 &ndash; jar1) + 1</p>
-
-<p>  total = total + ( no_of_jars * ammount )
-end</p>
-
-<p>puts (total / jars).floor
-```</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Hacker Rank Solutions: Angry Children]]></title>
-    <link href="http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-angry-children/"/>
-    <updated>2014-05-26T18:55:00+01:00</updated>
-    <id>http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-angry-children</id>
-    <content type="html"><![CDATA[<p><a href="https://www.hackerrank.com/challenges/angry-children">Hacker Rank Solutions: Angry Children</a></p>
-
-<p>``` ruby
-  n = gets.to_i
-  k = gets.to_i
-  candy = []
-  n.times do |i|</p>
-
-<pre><code>candy[i] = gets.to_i
-</code></pre>
-
-<p>  end</p>
-
-<p>  candy.sort!</p>
-
-<p>  # sliding widow
-  j = k
-  i = 0
-  lowest_dif = Float::INFINITY</p>
-
-<p>  while j &lt;= candy.length do</p>
-
-<pre><code>dif = candy[j - 1] - candy[i]
-lowest_dif = dif if dif &lt; lowest_dif
-
-break if lowest_dif == 0
-
-j += 1
-i += 1
-</code></pre>
-
-<p>  end</p>
-
-<p>  puts lowest_dif</p>
-
-<p>```</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Hacker Rank Solutions: Utopian Tree]]></title>
-    <link href="http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-utopian-tree/"/>
-    <updated>2014-05-26T18:49:00+01:00</updated>
-    <id>http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-utopian-tree</id>
-    <content type="html"><![CDATA[<p><a href="https://www.hackerrank.com/challenges/utopian-tree">Hacker Rank Solutions: Utopian Tree</a></p>
+    <id>http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-halloween-party</id>
+    <content type="html"><![CDATA[<p><a href="https://www.hackerrank.com/challenges/halloween-party">Hacker Rank Solutions: Halloween Party</a></p>
 
 <p>``` ruby
 test_cases = $stdin.gets.chomp.to_i</p>
 
 <p>test_cases.times do
-  years = $stdin.gets.chomp
-  sum = 1
-  years.to_i.times do |i|</p>
+  cuts = $stdin.gets.chomp.to_i
+  h = cuts / 2
+  v = cuts &ndash; h
+  puts h * v
+end
+```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hacker Rank Solutions: Game of Thrones]]></title>
+    <link href="http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-game-of-thrones/"/>
+    <updated>2014-05-26T18:55:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-game-of-thrones</id>
+    <content type="html"><![CDATA[<p><a href="https://www.hackerrank.com/submissions/code/1544486">Hacker Rank Solutions: Game of Thrones</a></p>
 
-<pre><code>if i % 2 == 0
-  sum *= 2
+<p>``` ruby
+def palindrome?(string)
+  hash = {}</p>
+
+<p>  string.each_char do |c|</p>
+
+<pre><code>if hash[c] == nil
+  hash[c] = 1
 else
-  sum += 1
+  hash[c] += 1
 end
 </code></pre>
 
-<p>  end
-  $stdout.puts sum
+<p>  end</p>
+
+<p>  odd_chars = 0</p>
+
+<p>  hash.each do |k,v|</p>
+
+<pre><code>unless v % 2 == 0
+  odd_chars += 1
+  if odd_chars &gt;= 2
+    puts 'NO'
+    return
+  end
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>  puts &lsquo;YES&rsquo;
 end</p>
 
-<p>```</p>
+<p>string = $stdin.gets.chomp</p>
+
+<p>palindrome?(string)
+```</p>
 ]]></content>
   </entry>
   
