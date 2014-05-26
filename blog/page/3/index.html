@@ -7,7 +7,7 @@
 	<meta name="author" content="Jordan Rogers-Smith">
 
 	
-	<meta name="description" content="Feb 10th, 2013 Heroku Optimisations - Unicorn, S3 and Cloudfront As part of my continued learnings as a rails developer I had some free time during &hellip;">
+	<meta name="description" content="Feb 10th, 2013 reminders S3 Static Assets Group Policy I always struggle to remember / find the group security policy for an S3 bucket to make all &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -87,6 +87,76 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-10T00:00:00+00:00" data-updated="true" itemprop="datePublished">Feb 10<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/reminders/'>reminders</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/02/10/s3-static-assets-group-policy/" itemprop="url">S3 Static Assets Group Policy</a></h1>
+	<h2 class="sub_heading" itemprop="name"></h2>
+	<div class="entry-content" itemprop="articleBody">
+		<p>I always struggle to remember / find the group security policy for an S3 bucket to make all files available to the public.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="s2">&quot;Version&quot;</span><span class="o">:</span> <span class="s2">&quot;2008-10-17&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;Statement&quot;</span><span class="o">:</span> <span class="p">[</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>          <span class="s2">&quot;Sid&quot;</span><span class="o">:</span> <span class="s2">&quot;AllowPublicRead&quot;</span><span class="p">,</span>
+</span><span class='line'>          <span class="s2">&quot;Effect&quot;</span><span class="o">:</span> <span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+</span><span class='line'>          <span class="s2">&quot;Principal&quot;</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>              <span class="s2">&quot;AWS&quot;</span><span class="o">:</span> <span class="s2">&quot;*&quot;</span>
+</span><span class='line'>          <span class="p">},</span>
+</span><span class='line'>          <span class="s2">&quot;Action&quot;</span><span class="o">:</span> <span class="s2">&quot;s3:GetObject&quot;</span><span class="p">,</span>
+</span><span class='line'>          <span class="s2">&quot;Resource&quot;</span><span class="o">:</span> <span class="s2">&quot;arn:aws:s3:::BUCKET-NAME/*&quot;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">]</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+The only thing that can be changed is the BUCKET-NAME, leave all other aspects of the policy the same.</p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -470,48 +540,6 @@ Download</a></p>
 
 
 <p><a href="" title="https://sites.google.com/site/jordanrsblog/clmpiece1.zip">Download Source and Report</a></p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-10-30T00:00:00+01:00" data-updated="true" itemprop="datePublished">Oct 30<span>th</span>, 2010</time></div>
-		<div class="tags">
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2010/10/30/Real-Time-Systems-Piece-1---Hercules-DJ-Steel-in-MaxMsp/" itemprop="url">Real Time Systems Piece 1 - Hercules DJ Steel in Max/Msp</a></h1>
-	<h2 class="sub_heading" itemprop="name"></h2>
-	<div class="entry-content" itemprop="articleBody">
-		<p><img style="display:block; margin:0px auto 10px; text-align:center;cursor:pointer; cursor:hand;width: 400px; height: 243px;" src="http://4.bp.blogspot.com/-xCsgkRVPjRk/TbxlSG3B5TI/AAAAAAAABWY/Q-m7uKspN_c/s400/hercules.jpg" border="0" alt=""id="BLOGGER_PHOTO_ID_5601463398295528754" />
-A real time performance piece built using Max/Msp. It is designed to be controlled by the <a href="http://www.hercules.com/uk/DJ-Music/bdd/p/83/dj-control-steel/">Hercules DJ Steel Controller</a> and was my first look at making real time compositions with different controllers</p>
-
-<p><strong>The final performance:</strong></p>
-
-<iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F102118469&amp;color=ff6600&amp;auto_play=false&amp;show_artwork=false"></iframe>
-
-
-<p><strong>The raw Max files and report</strong></p>
-
-<p><a href="https://sites.google.com/site/jordanrsblog/realtimesystems/piece1/RTSP_Assessment_1.zip">Download</a></p>
 
 		
 		

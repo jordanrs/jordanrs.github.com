@@ -4,7 +4,7 @@
   <title><![CDATA[Jordan Rogers-Smith]]></title>
   <link href="http://jordanrs.github.io/atom.xml" rel="self"/>
   <link href="http://jordanrs.github.io/"/>
-  <updated>2014-05-26T18:52:21+01:00</updated>
+  <updated>2014-05-26T18:56:34+01:00</updated>
   <id>http://jordanrs.github.io/</id>
   <author>
     <name><![CDATA[Jordan Rogers-Smith]]></name>
@@ -12,6 +12,68 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Hacker Rank Solutions: Angry Children]]></title>
+    <link href="http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-angry-children/"/>
+    <updated>2014-05-26T18:55:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-angry-children</id>
+    <content type="html"><![CDATA[<p><a href="https://www.hackerrank.com/challenges/angry-children">Hacker Rank Solutions: Angry Children</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">n</span> <span class="o">=</span> <span class="nb">gets</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'>  <span class="n">k</span> <span class="o">=</span> <span class="nb">gets</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'>  <span class="n">candy</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="n">n</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">candy</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="nb">gets</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">candy</span><span class="o">.</span><span class="n">sort!</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># sliding widow</span>
+</span><span class='line'>  <span class="n">j</span> <span class="o">=</span> <span class="n">k</span>
+</span><span class='line'>  <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="n">lowest_dif</span> <span class="o">=</span> <span class="nb">Float</span><span class="o">::</span><span class="no">INFINITY</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">while</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">candy</span><span class="o">.</span><span class="n">length</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">dif</span> <span class="o">=</span> <span class="n">candy</span><span class="o">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="o">]</span> <span class="o">-</span> <span class="n">candy</span><span class="o">[</span><span class="n">i</span><span class="o">]</span>
+</span><span class='line'>    <span class="n">lowest_dif</span> <span class="o">=</span> <span class="n">dif</span> <span class="k">if</span> <span class="n">dif</span> <span class="o">&lt;</span> <span class="n">lowest_dif</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">break</span> <span class="k">if</span> <span class="n">lowest_dif</span> <span class="o">==</span> <span class="mi">0</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">lowest_dif</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Hacker Rank Solutions: Utopian Tree]]></title>
@@ -2364,49 +2426,6 @@ or make a bundler group in application.rb so others envs can be added easier.</p
 </span><span class='line'><span class="n">build_download_format_links</span><span class="p">(</span><span class="o">[</span><span class="ss">:csv</span><span class="p">,</span> <span class="ss">:json</span><span class="o">]</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[S3 Static Assets Group Policy]]></title>
-    <link href="http://jordanrs.github.io/blog/2013/02/10/s3-static-assets-group-policy/"/>
-    <updated>2013-02-10T00:00:00+00:00</updated>
-    <id>http://jordanrs.github.io/blog/2013/02/10/s3-static-assets-group-policy</id>
-    <content type="html"><![CDATA[<p>I always struggle to remember / find the group security policy for an S3 bucket to make all files available to the public.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="s2">&quot;Version&quot;</span><span class="o">:</span> <span class="s2">&quot;2008-10-17&quot;</span><span class="p">,</span>
-</span><span class='line'>  <span class="s2">&quot;Statement&quot;</span><span class="o">:</span> <span class="p">[</span>
-</span><span class='line'>      <span class="p">{</span>
-</span><span class='line'>          <span class="s2">&quot;Sid&quot;</span><span class="o">:</span> <span class="s2">&quot;AllowPublicRead&quot;</span><span class="p">,</span>
-</span><span class='line'>          <span class="s2">&quot;Effect&quot;</span><span class="o">:</span> <span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
-</span><span class='line'>          <span class="s2">&quot;Principal&quot;</span><span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>              <span class="s2">&quot;AWS&quot;</span><span class="o">:</span> <span class="s2">&quot;*&quot;</span>
-</span><span class='line'>          <span class="p">},</span>
-</span><span class='line'>          <span class="s2">&quot;Action&quot;</span><span class="o">:</span> <span class="s2">&quot;s3:GetObject&quot;</span><span class="p">,</span>
-</span><span class='line'>          <span class="s2">&quot;Resource&quot;</span><span class="o">:</span> <span class="s2">&quot;arn:aws:s3:::BUCKET-NAME/*&quot;</span>
-</span><span class='line'>      <span class="p">}</span>
-</span><span class='line'>  <span class="p">]</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-The only thing that can be changed is the BUCKET-NAME, leave all other aspects of the policy the same.</p>
 ]]></content>
   </entry>
   

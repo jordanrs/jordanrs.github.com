@@ -4,7 +4,7 @@
   <title><![CDATA[Category: hacker rank | Jordan Rogers-Smith]]></title>
   <link href="http://jordanrs.github.io/blog/categories/hacker-rank/atom.xml" rel="self"/>
   <link href="http://jordanrs.github.io/"/>
-  <updated>2014-05-26T18:52:21+01:00</updated>
+  <updated>2014-05-26T18:56:34+01:00</updated>
   <id>http://jordanrs.github.io/</id>
   <author>
     <name><![CDATA[Jordan Rogers-Smith]]></name>
@@ -12,6 +12,50 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Hacker Rank Solutions: Angry Children]]></title>
+    <link href="http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-angry-children/"/>
+    <updated>2014-05-26T18:55:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-angry-children</id>
+    <content type="html"><![CDATA[<p><a href="https://www.hackerrank.com/challenges/angry-children">Hacker Rank Solutions: Angry Children</a></p>
+
+<p>``` ruby
+  n = gets.to_i
+  k = gets.to_i
+  candy = []
+  n.times do |i|</p>
+
+<pre><code>candy[i] = gets.to_i
+</code></pre>
+
+<p>  end</p>
+
+<p>  candy.sort!</p>
+
+<p>  # sliding widow
+  j = k
+  i = 0
+  lowest_dif = Float::INFINITY</p>
+
+<p>  while j &lt;= candy.length do</p>
+
+<pre><code>dif = candy[j - 1] - candy[i]
+lowest_dif = dif if dif &lt; lowest_dif
+
+break if lowest_dif == 0
+
+j += 1
+i += 1
+</code></pre>
+
+<p>  end</p>
+
+<p>  puts lowest_dif</p>
+
+<p>```</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Hacker Rank Solutions: Utopian Tree]]></title>
