@@ -7,7 +7,7 @@
 	<meta name="author" content="Jordan Rogers-Smith">
 
 	
-	<meta name="description" content="Jul 23rd, 2013 chrome extension, fun, javascript, jquery Royal Baby Catifier A quick, fun evening hacking up a Chrome extension. Sick of seeing &hellip;">
+	<meta name="description" content="Aug 9th, 2013 json, rails, ruby, serialization Serilisation, Preloading and SimpleCov Alisdair McDiarmid has a great write up on solving the &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -87,6 +87,113 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-09T16:32:00+01:00" data-updated="true" itemprop="datePublished">Aug 9<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/json/'>json</a>, <a class='category' href='/blog/categories/rails/'>rails</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/serialization/'>serialization</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/08/09/serilisation-preloading-and-simplecov/" itemprop="url">Serilisation, Preloading and SimpleCov</a></h1>
+	<h2 class="sub_heading" itemprop="name"></h2>
+	<div class="entry-content" itemprop="articleBody">
+		<p><a href="http://alisdair.mcdiarmid.org/2013/02/02/fixing-rails-auto-loading-for-serialized-objects.html">Alisdair McDiarmid</a>  has a great write up on solving the problems of serialising and deserializing custom objects to yaml in rails whilst in development and getting around the <code>ArgumentError: undefined class/module UnknownClass</code> error that are thrown due to classes not being loaded.</p>
+
+<p>The solution is to eager load classes and reload them each request to make sure that when YAML deserialization occurs the classes are present as usually this process doesnt trigger the default lazy loading of classes in development.</p>
+
+<figure class='code'><figcaption><span>The solution looks like this</span><a href='http://alisdair.mcdiarmid.org/2013/02/02/fixing-rails-auto-loading-for-serialized-objects.html'>Source</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Eager load all value objects, as they may be instantiated from</span>
+</span><span class='line'><span class="c1"># YAML before the symbol is referenced</span>
+</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">before_initialize</span> <span class="k">do</span> <span class="o">|</span><span class="n">app</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">paths</span><span class="o">.</span><span class="n">add</span> <span class="s1">&#39;app/values&#39;</span><span class="p">,</span> <span class="ss">:eager_load</span> <span class="o">=&gt;</span> <span class="kp">true</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Reload cached/serialized classes before every request (in development</span>
+</span><span class='line'><span class="c1"># mode) or on startup (in production mode)</span>
+</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">to_prepare</span> <span class="k">do</span>
+</span><span class='line'>    <span class="no">Dir</span><span class="o">[</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;app/values/*.rb&quot;</span><span class="p">))</span> <span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
+</span><span class='line'>        <span class="n">require_dependency</span> <span class="n">file</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="n">require_dependency</span> <span class="s1">&#39;article_cache&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h2>Testing, SimpleCov and Missed Coverage</h2>
+
+<p>This solution was great, it solves the loading issue but during development I noticed the lines of code covered by SimpleCov was reduced, looking into know issues on the SimpleCov <a href="https://github.com/colszowka/simplecov/issues/107">github one explained</a> the reason why files where missing. The above solution of preloading the classes for deserialization means that the files are already loaded in memory before SimpleCov initialises and thus cant be tracked by Ruby&rsquo;s built in coverage mechanism.</p>
+
+<h2>Solution</h2>
+
+<p>As of rails 3.1, objects can be serialised to JSON as well as YAML. While it requires the addition of two methods to the class in question it does mean the class doesn&rsquo;t need to be preloaded and thus allows the code coverage to be tracked.</p>
+
+<p>Adding the following two methods in your class and the additional JSON option to serialize in the model file allows for objects to be reinitialised based on the stored data parameters saved as JSON in the database.</p>
+
+<figure class='code'><figcaption><span>in the model file </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">serialize</span> <span class="ss">:column_name</span><span class="p">,</span> <span class="no">JSON</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>Serializing and Deserializing with JSON</span><a href='http://stackoverflow.com/questions/4569329/serialize-ruby-object-to-json-and-back'>source</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">json_create</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+</span><span class='line'>  <span class="kp">new</span><span class="p">(</span><span class="o">*</span><span class="n">o</span><span class="o">[</span><span class="s1">&#39;data&#39;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="o">*</span><span class="n">a</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span> <span class="s1">&#39;json_class&#39;</span> <span class="o">=&gt;</span> <span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="nb">id</span><span class="p">,</span> <span class="nb">name</span><span class="p">,</span> <span class="n">next_step</span><span class="o">]</span> <span class="p">}</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="o">*</span><span class="n">a</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -475,82 +582,6 @@
 
 		
 		<a href="/blog/2013/02/21/making-a-gem/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-12T00:00:00+00:00" data-updated="true" itemprop="datePublished">Feb 12<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/reminders/'>reminders</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/02/12/activeadmin---customising-export-links/" itemprop="url">ActiveAdmin - Customising Export Links</a></h1>
-	<h2 class="sub_heading" itemprop="name">Removing JSON/XML</h2>
-	<div class="entry-content" itemprop="articleBody">
-		<p>When using active admin there doesn&rsquo;t seem to be an easy way to format the output of the JSON and XML export options like you can with the CSV option.</p>
-
-<p>A nice patch by <a href="https://coderwall.com/p/qzlssg">David Collom</a> allows us to customise what is displayed rather then just hiding it in CSS. The patch is as follows and i just placed it at the top of one of my <code>admin/###.rb</code> files</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">ActiveAdmin</span>
-</span><span class='line'>  <span class="k">module</span> <span class="nn">Views</span>
-</span><span class='line'>    <span class="k">class</span> <span class="nc">PaginatedCollection</span>
-</span><span class='line'>      <span class="k">def</span> <span class="nf">build_pagination_with_formats</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
-</span><span class='line'>        <span class="n">div</span> <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s2">&quot;index_footer&quot;</span> <span class="k">do</span>
-</span><span class='line'>          <span class="n">build_pagination</span>
-</span><span class='line'>          <span class="n">div</span><span class="p">(</span><span class="n">page_entries_info</span><span class="p">(</span><span class="n">options</span><span class="p">)</span><span class="o">.</span><span class="n">html_safe</span><span class="p">,</span> <span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s2">&quot;pagination_information&quot;</span><span class="p">)</span>
-</span><span class='line'>          <span class="n">build_download_format_links</span><span class="p">(</span><span class="o">[</span><span class="ss">:csv</span><span class="o">]</span><span class="p">)</span> <span class="k">unless</span> <span class="vi">@download_links</span> <span class="o">==</span> <span class="kp">false</span>
-</span><span class='line'>        <span class="k">end</span>
-</span><span class='line'>      <span class="k">end</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>To customise what is displayed simplay change the array passing into <code>build_download_format_links()</code></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">build_download_format_links</span><span class="p">(</span><span class="o">[</span><span class="ss">:csv</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'><span class="n">build_download_format_links</span><span class="p">(</span><span class="o">[</span><span class="ss">:csv</span><span class="p">,</span> <span class="ss">:json</span><span class="o">]</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-		
-		
 	</div>
 
 </article>

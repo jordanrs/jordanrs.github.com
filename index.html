@@ -274,6 +274,113 @@
   
 
 
+<time datetime="2014-05-26T18:49:00+01:00" data-updated="true" itemprop="datePublished">May 26<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/hacker-rank/'>hacker rank</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/05/26/hacker-rank-solutions-is-fibo%3F/" itemprop="url">Hacker Rank Solutions: Is Fibo?</a></h1>
+	<h2 class="sub_heading" itemprop="name"></h2>
+	<div class="entry-content" itemprop="articleBody">
+		<p><a href="https://www.hackerrank.com/challenges/is-fibo">Hacker Rank Solutions: Is Fibo?</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">fibonachi_upto</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">return</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="k">return</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="k">return</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">2</span>
+</span><span class='line'>  <span class="n">prev2</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="n">prev1</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">a</span> <span class="o">=</span> <span class="o">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">i</span> <span class="o">=</span> <span class="mi">3</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">while</span> <span class="n">prev1</span> <span class="o">&lt;=</span> <span class="n">n</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">tmp</span> <span class="o">=</span> <span class="n">prev1</span> <span class="o">+</span> <span class="n">prev2</span>
+</span><span class='line'>    <span class="n">a</span> <span class="o">&lt;&lt;</span> <span class="n">tmp</span> <span class="k">if</span> <span class="n">tmp</span> <span class="o">&lt;=</span> <span class="n">n</span>
+</span><span class='line'>    <span class="n">prev2</span> <span class="o">=</span> <span class="n">prev1</span>
+</span><span class='line'>    <span class="n">prev1</span> <span class="o">=</span> <span class="n">tmp</span>
+</span><span class='line'>    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="n">a</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">fibos</span> <span class="o">=</span> <span class="n">fibonachi_upto</span><span class="p">(</span><span class="mi">10000000000</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">test_cases</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">test_cases</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">value</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">fibos</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s1">&#39;IsFibo&#39;</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s1">&#39;IsNotFibo&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
 <time datetime="2014-05-17T16:59:00+01:00" data-updated="true" itemprop="datePublished">May 17<span>th</span>, 2014</time></div>
 		<div class="tags">
 
@@ -729,113 +836,6 @@ F = fins the first occurance of a string backward</p>
 
 		
 		<a href="/blog/2013/08/21/setting-up-jenkins-with-chef-for-rails-project/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-09T16:32:00+01:00" data-updated="true" itemprop="datePublished">Aug 9<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/json/'>json</a>, <a class='category' href='/blog/categories/rails/'>rails</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/serialization/'>serialization</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/08/09/serilisation-preloading-and-simplecov/" itemprop="url">Serilisation, Preloading and SimpleCov</a></h1>
-	<h2 class="sub_heading" itemprop="name"></h2>
-	<div class="entry-content" itemprop="articleBody">
-		<p><a href="http://alisdair.mcdiarmid.org/2013/02/02/fixing-rails-auto-loading-for-serialized-objects.html">Alisdair McDiarmid</a>  has a great write up on solving the problems of serialising and deserializing custom objects to yaml in rails whilst in development and getting around the <code>ArgumentError: undefined class/module UnknownClass</code> error that are thrown due to classes not being loaded.</p>
-
-<p>The solution is to eager load classes and reload them each request to make sure that when YAML deserialization occurs the classes are present as usually this process doesnt trigger the default lazy loading of classes in development.</p>
-
-<figure class='code'><figcaption><span>The solution looks like this</span><a href='http://alisdair.mcdiarmid.org/2013/02/02/fixing-rails-auto-loading-for-serialized-objects.html'>Source</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Eager load all value objects, as they may be instantiated from</span>
-</span><span class='line'><span class="c1"># YAML before the symbol is referenced</span>
-</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">before_initialize</span> <span class="k">do</span> <span class="o">|</span><span class="n">app</span><span class="o">|</span>
-</span><span class='line'>    <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">paths</span><span class="o">.</span><span class="n">add</span> <span class="s1">&#39;app/values&#39;</span><span class="p">,</span> <span class="ss">:eager_load</span> <span class="o">=&gt;</span> <span class="kp">true</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># Reload cached/serialized classes before every request (in development</span>
-</span><span class='line'><span class="c1"># mode) or on startup (in production mode)</span>
-</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">to_prepare</span> <span class="k">do</span>
-</span><span class='line'>    <span class="no">Dir</span><span class="o">[</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;app/values/*.rb&quot;</span><span class="p">))</span> <span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
-</span><span class='line'>        <span class="n">require_dependency</span> <span class="n">file</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>    <span class="n">require_dependency</span> <span class="s1">&#39;article_cache&#39;</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<h2>Testing, SimpleCov and Missed Coverage</h2>
-
-<p>This solution was great, it solves the loading issue but during development I noticed the lines of code covered by SimpleCov was reduced, looking into know issues on the SimpleCov <a href="https://github.com/colszowka/simplecov/issues/107">github one explained</a> the reason why files where missing. The above solution of preloading the classes for deserialization means that the files are already loaded in memory before SimpleCov initialises and thus cant be tracked by Ruby&rsquo;s built in coverage mechanism.</p>
-
-<h2>Solution</h2>
-
-<p>As of rails 3.1, objects can be serialised to JSON as well as YAML. While it requires the addition of two methods to the class in question it does mean the class doesn&rsquo;t need to be preloaded and thus allows the code coverage to be tracked.</p>
-
-<p>Adding the following two methods in your class and the additional JSON option to serialize in the model file allows for objects to be reinitialised based on the stored data parameters saved as JSON in the database.</p>
-
-<figure class='code'><figcaption><span>in the model file </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">serialize</span> <span class="ss">:column_name</span><span class="p">,</span> <span class="no">JSON</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>Serializing and Deserializing with JSON</span><a href='http://stackoverflow.com/questions/4569329/serialize-ruby-object-to-json-and-back'>source</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">json_create</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
-</span><span class='line'>  <span class="kp">new</span><span class="p">(</span><span class="o">*</span><span class="n">o</span><span class="o">[</span><span class="s1">&#39;data&#39;</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="o">*</span><span class="n">a</span><span class="p">)</span>
-</span><span class='line'>  <span class="p">{</span> <span class="s1">&#39;json_class&#39;</span> <span class="o">=&gt;</span> <span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="nb">id</span><span class="p">,</span> <span class="nb">name</span><span class="p">,</span> <span class="n">next_step</span><span class="o">]</span> <span class="p">}</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="o">*</span><span class="n">a</span><span class="p">)</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-		
-		
 	</div>
 
 </article>

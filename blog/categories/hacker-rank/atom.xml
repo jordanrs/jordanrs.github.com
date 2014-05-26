@@ -4,7 +4,7 @@
   <title><![CDATA[Category: hacker rank | Jordan Rogers-Smith]]></title>
   <link href="http://jordanrs.github.io/blog/categories/hacker-rank/atom.xml" rel="self"/>
   <link href="http://jordanrs.github.io/"/>
-  <updated>2014-05-26T18:56:34+01:00</updated>
+  <updated>2014-05-26T19:01:08+01:00</updated>
   <id>http://jordanrs.github.io/</id>
   <author>
     <name><![CDATA[Jordan Rogers-Smith]]></name>
@@ -81,6 +81,62 @@ end
 
 <p>  end
   $stdout.puts sum
+end</p>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hacker Rank Solutions: Is Fibo?]]></title>
+    <link href="http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-is-fibo%3F/"/>
+    <updated>2014-05-26T18:49:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-is-fibo?</id>
+    <content type="html"><![CDATA[<p><a href="https://www.hackerrank.com/challenges/is-fibo">Hacker Rank Solutions: Is Fibo?</a></p>
+
+<p>``` ruby</p>
+
+<p>def fibonachi_upto(n)
+  return 0 if n == 0
+  return 1 if n == 1
+  return 1 if n == 2
+  prev2 = 1
+  prev1 = 1</p>
+
+<p>  a = [0, 1, 1]
+  i = 3</p>
+
+<p>  while prev1 &lt;= n do</p>
+
+<pre><code>tmp = prev1 + prev2
+a &lt;&lt; tmp if tmp &lt;= n
+prev2 = prev1
+prev1 = tmp
+i += 1
+</code></pre>
+
+<p>  end</p>
+
+<p>  return a
+end</p>
+
+<p>fibos = fibonachi_upto(10000000000)</p>
+
+<p>test_cases = $stdin.gets.to_i</p>
+
+<p>test_cases.times do
+  value = $stdin.gets.to_i
+  if fibos.include?(value)</p>
+
+<pre><code>puts 'IsFibo'
+</code></pre>
+
+<p>  else</p>
+
+<pre><code>puts 'IsNotFibo'
+</code></pre>
+
+<p>  end
 end</p>
 
 <p>```</p>

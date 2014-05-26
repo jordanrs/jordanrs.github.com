@@ -4,7 +4,7 @@
   <title><![CDATA[Jordan Rogers-Smith]]></title>
   <link href="http://jordanrs.github.io/atom.xml" rel="self"/>
   <link href="http://jordanrs.github.io/"/>
-  <updated>2014-05-26T18:56:34+01:00</updated>
+  <updated>2014-05-26T19:01:08+01:00</updated>
   <id>http://jordanrs.github.io/</id>
   <author>
     <name><![CDATA[Jordan Rogers-Smith]]></name>
@@ -109,6 +109,86 @@
 </span><span class='line'>    <span class="k">end</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'>  <span class="vg">$stdout</span><span class="o">.</span><span class="n">puts</span> <span class="n">sum</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hacker Rank Solutions: Is Fibo?]]></title>
+    <link href="http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-is-fibo%3F/"/>
+    <updated>2014-05-26T18:49:00+01:00</updated>
+    <id>http://jordanrs.github.io/blog/2014/05/26/hacker-rank-solutions-is-fibo?</id>
+    <content type="html"><![CDATA[<p><a href="https://www.hackerrank.com/challenges/is-fibo">Hacker Rank Solutions: Is Fibo?</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">fibonachi_upto</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">return</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="k">return</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="k">return</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">2</span>
+</span><span class='line'>  <span class="n">prev2</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="n">prev1</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">a</span> <span class="o">=</span> <span class="o">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">i</span> <span class="o">=</span> <span class="mi">3</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">while</span> <span class="n">prev1</span> <span class="o">&lt;=</span> <span class="n">n</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">tmp</span> <span class="o">=</span> <span class="n">prev1</span> <span class="o">+</span> <span class="n">prev2</span>
+</span><span class='line'>    <span class="n">a</span> <span class="o">&lt;&lt;</span> <span class="n">tmp</span> <span class="k">if</span> <span class="n">tmp</span> <span class="o">&lt;=</span> <span class="n">n</span>
+</span><span class='line'>    <span class="n">prev2</span> <span class="o">=</span> <span class="n">prev1</span>
+</span><span class='line'>    <span class="n">prev1</span> <span class="o">=</span> <span class="n">tmp</span>
+</span><span class='line'>    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="n">a</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">fibos</span> <span class="o">=</span> <span class="n">fibonachi_upto</span><span class="p">(</span><span class="mi">10000000000</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">test_cases</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">test_cases</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">value</span> <span class="o">=</span> <span class="vg">$stdin</span><span class="o">.</span><span class="n">gets</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">fibos</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s1">&#39;IsFibo&#39;</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s1">&#39;IsNotFibo&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -2377,55 +2457,6 @@ or make a bundler group in application.rb so others envs can be added easier.</p
 
 
 <p>which is just <em>USERNAME/PROJECT_NAME</em></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ActiveAdmin - Customising export links]]></title>
-    <link href="http://jordanrs.github.io/blog/2013/02/12/activeadmin---customising-export-links/"/>
-    <updated>2013-02-12T00:00:00+00:00</updated>
-    <id>http://jordanrs.github.io/blog/2013/02/12/activeadmin&#8212;customising-export-links</id>
-    <content type="html"><![CDATA[<p>When using active admin there doesn&rsquo;t seem to be an easy way to format the output of the JSON and XML export options like you can with the CSV option.</p>
-
-<p>A nice patch by <a href="https://coderwall.com/p/qzlssg">David Collom</a> allows us to customise what is displayed rather then just hiding it in CSS. The patch is as follows and i just placed it at the top of one of my <code>admin/###.rb</code> files</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">ActiveAdmin</span>
-</span><span class='line'>  <span class="k">module</span> <span class="nn">Views</span>
-</span><span class='line'>    <span class="k">class</span> <span class="nc">PaginatedCollection</span>
-</span><span class='line'>      <span class="k">def</span> <span class="nf">build_pagination_with_formats</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
-</span><span class='line'>        <span class="n">div</span> <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s2">&quot;index_footer&quot;</span> <span class="k">do</span>
-</span><span class='line'>          <span class="n">build_pagination</span>
-</span><span class='line'>          <span class="n">div</span><span class="p">(</span><span class="n">page_entries_info</span><span class="p">(</span><span class="n">options</span><span class="p">)</span><span class="o">.</span><span class="n">html_safe</span><span class="p">,</span> <span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s2">&quot;pagination_information&quot;</span><span class="p">)</span>
-</span><span class='line'>          <span class="n">build_download_format_links</span><span class="p">(</span><span class="o">[</span><span class="ss">:csv</span><span class="o">]</span><span class="p">)</span> <span class="k">unless</span> <span class="vi">@download_links</span> <span class="o">==</span> <span class="kp">false</span>
-</span><span class='line'>        <span class="k">end</span>
-</span><span class='line'>      <span class="k">end</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>To customise what is displayed simplay change the array passing into <code>build_download_format_links()</code></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">build_download_format_links</span><span class="p">(</span><span class="o">[</span><span class="ss">:csv</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'><span class="n">build_download_format_links</span><span class="p">(</span><span class="o">[</span><span class="ss">:csv</span><span class="p">,</span> <span class="ss">:json</span><span class="o">]</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
   </entry>
   
